@@ -1,8 +1,8 @@
 NAME = miniRT
 
-SRCS = test.c
+SRCS = src/test.c
 
-laag_SRCS = test2.c
+laag_SRCS = src/test2.c
 
 OBJS = $(SRCS:.c=.o) $(laag_SRCS:.c=.o)
 
@@ -18,16 +18,16 @@ LIBMLX_FLAGS = -I$(LIBMLX_DIR) -L$(LIBMLX_DIR) -L/usr/lib -lmlx_Linux -lXext -lX
 
 LIBFT_REPO = libft
 
-LIBFT_DIR = libft/libft
+LIBFT_DIR = $(LIBFT_REPO)/libft
 
-LIBFT = $(LIBFT_DIR)/libft/libft.a
+LIBFT = $(LIBFT_DIR)/libft.a
 
 LIBFT_FLAGS = -I$(LIBFT_DIR) -L$(LIBFT_DIR) -lft
 
 all: $(NAME)
 
 $(NAME): $(LIBMLX) $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(MLXFLAGS) $(FTFLAGS) -lm -o $@
+	$(CC) -o $@ $(CFLAGS) $(OBJS) $(LIBMLX_FLAGS) $(LIBFT_FLAGS) -lm
 
 $(LIBFT):
 	@git submodule update --init $(LIBFT_REPO)
@@ -38,7 +38,7 @@ $(LIBMLX):
 	@make -C $(LIBMLX_DIR)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $<
+	$(CC) -o $@ $(CFLAGS) $(LIBMLX_FLAGS) $(LIBFT_FLAGS) -c $<
 
 clean:
 	rm -rf $(OBJS)
