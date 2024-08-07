@@ -6,59 +6,18 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 11:28:26 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:49:24 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
-#include "libft.h"
-
-typedef struct s_img
-{
-	void	*img;
-	char	*addr;
-	int		bpp;
-	int		len;
-	int		endian;
-}	t_img;
-
-typedef unsigned char	t_uint8;
-
-typedef struct s_vector
-{
-	float	x;
-	float	y;
-	float	z;
-}	t_vector;
-
-typedef struct s_projectile
-{
-	t_vector	position;
-	t_vector	velocity;
-}	t_proj;
-
-typedef struct s_environment
-{
-	t_vector	gravity;
-	t_vector	wind;
-}	t_env;
-
-t_vector	v_add(t_vector u, t_vector v)
-{
-	t_vector	w;
-
-	w.x = u.x + v.x;
-	w.y = u.y + v.y;
-	w.z = u.z + v.z;
-	return (w);
-}
+#include "minirt.h"
 
 t_proj	tick(t_env env, t_proj proj)
 {
 	t_proj	new_proj;
 
-	new_proj.position = v_add(proj.position, proj.velocity);
-	new_proj.velocity = v_add(v_add(proj.velocity, env.gravity), env.wind);
+	new_proj.position = vector_add(proj.position, proj.velocity);
+	new_proj.velocity = vector_add(vector_add(proj.velocity, env.gravity), env.wind);
 	return (new_proj);
 }
 

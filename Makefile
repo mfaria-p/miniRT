@@ -18,7 +18,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 LDLIBS = -lft -lmlx_Linux -lXext -lX11 -lm
 LDFLAGS = -L$(LIBFT_DIR) -L$(LIBMLX_DIR) -L/usr/lib
-INCLUDES =  -I$(LIBFT_DIR) -I$(LIBMLX_DIR)
+INCLUDES = -I$(LIBFT_DIR) -I$(LIBMLX_DIR)
 
 all: $(NAME)
 
@@ -49,4 +49,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re del
+.PHONY: all clean fclean re
