@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 17:09:59 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:56:18 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define LAAG_H
 
 # include <math.h>
+
+# define EPSILON 1e-10
 
 typedef unsigned char	t_uint8;
 
@@ -39,6 +41,7 @@ typedef struct s_quaternion
 	float	k;
 }	t_quaternion;
 
+int			float_equals(float x, float y);
 int			vector_equals(t_vector u, t_vector v);
 t_vector	vector_scalar_product(float n, t_vector u);
 t_vector	vector_add(t_vector u, t_vector v);

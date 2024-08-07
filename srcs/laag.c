@@ -6,15 +6,20 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:32:51 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 17:45:51 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/07 18:43:34 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "laag.h"
 
+int	float_equals(float x, float y)
+{
+	return (fabs(x - y) < EPSILON);
+}
+
 int	vector_equals(t_vector u, t_vector v)
 {
-	return (u.x == v.x && u.y == v.y && u.z == v.z);
+	return (float_equals(u.x, v.x) && float_equals(u.y, v.y) && float_equals(u.z, v.z));
 }
 
 t_vector	vector_scalar_product(float n, t_vector u)
