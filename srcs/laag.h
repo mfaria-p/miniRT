@@ -6,14 +6,14 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 15:56:22 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:09:59 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LAAG_H
 # define LAAG_H
 
-#include <math.h>
+# include <math.h>
 
 typedef unsigned char	t_uint8;
 

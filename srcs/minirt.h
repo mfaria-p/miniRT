@@ -6,17 +6,17 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 15:59:18 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:10:12 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-#include "mlx.h"
-#include "libft.h"
-#include "laag.h"
-#include <math.h>
+# include "mlx.h"
+# include "libft.h"
+# include "laag.h"
+# include <math.h>
 
 typedef struct s_img
 {

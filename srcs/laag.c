@@ -6,13 +6,13 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:32:51 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 15:56:23 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:13:22 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "laag.h"
 
-#define VECTOR_NIL = (t_vector){0, 0, 0}
+#define VECTOR_NIL (t_vector){0, 0, 0}
 
 int	vector_equals(t_vector u, t_vector v)
 {

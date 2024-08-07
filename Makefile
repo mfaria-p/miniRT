@@ -35,7 +35,7 @@ $(LIBMLX):
 	@make -C $(LIBMLX_DIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	$(CC) -o $@ $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(LDLIBS) -c $<
+	$(CC) -o $@ $(CFLAGS) -c $< $(INCLUDES)
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
