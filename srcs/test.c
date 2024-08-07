@@ -6,11 +6,44 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 14:49:24 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:58:15 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+int	main(void)
+{
+	void	*mlx_ptr;
+	void	*mlx_win;
+	t_img	img;
+	int		w;
+	int		h;
+	t_proj	proj;
+	t_env	env;
+
+	ft_memset(&img, 0, sizeof(img));
+	mlx_ptr = mlx_init();
+	mlx_get_screen_size(mlx_ptr, &w, &h);
+	w /= 2;
+	h /= 2;
+	mlx_win = mlx_new_window(mlx_ptr, w, h, "Hello World!");
+	img.img = mlx_new_image(mlx_ptr, w, h);
+	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
+
+	proj.position = (t_vector){0, 0, 0};
+	proj.velocity = (t_vector){1, 3, 0};
+	env.gravity = (t_vector){0, -.02, 0};
+	env.wind = (t_vector){-.001, 0, 0};
+	while (v_inbound(proj.position, w, h))
+	{
+		put_vector(&img, to_canvapos(proj.position, h), 0x00FF0000);
+		proj = tick(env, proj);
+	}
+	mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
+	mlx_loop(mlx_ptr);
+	return (0);
+}
 
 t_proj	tick(t_env env, t_proj proj)
 {
@@ -52,37 +85,4 @@ void	put_vector(t_img *img, t_vector u, int color)
 int	argb(t_uint8 a, t_uint8 r, t_uint8 g, t_uint8 b)
 {
 	return (a << 24 | r << 16 | g << 8 | b);
-}
-
-int	main(void)
-{
-	void	*mlx_ptr;
-	void	*mlx_win;
-	t_img	img;
-	int		w;
-	int		h;
-	t_proj	proj;
-	t_env	env;
-
-	ft_memset(&img, 0, sizeof(img));
-	mlx_ptr = mlx_init();
-	mlx_get_screen_size(mlx_ptr, &w, &h);
-	w /= 2;
-	h /= 2;
-	mlx_win = mlx_new_window(mlx_ptr, w, h, "Hello World!");
-	img.img = mlx_new_image(mlx_ptr, w, h);
-	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
-
-	proj.position = (t_vector){0, 0, 0};
-	proj.velocity = (t_vector){1, 3, 0};
-	env.gravity = (t_vector){0, -.02, 0};
-	env.wind = (t_vector){-.001, 0, 0};
-	while (v_inbound(proj.position, w, h))
-	{
-		put_vector(&img, to_canvapos(proj.position, h), 0x00FF0000);
-		proj = tick(env, proj);
-	}
-	mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx_ptr);
-	return (0);
 }

@@ -1,10 +1,11 @@
 NAME = miniRT
 
 SRCDIR = srcs
-SRCS = test.c
+SRCS = test.c \
+	   laag.c
 
 OBJDIR = objs
-OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o) $(laag_SRCS:.c=.o))
+OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g

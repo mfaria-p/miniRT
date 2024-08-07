@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 15:34:01 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:38:02 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,13 @@ suite	tests = {
 int	vector_equals_00(void)
 {
 	//ARRANGE
+	t_vector	u = {1, 2, 3};
+	t_vector	v = {1, 2, 1};
+
 	//ACT
 	//ASSERT
-	_ft_assert(true);
+	_ft_assert(vector_equals(u,v));
+
 	return (SUCCESS);
 }
 

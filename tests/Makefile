@@ -11,18 +11,24 @@ INCLUDES = -I../srcs -I../minilibx-linux -I../libft/libft
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) -o $@ $(CFLAGS) $(OBJS) $(INCLUDES)
+$(NAME): $(OBJS) _miniRT.o
+	$(CC) -o $@ $(CFLAGS) $(OBJS) _miniRT.o $(INCLUDES)
 
 %.o: %.c
 	$(CC) -o $@ $(CFLAGS) $(INCLUDES) -c $<
+
+_miniRT.o:
+	make -C ..
+	strip -N main ../miniRT _miniRT.o
 
 clean:
 	rm -rf $(OBJS)
 
 fclean: clean
 	rm -rf $(NAME)
+	make -C .. clean
 
 re: fclean all
+	make -C .. fclean
 
 .PHONY: all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 15:27:51 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:59:18 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 #include "mlx.h"
 #include "libft.h"
-#include "math.h"
 #include "laag.h"
+#include <math.h>
 
 typedef struct s_img
 {
@@ -38,5 +38,12 @@ typedef struct s_environment
 	t_vector	gravity;
 	t_vector	wind;
 }	t_env;
+
+t_proj		tick(t_env env, t_proj proj);
+t_vector	to_canvapos(t_vector u, int h);
+int			v_inbound(t_vector u, int w, int h);
+void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void		put_vector(t_img *img, t_vector u, int color);
+int			argb(t_uint8 a, t_uint8 r, t_uint8 g, t_uint8 b);
 
 #endif
