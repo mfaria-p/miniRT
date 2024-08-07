@@ -6,21 +6,35 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 15:38:02 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:40:49 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
 
 int	vector_equals_00(void);
+int	vector_equals_01(void);
 
 int	tests_run = 0;
 suite	tests = {
 					vector_equals_00,
+					vector_equals_01,
 					NULL
 				};
 
 int	vector_equals_00(void)
+{
+	//ARRANGE
+	t_vector	u = {1, 8, 9};
+
+	//ACT
+	//ASSERT
+	_ft_assert(vector_equals(u,u));
+
+	return (SUCCESS);
+}
+
+int	vector_equals_01(void)
 {
 	//ARRANGE
 	t_vector	u = {1, 2, 3};
@@ -28,7 +42,7 @@ int	vector_equals_00(void)
 
 	//ACT
 	//ASSERT
-	_ft_assert(vector_equals(u,v));
+	_ft_assert(!vector_equals(u,v));
 
 	return (SUCCESS);
 }

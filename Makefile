@@ -1,8 +1,7 @@
 NAME = miniRT
 
 SRCDIR = srcs
-SRCS = test.c \
-	   laag.c
+SRCS = test.c laag.c
 
 OBJDIR = objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
@@ -23,8 +22,11 @@ INCLUDES = -I$(LIBFT_DIR) -I$(LIBMLX_DIR)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(LIBMLX) $(OBJS)
-	$(CC) -o $@ $(CFLAGS) $(OBJS) $(INCLUDES) $(LDFLAGS) $(LDLIBS)
+$(NAME): $(addsuffix .o, $(NAME)) $(LIBFT) $(LIBMLX)
+	$(CC) -o $@ $(CFLAGS) $< $(INCLUDES) $(LDFLAGS) $(LDLIBS)
+
+$(addsuffix .o, $(NAME)): $(OBJS)
+	ld -r $^ -o $@
 
 $(LIBFT):
 	@git submodule update --init $(LIBFT_REPO)
@@ -41,7 +43,7 @@ $(OBJDIR):
 	mkdir $(OBJDIR)
 
 clean:
-	rm -rf $(OBJS)
+	rm -rf $(OBJS) miniRT.o
 	make -C $(LIBFT_DIR) clean
 	make -C $(LIBMLX_DIR) clean
 
