@@ -24,7 +24,7 @@ _miniRT.o:
 	make -C ..
 	strip -N main ../miniRT.o -o _miniRT.o
 
-run: all
+test: all
 	./$(NAME)
 
 clean:
@@ -37,4 +37,4 @@ fclean: clean
 re: fclean all
 	make -C .. fclean
 
-.PHONY: all clean fclean re run
+.PHONY: all clean fclean re test
