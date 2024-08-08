@@ -6,14 +6,16 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/08 15:16:15 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:22:51 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LAAG_H
 # define LAAG_H
 
+# include "libft.h"
 # include <math.h>
+# include <stdlib.h>
 
 # define EPSILON 1e-5
 
@@ -30,7 +32,7 @@ typedef struct s_matrix
 {
 	t_uint8	rows;
 	t_uint8	cols;
-	float	*data;
+	float	cell[9];
 }	t_matrix;
 
 typedef struct s_quaternion
@@ -40,8 +42,6 @@ typedef struct s_quaternion
 	float	j;
 	float	k;
 }	t_quaternion;
-
-typedef t_vector		t_point;
 
 /* ************************************************************************** */
 // vector.c
