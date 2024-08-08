@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/08 14:18:01 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:16:15 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct s_quaternion
 	float	j;
 	float	k;
 }	t_quaternion;
+
+typedef t_vector		t_point;
 
 /* ************************************************************************** */
 // vector.c
