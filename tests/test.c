@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/08 23:29:42 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/08 23:37:29 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,52 +61,27 @@ int	matrix_vector_product_03(void);
 
 int	tests_run = 0;
 suite	tests_laag = {
-					float_equals_00,
-					float_equals_01,
-					float_equals_02,
-					float_equals_03,
-					vector_equals_00,
-					vector_equals_01,
-					vector_scalar_product_00,
-					vector_scalar_product_01,
-					vector_scalar_product_02,
-					vector_add_00,
-					vector_add_01,
-					vector_subtract_00,
-					vector_subtract_01,
-					vector_dot_product_00,
-					vector_dot_product_01,
-					vector_magnitude_00,
-					vector_magnitude_01,
-					vector_distance_00,
-					vector_distance_01,
-					vector_normalize_00,
-					vector_normalize_01,
-					vector_cross_product_00,
-					vector_cross_product_01,
-					vector_cosine_00,
-					vector_cosine_01,
-					vector_scalar_projection_00,
-					vector_scalar_projection_01,
-					vector_projection_00,
-					vector_projection_01,
-					vector_projection_02,
-					vector_plane_projection_00,
-					vector_plane_projection_01,
+					float_equals_00, float_equals_01, float_equals_02, float_equals_03,
+					vector_equals_00, vector_equals_01,
+					vector_scalar_product_00, vector_scalar_product_01, vector_scalar_product_02,
+					vector_add_00, vector_add_01,
+					vector_subtract_00, vector_subtract_01,
+					vector_dot_product_00, vector_dot_product_01,
+					vector_magnitude_00, vector_magnitude_01,
+					vector_distance_00, vector_distance_01,
+					vector_normalize_00, vector_normalize_01,
+					vector_cross_product_00, vector_cross_product_01,
+					vector_cosine_00, vector_cosine_01,
+					vector_scalar_projection_00, vector_scalar_projection_01,
+					vector_projection_00, vector_projection_01, vector_projection_02,
+					vector_plane_projection_00, vector_plane_projection_01,
 					vector_rotate_00,
-					matrix_equals_00,
-					matrix_equals_01,
-					matrix_equals_02,
+					matrix_equals_00, matrix_equals_01, matrix_equals_02,
 					matrix_scalar_product_00,
 					matrix_add_00,
 					matrix_subtract_00,
-					matrix_product_00,
-					matrix_product_01,
-					matrix_product_02,
-					matrix_vector_product_00,
-					matrix_vector_product_01,
-					matrix_vector_product_02,
-					matrix_vector_product_03,
+					matrix_product_00, matrix_product_01, matrix_product_02,
+					matrix_vector_product_00, matrix_vector_product_01, matrix_vector_product_02, matrix_vector_product_03,
 					NULL
 				};
 
