@@ -6,14 +6,14 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:37:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/08 14:21:25 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:43:44 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "laag.h"
 
 // Quaternion
-// | quaternion Q := w + ai + bj + ck
+// | quaternion Q := w + ai + bj + ck = {w,a,b,c}
 // |   where
 // |     w,a,b,c := real numbers
 // |     i,j,k   := basis elements

@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:32:51 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/08 14:22:48 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:43:22 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,11 @@ t_vector	vector_plane_projection(t_vector u, t_vector n)
 // 3D Rotation from Quaternion
 // | v := rotation of {a,b,c} r [radians] around {x,y,z}
 // |   then
-// |     v = vector part of p
+// |     v = vector part of p'
 // |       where
-// |         p := q^(-1) * p * q
+// |         p' := q^(-1) * p * q
 // |           where
+// |             p      := {0,a,b,c}
 // |             q      := quaternion rotation of {r,x,y,z} axis-angle rotation
 // |             q^(-1) := inverse of q
 //
