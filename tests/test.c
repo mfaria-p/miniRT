@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/08 11:03:48 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:12:33 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ int	vector_projection_01(void);
 int	vector_projection_02(void);
 int	vector_plane_projection_00(void);
 int	vector_plane_projection_01(void);
+int	vector_rotate_00(void);
 
 int	tests_run = 0;
-suite	tests = {
+suite	tests_laag = {
 					float_equals_00,
 					float_equals_01,
 					float_equals_02,
@@ -79,6 +80,7 @@ suite	tests = {
 					vector_projection_02,
 					vector_plane_projection_00,
 					vector_plane_projection_01,
+					vector_rotate_00,
 					NULL
 				};
 
@@ -350,6 +352,15 @@ int	vector_plane_projection_01(void)
 	return (SUCCESS);
 }
 
+int	vector_rotate_00(void)
+{
+	t_vector	u = {1, 1, 1};
+	t_vector	ax = {-1, 1, 0};
+
+	_ft_assert(vector_equals(vector_rotate(u, ax, M_PI), (t_vector){-1, -1, -1}));
+	return (SUCCESS);
+}
+
 int	unit_test_suite(suite tests)
 {
 	while (*tests)
@@ -361,7 +372,7 @@ int	main(void)
 {
 	int	result;
 
-	result = unit_test_suite(tests);
+	result = unit_test_suite(tests_laag);
 	if (result == 0)
 		printf(GREEN"PASSED\n");
 	printf(DFLT"Tests run: %d\n", tests_run);

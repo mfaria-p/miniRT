@@ -34,6 +34,5 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
-	make -C .. fclean
 
 .PHONY: all clean fclean re test

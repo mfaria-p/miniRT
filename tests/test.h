@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:30:36 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 19:58:45 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:04:33 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include <stdbool.h>
+# include <math.h>
 # include "minirt.h"
 
 # define RED "\033[0;31m"
