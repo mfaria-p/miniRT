@@ -6,18 +6,20 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/08 19:22:51 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/08 23:11:24 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LAAG_H
 # define LAAG_H
 
-# include "libft.h"
 # include <math.h>
 # include <stdlib.h>
 
+// maximum distance where floats are considered equal
 # define EPSILON 1e-5
+# define MATRIX_SIZE 9
+# define MATRIX_LINE_SIZE 3
 
 typedef unsigned char	t_uint8;
 
@@ -30,9 +32,7 @@ typedef struct s_vector
 
 typedef struct s_matrix
 {
-	t_uint8	rows;
-	t_uint8	cols;
-	float	cell[9];
+	float	matrix[MATRIX_LINE_SIZE][MATRIX_LINE_SIZE];
 }	t_matrix;
 
 typedef struct s_quaternion
@@ -68,5 +68,15 @@ t_quaternion	quaternion_conjugate(t_quaternion q);
 t_quaternion	quaternion_scalar_product(float a, t_quaternion q);
 t_quaternion	quaternion_inverse(t_quaternion q);
 t_quaternion	quaternion_product(t_quaternion q, t_quaternion p);
+
+/* ************************************************************************** */
+// matrix.c
+t_matrix		matrix_identity(void);
+int				matrix_equals(t_matrix a, t_matrix b);
+t_matrix		matrix_scalar_product(float a, t_matrix m);
+t_matrix		matrix_add(t_matrix a, t_matrix b);
+t_matrix		matrix_subtract(t_matrix a, t_matrix b);
+t_matrix		matrix_product(t_matrix a, t_matrix b);
+t_vector		matrix_vector_product(t_matrix a, t_vector u);
 
 #endif
