@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 19:57:57 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/08 11:03:48 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,20 @@ int	vector_dot_product_01(void);
 int vector_magnitude_00(void);
 int vector_magnitude_01(void);
 int vector_distance_00(void);
+int vector_distance_01(void);
 int	vector_normalize_00(void);
 int	vector_normalize_01(void);
+int	vector_cross_product_00(void);
+int	vector_cross_product_01(void);
+int	vector_cosine_00(void);
+int	vector_cosine_01(void);
+int	vector_scalar_projection_00(void);
+int	vector_scalar_projection_01(void);
+int	vector_projection_00(void);
+int	vector_projection_01(void);
+int	vector_projection_02(void);
+int	vector_plane_projection_00(void);
+int	vector_plane_projection_01(void);
 
 int	tests_run = 0;
 suite	tests = {
@@ -53,8 +65,20 @@ suite	tests = {
 					vector_magnitude_00,
 					vector_magnitude_01,
 					vector_distance_00,
+					vector_distance_01,
 					vector_normalize_00,
 					vector_normalize_01,
+					vector_cross_product_00,
+					vector_cross_product_01,
+					vector_cosine_00,
+					vector_cosine_01,
+					vector_scalar_projection_00,
+					vector_scalar_projection_01,
+					vector_projection_00,
+					vector_projection_01,
+					vector_projection_02,
+					vector_plane_projection_00,
+					vector_plane_projection_01,
 					NULL
 				};
 
@@ -181,7 +205,7 @@ int	vector_dot_product_01(void)
 
 int vector_magnitude_00(void)
 {
-	t_vector u = {1, 1, 1};
+	t_vector	u = {1, 1, 1};
 
 	_ft_assert(float_equals(vector_magnitude(u), sqrt(3)));
 	return (SUCCESS);
@@ -197,16 +221,24 @@ int vector_magnitude_01(void)
 
 int vector_distance_00(void)
 {
-	t_vector u = {0, 0, 0};
-	t_vector v = {0, 1, 1};
+	t_vector	u = {0, 0, 0};
+	t_vector	v = {0, 1, 1};
 
 	_ft_assert(float_equals(vector_distance(u, v), sqrt(2)));
 	return (SUCCESS);
 }
 
+int vector_distance_01(void)
+{
+	t_vector	u = {1, 0, 2};
+
+	_ft_assert(float_equals(vector_distance(u, u),0));
+	return (SUCCESS);
+}
+
 int	vector_normalize_00(void)
 {
-	t_vector u = {0, 0, 0};
+	t_vector	u = {0, 0, 0};
 	
 	_ft_assert(vector_equals(vector_normalize(u), (t_vector){0, 0, 0}));
 	return (SUCCESS);
@@ -214,9 +246,107 @@ int	vector_normalize_00(void)
 
 int	vector_normalize_01(void)
 {
-	t_vector u = {1, 1, 1};
+	t_vector	u = {1, 1, 1};
 	
 	_ft_assert(vector_equals(vector_normalize(u), (t_vector){1 / sqrt(3), 1 / sqrt(3), 1 / sqrt(3)}));
+	return (SUCCESS);
+}
+
+int	vector_cross_product_00(void)
+{
+	t_vector	u = {1, 2, 3};
+	t_vector	v = {8, .5, 10};
+
+	_ft_assert(vector_equals(vector_cross_product(u, v), (t_vector){18.5, 14, -15.5}));
+	return (SUCCESS);
+}
+
+int	vector_cross_product_01(void)
+{
+	t_vector	u = {0, 0, 0};
+	t_vector	v = {6, 7, 3};
+
+	_ft_assert(vector_equals(vector_cross_product(u, v), (t_vector){0, 0, 0}));
+	return (SUCCESS);
+}
+
+int	vector_cosine_00(void)
+{
+	t_vector	u = {0, 0, 0};
+
+	_ft_assert(float_equals(vector_cosine(u, u), 0));
+	return (SUCCESS);
+}
+
+int	vector_cosine_01(void)
+{
+	t_vector	u = {1, 1, 0};
+	t_vector	v = {0, 1, 0};
+
+	_ft_assert(float_equals(vector_cosine(u, v), .5 * sqrt(2)));
+	return (SUCCESS);
+}
+
+int	vector_scalar_projection_00(void)
+{
+	t_vector	u = {1, 3, 1};
+	t_vector	v = {0, .5, 0};
+
+	_ft_assert(float_equals(vector_scalar_projection(u, v), 3));
+	return (SUCCESS);
+}
+
+int	vector_scalar_projection_01(void)
+{
+	t_vector	u = {1, 3, 1};
+	t_vector	v = {0, .5, 0};
+
+	_ft_assert(float_equals(vector_scalar_projection(v, u), 0.452267016866645));
+	return (SUCCESS);
+}
+
+int	vector_projection_00(void)
+{
+	t_vector	u = {0, 0, 0};
+	t_vector	v = {0, 0, 0};
+
+	_ft_assert(vector_equals(vector_projection(u, v), (t_vector){0, 0, 0}));
+	return (SUCCESS);
+}
+
+int	vector_projection_01(void)
+{
+	t_vector	u = {1, 3, 5};
+	t_vector	v = {0, 0, 0};
+
+	_ft_assert(vector_equals(vector_projection(u, v), (t_vector){0, 0, 0}));
+	return (SUCCESS);
+}
+
+int	vector_projection_02(void)
+{
+	t_vector	u = {1, 3, 5};
+	t_vector	v = {0, 0, .1};
+
+	_ft_assert(vector_equals(vector_projection(u, v), (t_vector){0, 0, 5}));
+	return (SUCCESS);
+}
+
+int	vector_plane_projection_00(void)
+{
+	t_vector	u = {1, 3, 5};
+	t_vector	n = {0, 1, 0};
+
+	_ft_assert(vector_equals(vector_plane_projection(u, n), (t_vector){1, 0, 5}));
+	return (SUCCESS);
+}
+
+int	vector_plane_projection_01(void)
+{
+	t_vector	u = {1, 3, 5};
+	t_vector	n = {0, .5, 2};
+
+	_ft_assert(vector_equals(vector_plane_projection(u, n), (t_vector){1, 1.64705882353, -0.41176470588}));
 	return (SUCCESS);
 }
 

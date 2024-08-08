@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 19:56:18 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/08 11:03:25 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <math.h>
 
-# define EPSILON 1e-10
+# define EPSILON 1e-5
 
 typedef unsigned char	t_uint8;
 
@@ -50,5 +50,10 @@ float		vector_dot_product(t_vector u, t_vector v);
 float		vector_magnitude(t_vector u);
 float		vector_distance(t_vector u, t_vector v);
 t_vector	vector_normalize(t_vector u);
+t_vector	vector_cross_product(t_vector u, t_vector v);
+float		vector_cosine(t_vector u, t_vector v);
+float		vector_scalar_projection(t_vector u, t_vector v);
+t_vector	vector_projection(t_vector u, t_vector v);
+t_vector	vector_plane_projection(t_vector u, t_vector n);
 
 #endif

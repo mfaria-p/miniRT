@@ -32,7 +32,6 @@ clean:
 
 fclean: clean
 	rm -rf $(NAME)
-	make -C .. clean
 
 re: fclean all
 	make -C .. fclean
