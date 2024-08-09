@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/09 12:51:05 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/09 18:27:09 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@ typedef struct s_ray
 	t_vector	direction;
 }	t_ray;
 
-typedef struct s_sphere
-{
-	t_vector	origin;
-	float		r;
-}	t_sphere;
-
 typedef struct s_quadratic_root
 {
 	int		count;
@@ -37,6 +31,34 @@ typedef struct s_quadratic_root
 	float	x2;
 
 }	t_roots;
+
+typedef struct s_light_source
+{
+	t_vector	origin;
+	float		intensity;
+}	t_light_source;
+
+typedef struct s_material
+{
+	t_vector	color;
+	float		ambient;
+	float		diffuse;
+	float		specular;
+	float		shine;
+}	t_material;
+
+typedef struct s_sphere
+{
+	t_vector	origin;
+	float		r;
+	t_material	material;
+}	t_sphere;
+
+/* ************************************************************************** */
+// light.c
+t_vector	vector_reflect(t_vector in, t_vector normal);
+t_vector	lighting(t_material material, t_light_source light, t_vector point, t_vector eyev, t_vector normal);
+
 /* ************************************************************************** */
 // ray.c
 t_vector	ray_position(t_ray ray, float t);

@@ -6,40 +6,68 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 15:58:15 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/09 18:59:31 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "laag.h"
 #include "minirt.h"
 
+#define CANVAS_PIXEL 500
+#define WALL_Z 10
+#define WALL_SIZE 7
+
+int	color_rgb(t_vector color);
+
+#include <stdio.h>
 int	main(void)
 {
-	void	*mlx_ptr;
-	void	*mlx_win;
-	t_img	img;
-	int		w;
-	int		h;
-	t_proj	proj;
-	t_env	env;
+	void		*mlx_ptr;
+	void		*mlx_win;
+	t_img		img;
 
 	ft_memset(&img, 0, sizeof(img));
 	mlx_ptr = mlx_init();
-	mlx_get_screen_size(mlx_ptr, &w, &h);
-	w /= 2;
-	h /= 2;
-	mlx_win = mlx_new_window(mlx_ptr, w, h, "Hello World!");
-	img.img = mlx_new_image(mlx_ptr, w, h);
+	// mlx_get_screen_size(mlx_ptr, &w, &h);
+	mlx_win = mlx_new_window(mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL, "Hello World!");
+	img.img = mlx_new_image(mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL);
 	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
 
-	proj.position = (t_vector){0, 0, 0};
-	proj.velocity = (t_vector){1, 3, 0};
-	env.gravity = (t_vector){0, -.02, 0};
-	env.wind = (t_vector){-.001, 0, 0};
-	while (v_inbound(proj.position, w, h))
+	float			pixel_size = (float)WALL_SIZE / CANVAS_PIXEL;
+	float			half = (float)WALL_SIZE / 2;
+	t_sphere		sphere = {{0, 0, 0}, 1, {{1, .2, 1}, .1, .9, .9, 200}};
+	t_light_source	light = {{-10, 10, -10}, 1};
+	float			world_y;
+	float			world_x;
+	t_vector		position;
+	t_ray			ray;
+	t_roots			xs;
+	t_vector		point;
+	t_vector		normal;
+	t_vector		eyev;
+
+	ray.origin = (t_vector){0, 0, -5};
+	for (int y = 0; y < CANVAS_PIXEL; y++)
 	{
-		put_vector(&img, to_canvapos(proj.position, h), 0x00FF0000);
-		proj = tick(env, proj);
+		world_y = half - pixel_size * y;
+		for (int x = 0; x < CANVAS_PIXEL; x++)
+		{
+			world_x = -half + pixel_size * x;
+			position = (t_vector){world_x, world_y, WALL_Z};
+			ray.direction = vector_normalize(vector_subtract(position, ray.origin));
+			xs = ray_sphere_intersect(ray, sphere);
+			if (xs.count > 0)
+			{
+				float	minx = (xs.x1 < xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2;
+				point = ray_position(ray, minx);
+				normal = vector_normalize(vector_subtract(point, sphere.origin));
+				eyev = vector_scalar_product(-1, ray.direction);
+				t_vector	color = lighting(sphere.material, light, point, eyev, normal);
+				my_mlx_pixel_put(&img, x, y, color_rgb(color));
+			}
+		}
 	}
+
 	mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
 	mlx_loop(mlx_ptr);
 	return (0);
@@ -80,6 +108,31 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 void	put_vector(t_img *img, t_vector u, int color)
 {
 	my_mlx_pixel_put(img, u.x, u.y, color);
+}
+
+int	color_rgb(t_vector color)
+{
+	int	r;
+	int	g;
+	int	b;
+
+	r = 0xFF * color.x;
+	g = 0xFF * color.y;
+	b = 0xFF * color.z;
+	if (r > 255)
+		r = 255;
+	if (g > 255)
+		g = 255;
+	if (b > 255)
+		b = 255;
+	if (r < 0)
+		r = 0;
+	if (g < 0)
+		g = 0;
+	if (b < 0)
+		b = 0;
+	return (r << 16 | g << 8 | b);
+	return (0xFF << 24 | r << 16 | g << 8 | b);
 }
 
 int	argb(t_uint8 a, t_uint8 r, t_uint8 g, t_uint8 b)
