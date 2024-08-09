@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 17:16:40 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/09 11:01:01 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/09 11:08:47 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,8 @@ t_matrix	matrix_minor(t_matrix a)
 	return (aux);
 }
 
+// implementing the logic again rather then relying of other function
+//   is an opportunity for a faster calculation
 t_matrix	matrix_adjoint(t_matrix a)
 {
 	return (matrix_transpose(matrix_cofactor(matrix_minor(a))));

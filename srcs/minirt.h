@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/07 17:10:12 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:51:05 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,33 @@
 # include "libft.h"
 # include "laag.h"
 # include <math.h>
+
+typedef struct s_ray
+{
+	t_vector	origin;
+	t_vector	direction;
+}	t_ray;
+
+typedef struct s_sphere
+{
+	t_vector	origin;
+	float		r;
+}	t_sphere;
+
+typedef struct s_quadratic_root
+{
+	int		count;
+	float	x1;
+	float	x2;
+
+}	t_roots;
+/* ************************************************************************** */
+// ray.c
+t_vector	ray_position(t_ray ray, float t);
+t_roots		quadratic_roots(float a, float b, float c);
+t_roots		ray_sphere_intersect(t_ray ray, t_sphere sphere);
+
+/* ************************************************************************** */
 
 typedef struct s_img
 {

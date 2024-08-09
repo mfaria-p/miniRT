@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:32:51 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/08 22:28:37 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:17:23 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ float	vector_dot_product(t_vector u, t_vector v)
 
 float	vector_magnitude(t_vector u)
 {
-	return (sqrt(vector_dot_product(u, u)));
+	return (sqrtf(vector_dot_product(u, u)));
 }
 
 float	vector_distance(t_vector u, t_vector v)

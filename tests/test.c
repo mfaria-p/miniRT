@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/09 11:04:59 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:19:22 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,19 @@ int	matrix_adjoint_00(void);
 int	matrix_inverse_00(void);
 int	matrix_inverse_01(void);
 int	matrix_inverse_02(void);
+int	quadratic_roots_00(void);
+int	quadratic_roots_01(void);
+int	quadratic_roots_02(void);
+int	quadratic_roots_03(void);
+int	quadratic_roots_04(void);
+int	ray_position_00(void);
+int	ray_position_01(void);
+int	ray_position_02(void);
+int	ray_sphere_intersect_00(void);
+int	ray_sphere_intersect_01(void);
+int	ray_sphere_intersect_02(void);
+int	ray_sphere_intersect_03(void);
+int	ray_sphere_intersect_04(void);
 
 int	tests_run = 0;
 suite	tests_laag = {
@@ -101,6 +114,13 @@ suite	tests_laag = {
 					matrix_minor_00,
 					matrix_adjoint_00,
 					matrix_inverse_00, matrix_inverse_01, matrix_inverse_02,
+					NULL
+				};
+
+suite	tests_ray = {
+					quadratic_roots_00, quadratic_roots_01, quadratic_roots_02, quadratic_roots_03, quadratic_roots_04,
+					ray_position_00, ray_position_01, ray_position_02,
+					ray_sphere_intersect_00, ray_sphere_intersect_01, ray_sphere_intersect_02, ray_sphere_intersect_03, ray_sphere_intersect_04,
 					NULL
 				};
 
@@ -638,6 +658,130 @@ int	matrix_inverse_02(void)
 	return (SUCCESS);
 }
 
+int	quadratic_roots_00(void)
+{
+	t_roots	xs;
+
+	xs = quadratic_roots(0, 2, 2);
+	_ft_assert(xs.count == 0);
+	return (SUCCESS);
+}
+
+int	quadratic_roots_01(void)
+{
+	t_roots	xs;
+
+	xs = quadratic_roots(4.5, 3, 7);
+	_ft_assert(xs.count == 0);
+	return (SUCCESS);
+}
+
+int	quadratic_roots_02(void)
+{
+	t_roots	xs;
+
+	xs = quadratic_roots(4.5, 3, 0);
+	_ft_assert(xs.count == 2 && float_equals(xs.x1, -.66666) && float_equals(xs.x2, 0));
+	return (SUCCESS);
+}
+
+int	quadratic_roots_03(void)
+{
+	t_roots	xs;
+
+	xs = quadratic_roots(4.5, 10, 2);
+	_ft_assert(xs.count == 2 && float_equals(xs.x1, -2) && float_equals(xs.x2, -.22222));
+	return (SUCCESS);
+}
+
+int	quadratic_roots_04(void)
+{
+	t_roots	xs;
+
+	xs = quadratic_roots(1, 0, 0);
+	_ft_assert(xs.count == 1 && float_equals(xs.x1, 0) && float_equals(xs.x2, 0));
+	return (SUCCESS);
+}
+
+int	ray_position_00(void)
+{
+	t_ray	ray = {{2, 3, 4}, {1, 0, 0}};
+
+	_ft_assert(vector_equals(ray_position(ray, 0), ray.origin));
+	return (SUCCESS);
+}
+
+int	ray_position_01(void)
+{
+	t_ray	ray = {{2, 3, 4}, {1, 0, 0}};
+
+	_ft_assert(vector_equals(ray_position(ray, 1), (t_vector){3, 3, 4}));
+	return (SUCCESS);
+}
+
+int	ray_position_02(void)
+{
+	t_ray	ray = {{2, 3, 4}, {1, 0, 0}};
+
+	_ft_assert(vector_equals(ray_position(ray, 2.5), (t_vector){4.5, 3, 4}));
+	return (SUCCESS);
+}
+
+int	ray_sphere_intersect_00(void)
+{
+	t_ray		ray = {{0, 0, -5}, {0, 0, 1}};
+	t_sphere	sphere = {{0, 0, 0}, 1};
+	t_roots		xs;
+
+	xs = ray_sphere_intersect(ray, sphere);
+	_ft_assert(xs.count == 2 && float_equals(xs.x1, 4) && float_equals(xs.x2, 6));
+	return (SUCCESS);
+}
+
+int	ray_sphere_intersect_01(void)
+{
+	t_ray		ray = {{0, 1, -5}, {0, 0, 1}};
+	t_sphere	sphere = {{0, 0, 0}, 1};
+	t_roots		xs;
+
+	xs = ray_sphere_intersect(ray, sphere);
+	_ft_assert(xs.count == 1 && float_equals(xs.x1, 5) && float_equals(xs.x2, 5));
+	return (SUCCESS);
+}
+
+int	ray_sphere_intersect_02(void)
+{
+	t_ray		ray = {{0, 2, -5}, {0, 0, 1}};
+	t_sphere	sphere = {{0, 0, 0}, 1};
+	t_roots		xs;
+
+	xs = ray_sphere_intersect(ray, sphere);
+	_ft_assert(xs.count == 0);
+	return (SUCCESS);
+}
+
+int	ray_sphere_intersect_03(void)
+{
+	t_ray		ray = {{0, 0, 0}, {0, 0, 1}};
+	t_sphere	sphere = {{0, 0, 0}, 1};
+	t_roots		xs;
+
+	xs = ray_sphere_intersect(ray, sphere);
+	_ft_assert(xs.count == 2 && float_equals(xs.x1, -1) && float_equals(xs.x2, 1));
+	return (SUCCESS);
+}
+
+int	ray_sphere_intersect_04(void)
+{
+	t_ray		ray = {{0, 0, 5}, {0, 0, 1}};
+	t_sphere	sphere = {{0, 0, 0}, 1};
+	t_roots		xs;
+
+	xs = ray_sphere_intersect(ray, sphere);
+	_ft_assert(xs.count == 2 && float_equals(xs.x1, -6) && float_equals(xs.x2, -4));
+	return (SUCCESS);
+}
+
 int	unit_test_suite(suite tests)
 {
 	while (*tests)
@@ -649,7 +793,9 @@ int	main(void)
 {
 	int	result;
 
-	result = unit_test_suite(tests_laag);
+	result = 0;
+	result += unit_test_suite(tests_laag);
+	result += unit_test_suite(tests_ray);
 	if (result == 0)
 		printf(GREEN"PASSED\n");
 	printf(DFLT"Tests run: %d\n", tests_run);

@@ -1,7 +1,8 @@
 NAME = miniRT
 
 SRCDIR = srcs
-SRCS = test.c vector.c quaternion.c matrix.c
+SRCS = test.c vector.c quaternion.c matrix.c ray.c
+HDRS = laag.h minirt.h
 
 OBJDIR = objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
@@ -22,7 +23,7 @@ INCLUDES = -I$(LIBFT_DIR) -I$(LIBMLX_DIR)
 
 all: $(NAME)
 
-$(NAME): $(addsuffix .o, $(NAME)) $(LIBFT) $(LIBMLX)
+$(NAME): $(addsuffix .o, $(NAME)) $(addprefix $(SRCDIR)/, $(SRCS)) $(addprefix $(SRCDIR)/, $(HDRS)) $(LIBFT) $(LIBMLX)
 	$(CC) -o $@ $(CFLAGS) $< $(INCLUDES) $(LDFLAGS) $(LDLIBS)
 
 $(addsuffix .o, $(NAME)): $(OBJS)
