@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/08 23:11:24 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/09 11:01:37 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 
 // maximum distance where floats are considered equal
-# define EPSILON 1e-5
+# define EPSILON 1e-4
 # define MATRIX_SIZE 9
 # define MATRIX_LINE_SIZE 3
 
@@ -78,5 +78,11 @@ t_matrix		matrix_add(t_matrix a, t_matrix b);
 t_matrix		matrix_subtract(t_matrix a, t_matrix b);
 t_matrix		matrix_product(t_matrix a, t_matrix b);
 t_vector		matrix_vector_product(t_matrix a, t_vector u);
+t_matrix		matrix_transpose(t_matrix a);
+float			matrix_determinant(t_matrix a);
+t_matrix		matrix_cofactor(t_matrix a);
+t_matrix		matrix_minor(t_matrix a);
+t_matrix		matrix_adjoint(t_matrix a);
+t_matrix		matrix_inverse(t_matrix a);
 
 #endif

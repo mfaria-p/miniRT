@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 17:16:40 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/08 23:27:52 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/09 11:01:01 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,109 @@ t_vector	matrix_vector_product(t_matrix a, t_vector u)
 	aux.y = a.matrix[1][0] * u.x + a.matrix[1][1] * u.y + a.matrix[1][2] * u.z;
 	aux.z = a.matrix[2][0] * u.x + a.matrix[2][1] * u.y + a.matrix[2][2] * u.z;
 	return (aux);
+}
+
+t_matrix	matrix_transpose(t_matrix a)
+{
+	int			i;
+	int			j;
+	t_matrix	aux;
+
+	i = 0;
+	while (i < MATRIX_LINE_SIZE)
+	{
+		j = 0;
+		while (j < MATRIX_LINE_SIZE)
+		{
+			aux.matrix[i][j] = a.matrix[j][i];
+			j++;
+		}
+		i++;
+	}
+	return (aux);
+}
+
+float	matrix_determinant(t_matrix a)
+{
+	float	*aux;
+	float	det;
+
+	aux = (float *)a.matrix;
+	det = aux[0] * aux[4] * aux[8] - aux[2] * aux[4] * aux[6];
+	det += aux[3] * aux[7] * aux[2] - aux[5] * aux[7] * aux[0];
+	det += aux[6] * aux[1] * aux[5] - aux[8] * aux[1] * aux[3];
+	return (det);
+}
+
+t_matrix	matrix_cofactor(t_matrix a)
+{
+	t_matrix	aux;
+	float		*cof;
+	int			i;
+
+	cof = (float *)((t_matrix){{{1, -1, 1}, {-1, 1, -1}, {1, -1, 1}}}.matrix);
+	i = 0;
+	while (i < MATRIX_SIZE)
+	{
+		((float *)aux.matrix)[i] = cof[i] * ((float *)a.matrix)[i];
+		i++;
+	}
+	return (aux);
+}
+
+static float	matrix_minor_aux(t_matrix a, int row, int col)
+{
+	double	minor;
+	int		r[2];
+	int		c[2];
+	int		temp;
+
+	r[0] = (row + 1) % MATRIX_LINE_SIZE;
+	r[1] = (row + 2) % MATRIX_LINE_SIZE;
+	c[0] = (col + 1) % MATRIX_LINE_SIZE;
+	c[1] = (col + 2) % MATRIX_LINE_SIZE;
+	temp = c[0];
+	c[0] = (temp < c[1]) * temp + (temp > c[1]) * c[1];
+	c[1] = (temp > c[1]) * temp + (temp < c[1]) * c[1];
+	temp = r[0];
+	r[0] = (temp < r[1]) * temp + (temp > r[1]) * r[1];
+	r[1] = (temp > r[1]) * temp + (temp < r[1]) * r[1];
+	minor = a.matrix[r[0]][c[0]] * a.matrix[r[1]][c[1]];
+	minor -= a.matrix[r[0]][c[1]] * a.matrix[r[1]][c[0]];
+	return ((float)minor);
+}
+
+t_matrix	matrix_minor(t_matrix a)
+{
+	t_matrix	aux;
+	int			i;
+	int			j;
+
+	i = 0;
+	while (i < MATRIX_LINE_SIZE)
+	{
+		j = 0;
+		while (j < MATRIX_LINE_SIZE)
+		{
+			aux.matrix[i][j] = matrix_minor_aux(a, i, j);
+			j++;
+		}
+		i++;
+	}
+	return (aux);
+}
+
+t_matrix	matrix_adjoint(t_matrix a)
+{
+	return (matrix_transpose(matrix_cofactor(matrix_minor(a))));
+}
+
+t_matrix	matrix_inverse(t_matrix a)
+{
+	float	det;
+
+	det = matrix_determinant(a);
+	if (float_equals(det, 0))
+		return ((t_matrix){{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}});
+	return (matrix_scalar_product(1 / det, matrix_adjoint(a)));
 }

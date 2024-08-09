@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/08 23:37:29 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/09 11:04:59 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,19 @@ int	matrix_vector_product_00(void);
 int	matrix_vector_product_01(void);
 int	matrix_vector_product_02(void);
 int	matrix_vector_product_03(void);
+int	matrix_transpose_00(void);
+int	matrix_transpose_01(void);
+int	matrix_transpose_02(void);
+int	matrix_determinant_00(void);
+int	matrix_determinant_01(void);
+int	matrix_determinant_02(void);
+int	matrix_determinant_03(void);
+int	matrix_cofactor_00(void);
+int	matrix_minor_00(void);
+int	matrix_adjoint_00(void);
+int	matrix_inverse_00(void);
+int	matrix_inverse_01(void);
+int	matrix_inverse_02(void);
 
 int	tests_run = 0;
 suite	tests_laag = {
@@ -82,6 +95,12 @@ suite	tests_laag = {
 					matrix_subtract_00,
 					matrix_product_00, matrix_product_01, matrix_product_02,
 					matrix_vector_product_00, matrix_vector_product_01, matrix_vector_product_02, matrix_vector_product_03,
+					matrix_transpose_00, matrix_transpose_01, matrix_transpose_02,
+					matrix_determinant_00, matrix_determinant_01, matrix_determinant_02, matrix_determinant_03,
+					matrix_cofactor_00,
+					matrix_minor_00,
+					matrix_adjoint_00,
+					matrix_inverse_00, matrix_inverse_01, matrix_inverse_02,
 					NULL
 				};
 
@@ -507,6 +526,115 @@ int	matrix_vector_product_03(void)
 	t_vector	v = {0, 0, 0};
 
 	_ft_assert(vector_equals(matrix_vector_product(m, u), v));
+	return (SUCCESS);
+}
+
+int	matrix_transpose_00(void)
+{
+	_ft_assert(matrix_equals(matrix_transpose(matrix_identity()), matrix_identity()));
+	return (SUCCESS);
+}
+
+int	matrix_transpose_01(void)
+{
+	t_matrix	m = {{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}};
+	t_matrix	n = {{{1, 4, 7}, {2, 5, 8}, {3, 6, 9}}};
+
+	_ft_assert(matrix_equals(matrix_transpose(m), n));
+	return (SUCCESS);
+}
+
+int	matrix_transpose_02(void)
+{
+	t_matrix	m = {{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}};
+	t_matrix	n = {{{1, 4, 7}, {2, 5, 8}, {3, 6, 9}}};
+
+	_ft_assert(matrix_equals(matrix_transpose(n), m));
+	return (SUCCESS);
+}
+
+int	matrix_determinant_00(void)
+{
+	t_matrix	m = {{{3, .7, 7}, {12, .1, 1}, {3, 3, -4}}};
+
+	_ft_assert(float_equals(matrix_determinant(m), 275.4));
+	return (SUCCESS);
+}
+
+int	matrix_determinant_01(void)
+{
+	t_matrix	m = {{{0, 0, 0}, {12, .1, 1}, {3, 3, -4}}};
+
+	_ft_assert(float_equals(matrix_determinant(m), 0));
+	return (SUCCESS);
+}
+
+int	matrix_determinant_02(void)
+{
+	t_matrix	m = {{{0, 3, 4}, {0, .1, 1}, {0, 3, -4}}};
+
+	_ft_assert(float_equals(matrix_determinant(m), 0));
+	return (SUCCESS);
+}
+
+int	matrix_determinant_03(void)
+{
+	t_matrix	m = {{{1, 0, 3}, {0, .1, 1}, {-3, -3, 0}}};
+
+	_ft_assert(float_equals(matrix_determinant(m), 3.9));
+	return (SUCCESS);
+}
+
+int	matrix_cofactor_00(void)
+{
+	t_matrix	m = {{{1, 1, 1}, {1, 1, 1}, {1, 1, 1}}};
+	t_matrix	n = {{{1, -1, 1}, {-1, 1, -1}, {1, -1, 1}}};
+
+	_ft_assert(matrix_equals(matrix_cofactor(m), n));
+	return (SUCCESS);
+}
+
+int	matrix_minor_00(void)
+{
+	t_matrix	m = {{{-1.2, 1.5, 97.1}, {.2, .35, -191.05}, {-100, 100, -100}}};
+	t_matrix	n = {{{19070, -19125, 55}, {-9860, 9830, 30}, {-320.56, 209.84, -.72}}};
+
+	_ft_assert(matrix_equals(matrix_minor(m), n));
+	return (SUCCESS);
+}
+
+int	matrix_adjoint_00(void)
+{
+	t_matrix	m = {{{-1.2, 1.5, 97.1}, {-.2, .35, -191.05}, {-100, 100, -100}}};
+	t_matrix	n = {{{19070, 9860, -320.56}, {19085, 9830, -248.68}, {15, -30, -.12}}};
+
+	_ft_assert(matrix_equals(matrix_adjoint(m), n));
+	return (SUCCESS);
+}
+
+int	matrix_inverse_00(void)
+{
+	t_matrix	m = {{{-1.2, 1.5, 97.1}, {-.2, .35, -191.05}, {-100, 100, -100}}};
+	t_matrix	n = {{{2.64861, 1.36944, -.04452}, {2.65069, 1.36527, -.03453}, {.00208, -.00416, -.00001}}};
+
+	_ft_assert(matrix_equals(matrix_inverse(m), n));
+	return (SUCCESS);
+}
+
+int	matrix_inverse_01(void)
+{
+	t_matrix	m = {{{2.64861, 1.36944, -.04452}, {2.65069, 1.36527, -.03453}, {.00208, -.00416, -.00001}}};
+
+	_ft_assert(matrix_equals(matrix_product(matrix_inverse(m), m), matrix_identity()));
+	return (SUCCESS);
+}
+
+int	matrix_inverse_02(void)
+{
+	t_matrix	m = {{{0, 1, -.04}, {2.6, 1.3, 0}, {.002, 0, -.2}}};
+	t_matrix	n = {{{-.49990, .38454, .09998}, {.99980, .00015, -.19996}, {-.004999, .00385, -4.999}}};
+
+	_ft_assert(matrix_equals(matrix_inverse(m), n));
 	return (SUCCESS);
 }
 
