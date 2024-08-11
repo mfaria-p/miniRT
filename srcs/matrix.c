@@ -6,15 +6,45 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 17:16:40 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/09 11:08:47 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/11 17:43:42 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "laag.h"
 
+// return ((t_matrix){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}});
 t_matrix	matrix_identity(void)
 {
-	return ((t_matrix){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}});
+	t_matrix	aux;
+	int			i;
+	int			j;
+
+	i = 0;
+	while (i < MATRIX_LINE_SIZE)
+	{
+		while (j < MATRIX_LINE_SIZE)
+		{
+			if (i == j)
+				aux.matrix[i][j] = 1;
+			else
+				aux.matrix[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+	return (aux);
+}
+
+// return ((t_matrix){{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}});
+t_matrix	matrix_nil(void)
+{
+	t_matrix	aux;
+	int			i;
+
+	i = 0;
+	while (i < MATRIX_LINE_SIZE)
+		((float *)aux.matrix)[i++] = 0;
+	return (aux);
 }
 
 int	matrix_equals(t_matrix a, t_matrix b)
@@ -78,7 +108,7 @@ t_matrix	matrix_product(t_matrix a, t_matrix b)
 	int			idx;
 	t_matrix	aux;
 
-	aux = (t_matrix){{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}};
+	aux = matrix_nil();
 	row = 0;
 	while (row < MATRIX_LINE_SIZE)
 	{
@@ -100,11 +130,22 @@ t_matrix	matrix_product(t_matrix a, t_matrix b)
 
 t_vector	matrix_vector_product(t_matrix a, t_vector u)
 {
+	int			i;
+	int			j;
 	t_vector	aux;
 
-	aux.x = a.matrix[0][0] * u.x + a.matrix[0][1] * u.y + a.matrix[0][2] * u.z;
-	aux.y = a.matrix[1][0] * u.x + a.matrix[1][1] * u.y + a.matrix[1][2] * u.z;
-	aux.z = a.matrix[2][0] * u.x + a.matrix[2][1] * u.y + a.matrix[2][2] * u.z;
+	aux = (t_vector){0, 0, 0};
+	i = 0;
+	while (i < MATRIX_LINE_SIZE)
+	{
+		j = 0;
+		while (j < MATRIX_LINE_SIZE)
+		{
+			((float *)&aux)[j] += a.matrix[i][j] * ((float *)&u)[j];
+			j++;
+		}
+		i++;
+	}
 	return (aux);
 }
 

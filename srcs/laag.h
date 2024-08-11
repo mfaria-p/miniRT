@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/09 11:01:37 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/11 17:44:54 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 # include <math.h>
 # include <stdlib.h>
 
-// maximum distance where floats are considered equal
+// maximum absolute difference where floats are considered equal
 # define EPSILON 1e-4
 # define MATRIX_SIZE 9
 # define MATRIX_LINE_SIZE 3
+# define VECTOR_SIZE 3
 
 typedef unsigned char	t_uint8;
 

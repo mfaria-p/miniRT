@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:32:51 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/09 12:17:23 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/11 17:56:29 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 int	float_equals(float x, float y)
 {
 	return (fabs(x - y) < EPSILON);
+}
+
+t_vector	vector_nil(void)
+{
+	return ((t_vector){0, 0, 0});
 }
 
 int	vector_equals(t_vector u, t_vector v)
@@ -54,8 +59,8 @@ float	vector_distance(t_vector u, t_vector v)
 
 t_vector	vector_normalize(t_vector u)
 {
-	if (vector_equals(u, (t_vector){0, 0, 0}))
-		return ((t_vector){0, 0, 0});
+	if (vector_equals(u, vector_nil()))
+		return (vector_nil());
 	return (vector_scalar_product(1 / vector_magnitude(u), u));
 }
 
