@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/11 11:31:36 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/11 12:23:22 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ typedef struct s_object
 	void		*shape;
 	t_material	material;
 }	t_object;
+
+typedef struct s_intersection
+{
+	t_object	object;
+	float		time;
+}	t_intersection;
 
 /* ************************************************************************** */
 // light.c
