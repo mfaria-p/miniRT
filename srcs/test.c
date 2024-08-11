@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/11 11:29:52 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/11 11:39:25 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	main(void)
 
 	float			pixel_size = (float)WALL_SIZE / CANVAS_PIXEL;
 	float			half = (float)WALL_SIZE / 2;
-	t_sphere		shape = {{0, 0, 0}, 1, {{1, .2, 1}, .1, .9, .9, 200}};
+	t_sphere		shape = {{0, 0, 0}, 1};
+	t_object		sphere = {&shape, {{53./255, 33./255, 0}, .5, 1, 1, 10}};
 	t_light_source	light = {{-10, 10, -10}, 1};
 	float			world_y;
 	float			world_x;
@@ -45,7 +46,6 @@ int	main(void)
 	t_vector		point;
 	t_vector		normal;
 	t_vector		eyev;
-	t_object		sphere = {&shape, shape.material};
 
 	ray.origin = (t_vector){0, 0, -5};
 	for (int y = 0; y < CANVAS_PIXEL; y++)
