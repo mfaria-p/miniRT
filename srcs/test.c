@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/09 18:59:31 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/11 11:29:52 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(void)
 
 	float			pixel_size = (float)WALL_SIZE / CANVAS_PIXEL;
 	float			half = (float)WALL_SIZE / 2;
-	t_sphere		sphere = {{0, 0, 0}, 1, {{1, .2, 1}, .1, .9, .9, 200}};
+	t_sphere		shape = {{0, 0, 0}, 1, {{1, .2, 1}, .1, .9, .9, 200}};
 	t_light_source	light = {{-10, 10, -10}, 1};
 	float			world_y;
 	float			world_x;
@@ -45,6 +45,7 @@ int	main(void)
 	t_vector		point;
 	t_vector		normal;
 	t_vector		eyev;
+	t_object		sphere = {&shape, shape.material};
 
 	ray.origin = (t_vector){0, 0, -5};
 	for (int y = 0; y < CANVAS_PIXEL; y++)
@@ -55,12 +56,12 @@ int	main(void)
 			world_x = -half + pixel_size * x;
 			position = (t_vector){world_x, world_y, WALL_Z};
 			ray.direction = vector_normalize(vector_subtract(position, ray.origin));
-			xs = ray_sphere_intersect(ray, sphere);
+			xs = ray_sphere_intersect(ray, *(t_sphere  *)sphere.shape);
 			if (xs.count > 0)
 			{
 				float	minx = (xs.x1 < xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2;
 				point = ray_position(ray, minx);
-				normal = vector_normalize(vector_subtract(point, sphere.origin));
+				normal = vector_normalize(vector_subtract(point, (*(t_sphere *)sphere.shape).origin));
 				eyev = vector_scalar_product(-1, ray.direction);
 				t_vector	color = lighting(sphere.material, light, point, eyev, normal);
 				my_mlx_pixel_put(&img, x, y, color_rgb(color));

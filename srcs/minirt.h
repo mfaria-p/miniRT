@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/09 18:27:09 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/11 11:28:10 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ typedef struct s_sphere
 	float		r;
 	t_material	material;
 }	t_sphere;
+
+typedef struct s_object
+{
+	void		*shape;
+	t_material	material;
+}	t_object;
 
 /* ************************************************************************** */
 // light.c
