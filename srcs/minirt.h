@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/11 12:23:22 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/08/11 12:28:18 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,22 @@ typedef struct s_sphere
 	float		r;
 }	t_sphere;
 
+enum e_shape_type
+{
+	SPHERE
+};
+
+// should add a transformation matrix to keep track of transformations
+// will make calculating surface normals easier
 typedef struct s_object
 {
+	int			type;
 	void		*shape;
 	t_material	material;
 }	t_object;
 
+// will need a list of intersections
+// should probably make a linked list
 typedef struct s_intersection
 {
 	t_object	object;
