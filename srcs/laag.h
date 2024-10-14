@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/11 17:44:54 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:25:55 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,21 @@
 
 // maximum absolute difference where floats are considered equal
 # define EPSILON 1e-4
-# define MATRIX_SIZE 9
-# define MATRIX_LINE_SIZE 3
+# define MATRIX_SIZE 16
+# define MATRIX_LINE_SIZE 4
 # define VECTOR_SIZE 3
 
 typedef unsigned char	t_uint8;
 
+// homogeneous coordinates (w = 1)
+// allows to represent translation as linear transformation
+// translation will have matrix representation
 typedef struct s_vector
 {
 	float	x;
 	float	y;
 	float	z;
+	float	w;
 }	t_vector;
 
 typedef struct s_matrix

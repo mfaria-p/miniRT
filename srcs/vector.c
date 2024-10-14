@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:32:51 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/11 17:56:29 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:28:35 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	float_equals(float x, float y)
 
 t_vector	vector_nil(void)
 {
-	return ((t_vector){0, 0, 0});
+	return ((t_vector){0, 0, 0, 1});
 }
 
 int	vector_equals(t_vector u, t_vector v)
@@ -29,12 +29,12 @@ int	vector_equals(t_vector u, t_vector v)
 
 t_vector	vector_scalar_product(float a, t_vector u)
 {
-	return ((t_vector){a * u.x, a * u.y, a * u.z});
+	return ((t_vector){a * u.x, a * u.y, a * u.z, 1});
 }
 
 t_vector	vector_add(t_vector u, t_vector v)
 {
-	return ((t_vector){u.x + v.x, u.y + v.y, u.z + v.z});
+	return ((t_vector){u.x + v.x, u.y + v.y, u.z + v.z, 1});
 }
 
 t_vector	vector_subtract(t_vector u, t_vector v)
@@ -66,7 +66,7 @@ t_vector	vector_normalize(t_vector u)
 
 t_vector	vector_cross_product(t_vector u, t_vector v)
 {
-	return ((t_vector){u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x});
+	return ((t_vector){u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x, 1});
 }
 
 float	vector_cosine(t_vector u, t_vector v)
@@ -130,5 +130,5 @@ t_vector	vector_rotate(t_vector u, t_vector ax, float rad)
 	q = (t_quaternion){1 - (aux * aux), ax.x, ax.y, ax.z};
 	p = (t_quaternion){0, u.x, u.y, u.z};
 	p = quaternion_product(quaternion_product(quaternion_inverse(q), p), q);
-	return ((t_vector){p.i, p.j, p.k});
+	return ((t_vector){p.i, p.j, p.k, 1});
 }

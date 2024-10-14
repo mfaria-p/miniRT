@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:30:36 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/08 15:04:33 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:43:34 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # define FAILURE 1
 # define SUCCESS 0
 
-# define _ft_FAIL() printf(RED"KO"DFLT": %s() line %i\n", __func__, __LINE__)
-# define _ft_PASS() printf(GREEN"OK"DFLT": %s() line %i\n", __func__, __LINE__)
+# define _ft_FAIL() printf(RED"KO"DFLT": %-30s line %i\n", __func__, __LINE__)
+# define _ft_PASS() printf(GREEN"OK"DFLT": %-30s line %i\n", __func__, __LINE__)
 # define _ft_assert(test) do {if (!(test)){ _ft_FAIL(); return (FAILURE);} else{ _ft_PASS();}} while (0)
 # define _ft_verify(test) do { int r=test(); tests_run++; if (r) return (r);} while (0)
 
