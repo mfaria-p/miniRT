@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/14 13:26:19 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:30:26 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ int	matrix_equals_00(void);
 int	matrix_equals_01(void);
 int	matrix_equals_02(void);
 int	matrix_scalar_product_00(void);
-int	matrix_add_00(void);
-int	matrix_subtract_00(void);
 int	matrix_product_00(void);
 int	matrix_product_01(void);
 int	matrix_product_02(void);
@@ -61,29 +59,27 @@ int	matrix_vector_product_03(void);
 int	matrix_transpose_00(void);
 int	matrix_transpose_01(void);
 int	matrix_transpose_02(void);
-/*int	matrix_determinant_00(void);*/
-/*int	matrix_determinant_01(void);*/
-/*int	matrix_determinant_02(void);*/
-/*int	matrix_determinant_03(void);*/
-/*int	matrix_cofactor_00(void);*/
-/*int	matrix_minor_00(void);*/
+int	matrix_determinant_00(void);
+int	matrix_determinant_01(void);
+int	matrix_determinant_02(void);
+int	matrix_determinant_03(void);
 /*int	matrix_adjoint_00(void);*/
 /*int	matrix_inverse_00(void);*/
 /*int	matrix_inverse_01(void);*/
 /*int	matrix_inverse_02(void);*/
-/*int	quadratic_roots_00(void);*/
-/*int	quadratic_roots_01(void);*/
-/*int	quadratic_roots_02(void);*/
-/*int	quadratic_roots_03(void);*/
-/*int	quadratic_roots_04(void);*/
-/*int	ray_position_00(void);*/
-/*int	ray_position_01(void);*/
-/*int	ray_position_02(void);*/
-/*int	ray_sphere_intersect_00(void);*/
-/*int	ray_sphere_intersect_01(void);*/
-/*int	ray_sphere_intersect_02(void);*/
-/*int	ray_sphere_intersect_03(void);*/
-/*int	ray_sphere_intersect_04(void);*/
+int	quadratic_roots_00(void);
+int	quadratic_roots_01(void);
+int	quadratic_roots_02(void);
+int	quadratic_roots_03(void);
+int	quadratic_roots_04(void);
+int	ray_position_00(void);
+int	ray_position_01(void);
+int	ray_position_02(void);
+int	ray_sphere_intersect_00(void);
+int	ray_sphere_intersect_01(void);
+int	ray_sphere_intersect_02(void);
+int	ray_sphere_intersect_03(void);
+int	ray_sphere_intersect_04(void);
 
 int	tests_run = 0;
 suite	tests_laag = {
@@ -104,23 +100,19 @@ suite	tests_laag = {
 					vector_rotate_00,
 					matrix_equals_00, matrix_equals_01, matrix_equals_02,
 					matrix_scalar_product_00,
-					matrix_add_00,
-					matrix_subtract_00,
 					matrix_product_00, matrix_product_01, matrix_product_02,
 					matrix_vector_product_00, matrix_vector_product_01, matrix_vector_product_02, matrix_vector_product_03,
 					matrix_transpose_00, matrix_transpose_01, matrix_transpose_02,
-					/*matrix_determinant_00, matrix_determinant_01, matrix_determinant_02, matrix_determinant_03,*/
-					/*matrix_cofactor_00,*/
-					/*matrix_minor_00,*/
+					matrix_determinant_00, matrix_determinant_01, matrix_determinant_02, matrix_determinant_03,
 					/*matrix_adjoint_00,*/
 					/*matrix_inverse_00, matrix_inverse_01, matrix_inverse_02,*/
 					NULL
 				};
 
 suite	tests_ray = {
-					/*quadratic_roots_00, quadratic_roots_01, quadratic_roots_02, quadratic_roots_03, quadratic_roots_04,*/
-					/*ray_position_00, ray_position_01, ray_position_02,*/
-					/*ray_sphere_intersect_00, ray_sphere_intersect_01, ray_sphere_intersect_02, ray_sphere_intersect_03, ray_sphere_intersect_04,*/
+					quadratic_roots_00, quadratic_roots_01, quadratic_roots_02, quadratic_roots_03, quadratic_roots_04,
+					ray_position_00, ray_position_01, ray_position_02,
+					ray_sphere_intersect_00, ray_sphere_intersect_01, ray_sphere_intersect_02, ray_sphere_intersect_03, ray_sphere_intersect_04,
 					NULL
 				};
 
@@ -464,26 +456,6 @@ int	matrix_scalar_product_00(void)
 	return (SUCCESS);
 }
 
-int	matrix_add_00(void)
-{
-	t_matrix	m = {{{1, 1, -1, 1}, {.1, .5, 1.9, 1}, {100, 0, 0, 1}, {0, 0, 0, 1}}};
-	t_matrix	n = {{{-1, 1, -1, -1}, {-.2, .5, -1.9, -1}, {0, 0, -100, -1}, {0, 0, 0, 1}}};
-	t_matrix	w = {{{0, 2, -2, 0}, {-.1, 1, 0, 0}, {100, 0, -100, 0}, {0, 0, 0, 1}}};
-
-	_ft_assert(matrix_equals(matrix_add(m, n), w));
-	return (SUCCESS);
-}
-
-int	matrix_subtract_00(void)
-{
-	t_matrix	m = {{{1, 1, -1, 1}, {.1, .5, 1.9, 1}, {100, 0, 0, 1}, {0, 0, 0, 1}}};
-	t_matrix	n = {{{-1, 1, -1, 1}, {-.2, .5, -1.9, 1}, {0, 0, -100, 1}, {0, 0, 0, 1}}};
-	t_matrix	w = {{{2, 0, 0, 0}, {.3, 0, 3.8, 0}, {100, 0, 100, 0}, {0, 0, 0, 1}}};
-
-	_ft_assert(matrix_equals(matrix_subtract(m, n), w));
-	return (SUCCESS);
-}
-
 int	matrix_product_00(void)
 {
 	t_matrix	m = {{{1, 1, -1, 1}, {.1, .5, 1.9, 2}, {100, 0, 0, 1}, {0, 0, 0, 1}}};
@@ -573,56 +545,38 @@ int	matrix_transpose_02(void)
 	return (SUCCESS);
 }
 
-/*int	matrix_determinant_00(void)*/
-/*{*/
-/*	t_matrix	m = {{{3, .7, 7}, {12, .1, 1}, {3, 3, -4}}};*/
-/**/
-/*	_ft_assert(float_equals(matrix_determinant(m), 275.4));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	matrix_determinant_01(void)*/
-/*{*/
-/*	t_matrix	m = {{{0, 0, 0}, {12, .1, 1}, {3, 3, -4}}};*/
-/**/
-/*	_ft_assert(float_equals(matrix_determinant(m), 0));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	matrix_determinant_02(void)*/
-/*{*/
-/*	t_matrix	m = {{{0, 3, 4}, {0, .1, 1}, {0, 3, -4}}};*/
-/**/
-/*	_ft_assert(float_equals(matrix_determinant(m), 0));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	matrix_determinant_03(void)*/
-/*{*/
-/*	t_matrix	m = {{{1, 0, 3}, {0, .1, 1}, {-3, -3, 0}}};*/
-/**/
-/*	_ft_assert(float_equals(matrix_determinant(m), 3.9));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	matrix_cofactor_00(void)*/
-/*{*/
-/*	t_matrix	m = {{{1, 1, 1}, {1, 1, 1}, {1, 1, 1}}};*/
-/*	t_matrix	n = {{{1, -1, 1}, {-1, 1, -1}, {1, -1, 1}}};*/
-/**/
-/*	_ft_assert(matrix_equals(matrix_cofactor(m), n));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	matrix_minor_00(void)*/
-/*{*/
-/*	t_matrix	m = {{{-1.2, 1.5, 97.1}, {.2, .35, -191.05}, {-100, 100, -100}}};*/
-/*	t_matrix	n = {{{19070, -19125, 55}, {-9860, 9830, 30}, {-320.56, 209.84, -.72}}};*/
-/**/
-/*	_ft_assert(matrix_equals(matrix_minor(m), n));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
+int	matrix_determinant_00(void)
+{
+	t_matrix	m = {{{3, .7, 7}, {12, .1, 1}, {3, 3, -4}}};
+
+	_ft_assert(float_equals(matrix_determinant(m), 275.4));
+	return (SUCCESS);
+}
+
+int	matrix_determinant_01(void)
+{
+	t_matrix	m = {{{0, 0, 0}, {12, .1, 1}, {3, 3, -4}}};
+
+	_ft_assert(float_equals(matrix_determinant(m), 0));
+	return (SUCCESS);
+}
+
+int	matrix_determinant_02(void)
+{
+	t_matrix	m = {{{0, 3, 4}, {0, .1, 1}, {0, 3, -4}}};
+
+	_ft_assert(float_equals(matrix_determinant(m), 0));
+	return (SUCCESS);
+}
+
+int	matrix_determinant_03(void)
+{
+	t_matrix	m = {{{1, 0, 3}, {0, .1, 1}, {-3, -3, 0}}};
+
+	_ft_assert(float_equals(matrix_determinant(m), 3.9));
+	return (SUCCESS);
+}
+
 /*int	matrix_adjoint_00(void)*/
 /*{*/
 /*	t_matrix	m = {{{-1.2, 1.5, 97.1}, {-.2, .35, -191.05}, {-100, 100, -100}}};*/

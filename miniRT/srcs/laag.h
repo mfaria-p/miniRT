@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/14 13:25:55 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:24:46 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ typedef struct s_matrix
 {
 	float	matrix[MATRIX_LINE_SIZE][MATRIX_LINE_SIZE];
 }	t_matrix;
+
+typedef struct s_submatrix
+{
+	t_matrix	m;
+	int			size;
+}	t_submatrix;
 
 typedef struct s_quaternion
 {
@@ -79,15 +85,11 @@ t_quaternion	quaternion_product(t_quaternion q, t_quaternion p);
 t_matrix		matrix_identity(void);
 int				matrix_equals(t_matrix a, t_matrix b);
 t_matrix		matrix_scalar_product(float a, t_matrix m);
-t_matrix		matrix_add(t_matrix a, t_matrix b);
-t_matrix		matrix_subtract(t_matrix a, t_matrix b);
 t_matrix		matrix_product(t_matrix a, t_matrix b);
 t_vector		matrix_vector_product(t_matrix a, t_vector u);
 t_matrix		matrix_transpose(t_matrix a);
 float			matrix_determinant(t_matrix a);
-t_matrix		matrix_cofactor(t_matrix a);
-t_matrix		matrix_minor(t_matrix a);
-t_matrix		matrix_adjoint(t_matrix a);
-t_matrix		matrix_inverse(t_matrix a);
+/*t_matrix		matrix_adjoint(t_matrix a);*/
+/*t_matrix		matrix_inverse(t_matrix a);*/
 
 #endif

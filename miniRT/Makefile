@@ -10,10 +10,10 @@ OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 
-LIBMLX_DIR = minilibx-linux
+LIBMLX_DIR = miniRT/minilibx-linux
 LIBMLX = $(LIBMLX_DIR)/libmlx.a
 
-LIBFT_REPO = libft
+LIBFT_REPO = miniRT/libft
 LIBFT_DIR = $(LIBFT_REPO)/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
