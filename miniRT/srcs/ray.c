@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/11 13:04:12 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/15 23:22:10 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,20 @@ t_roots	quadratic_roots(float a, float b, float c)
 // 
 // working:
 //  S => k = (-b+sqrt(b^2 -4ac))/(2*a) or (-b-sqrt(b^2 -4ac))/(2*a)
-t_roots	ray_sphere_intersect(t_ray ray, t_sphere sphere)
+t_roots	ray_sphere_intersect(t_ray ray, t_object sphere)
 {
+	t_sphere	shape;
 	t_vector	aux;
 	float		a;
 	float		b;
 	float		c;
 
-	aux = vector_subtract(ray.origin, sphere.origin);
+	shape = *(t_sphere *)sphere.shape;
+	ray.direction = matrix_vector_product(matrix_inverse(sphere.transformation), ray.direction);
+	ray.origin = matrix_vector_product(matrix_inverse(sphere.transformation), ray.origin);
+	aux = vector_subtract(ray.origin, shape.origin);
 	a = vector_dot_product(ray.direction, ray.direction);
 	b = 2 * vector_dot_product(ray.direction, aux);
-	c = vector_dot_product(aux, aux) - sphere.r * sphere.r;
+	c = vector_dot_product(aux, aux) - shape.r * shape.r;
 	return (quadratic_roots(a, b, c));
 }

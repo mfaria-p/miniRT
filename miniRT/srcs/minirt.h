@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/11 12:28:18 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/15 23:22:08 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_object
 	int			type;
 	void		*shape;
 	t_material	material;
+	t_matrix	transformation;
 }	t_object;
 
 // will need a list of intersections
@@ -84,7 +85,14 @@ t_vector	lighting(t_material material, t_light_source light, t_vector point, t_v
 // ray.c
 t_vector	ray_position(t_ray ray, float t);
 t_roots		quadratic_roots(float a, float b, float c);
-t_roots		ray_sphere_intersect(t_ray ray, t_sphere sphere);
+t_roots		ray_sphere_intersect(t_ray ray, t_object sphere);
+
+/* ************************************************************************** */
+// transform.c
+t_matrix	matrix_tranlate(float x, float y, float z);
+t_matrix	matrix_scale(float x, float y, float z);
+t_matrix	matrix_shear(float x[2], float y[2], float z[2]);
+t_matrix	matrix_rotate(float x, float y, float z);
 
 /* ************************************************************************** */
 
