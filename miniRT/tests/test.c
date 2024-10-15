@@ -6,16 +6,16 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/15 16:03:38 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/15 20:44:52 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
 
-int	float_equals_00(void);
-int	float_equals_01(void);
-int	float_equals_02(void);
-int	float_equals_03(void);
+int	double_equals_00(void);
+int	double_equals_01(void);
+int	double_equals_02(void);
+int	double_equals_03(void);
 int	vector_equals_00(void);
 int	vector_equals_01(void);
 int	vector_scalar_product_00(void);
@@ -69,23 +69,23 @@ int	matrix_adjoint_00(void);
 int	matrix_inverse_00(void);
 int	matrix_inverse_01(void);
 int	matrix_inverse_02(void);
-/*int	quadratic_roots_00(void);*/
-/*int	quadratic_roots_01(void);*/
-/*int	quadratic_roots_02(void);*/
-/*int	quadratic_roots_03(void);*/
-/*int	quadratic_roots_04(void);*/
-/*int	ray_position_00(void);*/
-/*int	ray_position_01(void);*/
-/*int	ray_position_02(void);*/
-/*int	ray_sphere_intersect_00(void);*/
-/*int	ray_sphere_intersect_01(void);*/
-/*int	ray_sphere_intersect_02(void);*/
-/*int	ray_sphere_intersect_03(void);*/
-/*int	ray_sphere_intersect_04(void);*/
+int	quadratic_roots_00(void);
+int	quadratic_roots_01(void);
+int	quadratic_roots_02(void);
+int	quadratic_roots_03(void);
+int	quadratic_roots_04(void);
+int	ray_position_00(void);
+int	ray_position_01(void);
+int	ray_position_02(void);
+int	ray_sphere_intersect_00(void);
+int	ray_sphere_intersect_01(void);
+int	ray_sphere_intersect_02(void);
+int	ray_sphere_intersect_03(void);
+int	ray_sphere_intersect_04(void);
 
 int	tests_run = 0;
 suite	tests_laag = {
-					float_equals_00, float_equals_01, float_equals_02, float_equals_03,
+					double_equals_00, double_equals_01, double_equals_02, double_equals_03,
 					vector_equals_00, vector_equals_01,
 					vector_scalar_product_00, vector_scalar_product_01, vector_scalar_product_02,
 					vector_add_00, vector_add_01,
@@ -114,9 +114,9 @@ suite	tests_laag = {
 				};
 
 suite	tests_ray = {
-					/*quadratic_roots_00, quadratic_roots_01, quadratic_roots_02, quadratic_roots_03, quadratic_roots_04,*/
-					/*ray_position_00, ray_position_01, ray_position_02,*/
-					/*ray_sphere_intersect_00, ray_sphere_intersect_01, ray_sphere_intersect_02, ray_sphere_intersect_03, ray_sphere_intersect_04,*/
+					quadratic_roots_00, quadratic_roots_01, quadratic_roots_02, quadratic_roots_03, quadratic_roots_04,
+					ray_position_00, ray_position_01, ray_position_02,
+					ray_sphere_intersect_00, ray_sphere_intersect_01, ray_sphere_intersect_02, ray_sphere_intersect_03, ray_sphere_intersect_04,
 					NULL
 				};
 
@@ -146,33 +146,33 @@ t_matrix	matrix_print(t_matrix	m)
 	{
 		if (i % MATRIX_LINE_SIZE == 0)
 			printf("\n");
-		printf("%f\t", ((float *)m.matrix)[i]);
+		printf("%f\t", ((double *)m.matrix)[i]);
 	}
 	printf("\n");
 	return (m);
 }
 
-int	float_equals_00(void)
+int	double_equals_00(void)
 {
-	_ft_assert(float_equals(0, 1e-11));
+	_ft_assert(double_equals(0, 1e-11));
 	return (SUCCESS);
 }
 
-int	float_equals_01(void)
+int	double_equals_01(void)
 {
-	_ft_assert(!float_equals(0, 1));
+	_ft_assert(!double_equals(0, 1));
 	return (SUCCESS);
 }
 
-int	float_equals_02(void)
+int	double_equals_02(void)
 {
-	_ft_assert(!float_equals(1.001, 1.002));
+	_ft_assert(!double_equals(1.001, 1.002));
 	return (SUCCESS);
 }
 
-int	float_equals_03(void)
+int	double_equals_03(void)
 {
-	_ft_assert(float_equals(1.00000000000000001, 1.00000000000000002));
+	_ft_assert(double_equals(1.00000000000000001, 1.00000000000000002));
 	return (SUCCESS);
 }
 
@@ -277,7 +277,7 @@ int	vector_magnitude_00(void)
 {
 	t_vector	u = {1, 1, 1, 1};
 
-	_ft_assert(float_equals(vector_magnitude(u), sqrt(3)));
+	_ft_assert(double_equals(vector_magnitude(u), sqrt(3)));
 	return (SUCCESS);
 }
 
@@ -285,7 +285,7 @@ int	vector_magnitude_01(void)
 {
 	t_vector u = {0, 0, 0, 1};
 
-	_ft_assert(float_equals(vector_magnitude(u), 0));
+	_ft_assert(double_equals(vector_magnitude(u), 0));
 	return (SUCCESS);
 }
 
@@ -294,7 +294,7 @@ int	vector_distance_00(void)
 	t_vector	u = {0, 0, 0, 1};
 	t_vector	v = {0, 1, 1, 1};
 
-	_ft_assert(float_equals(vector_distance(u, v), sqrt(2)));
+	_ft_assert(double_equals(vector_distance(u, v), sqrt(2)));
 	return (SUCCESS);
 }
 
@@ -302,7 +302,7 @@ int	vector_distance_01(void)
 {
 	t_vector	u = {1, 0, 2, 1};
 
-	_ft_assert(float_equals(vector_distance(u, u),0));
+	_ft_assert(double_equals(vector_distance(u, u),0));
 	return (SUCCESS);
 }
 
@@ -344,7 +344,7 @@ int	vector_cosine_00(void)
 {
 	t_vector	u = {0, 0, 0, 1};
 
-	_ft_assert(float_equals(vector_cosine(u, u), 0));
+	_ft_assert(double_equals(vector_cosine(u, u), 0));
 	return (SUCCESS);
 }
 
@@ -353,7 +353,7 @@ int	vector_cosine_01(void)
 	t_vector	u = {1, 1, 0, 1};
 	t_vector	v = {0, 1, 0, 1};
 
-	_ft_assert(float_equals(vector_cosine(u, v), .5 * sqrt(2)));
+	_ft_assert(double_equals(vector_cosine(u, v), .5 * sqrt(2)));
 	return (SUCCESS);
 }
 
@@ -362,7 +362,7 @@ int	vector_scalar_projection_00(void)
 	t_vector	u = {1, 3, 1, 1};
 	t_vector	v = {0, .5, 0, 1};
 
-	_ft_assert(float_equals(vector_scalar_projection(u, v), 3));
+	_ft_assert(double_equals(vector_scalar_projection(u, v), 3));
 	return (SUCCESS);
 }
 
@@ -371,7 +371,7 @@ int	vector_scalar_projection_01(void)
 	t_vector	u = {1, 3, 1, 1};
 	t_vector	v = {0, .5, 0, 1};
 
-	_ft_assert(float_equals(vector_scalar_projection(v, u), 0.452267016866645));
+	_ft_assert(double_equals(vector_scalar_projection(v, u), 0.452267016866645));
 	return (SUCCESS);
 }
 
@@ -554,7 +554,7 @@ int	matrix_determinant_00(void)
 {
 	t_matrix	m = {{{3, .7, 7, 1}, {12, .1, 1, 1}, {3, 3, -4, 1}, {0, 0, 0, 1}}};
 
-	_ft_assert(float_equals(matrix_determinant(m), 275.4));
+	_ft_assert(double_equals(matrix_determinant(m), 275.4));
 	return (SUCCESS);
 }
 
@@ -562,7 +562,7 @@ int	matrix_determinant_01(void)
 {
 	t_matrix	m = {{{0, 0, 0, 0}, {12, .1, 1, 1}, {3, 3, -4, 1}, {2, 2, 2, 2}}};
 
-	_ft_assert(float_equals(matrix_determinant(m), 0));
+	_ft_assert(double_equals(matrix_determinant(m), 0));
 	return (SUCCESS);
 }
 
@@ -570,7 +570,7 @@ int	matrix_determinant_02(void)
 {
 	t_matrix	m = {{{0, 3, 4, 1}, {0, .1, 1, 2}, {0, 3, -4, 1}, {0, 0, 0, 1}}};
 
-	_ft_assert(float_equals(matrix_determinant(m), 0));
+	_ft_assert(double_equals(matrix_determinant(m), 0));
 	return (SUCCESS);
 }
 
@@ -578,7 +578,7 @@ int	matrix_determinant_03(void)
 {
 	t_matrix	m = {{{1, 0, 3, 1}, {0, .1, 1, 1}, {-3, -3, 0, 1}, {0, 0, 0, 1}}};
 
-	_ft_assert(float_equals(matrix_determinant(m), 3.9));
+	_ft_assert(double_equals(matrix_determinant(m), 3.9));
 	return (SUCCESS);
 }
 
@@ -622,143 +622,142 @@ int	matrix_inverse_01(void)
 {
 	t_matrix	m = {{{2.64861, 1.36944, -.04452, 1}, {2.65069, 1.36527, -.03453, 1}, {.00208, -.00416, -.00001, 1}, {0, 0, 0, 1}}};
 
-	matrix_print(matrix_product(matrix_inverse(m), m));
 	_ft_assert(matrix_equals(matrix_product(matrix_inverse(m), m), matrix_identity()));
 	return (SUCCESS);
 }
 
 int	matrix_inverse_02(void)
 {
-	t_matrix	m = {{{0, 1, -.04}, {2.6, 1.3, 0}, {.002, 0, -.2}}};
+	t_matrix	m = {{{0, 1, -.04, 1}, {2.6, 1.3, 0, 1}, {.002, 0, -.2, 1}, {0, 0, 0, 1}}};
 	t_matrix	n = {{{-.49990, .38454, .09998, .01538}, {.99980, .00015, -.19996, -.79999}, {-.004999, .00385, -4.999, 5.00015}, {0, 0, 0, 1}}};
 
 	_ft_assert(matrix_equals(matrix_inverse(m), n));
 	return (SUCCESS);
 }
 
-/*int	quadratic_roots_00(void)*/
-/*{*/
-/*	t_roots	xs;*/
-/**/
-/*	xs = quadratic_roots(0, 2, 2);*/
-/*	_ft_assert(xs.count == 0);*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	quadratic_roots_01(void)*/
-/*{*/
-/*	t_roots	xs;*/
-/**/
-/*	xs = quadratic_roots(4.5, 3, 7);*/
-/*	_ft_assert(xs.count == 0);*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	quadratic_roots_02(void)*/
-/*{*/
-/*	t_roots	xs;*/
-/**/
-/*	xs = quadratic_roots(4.5, 3, 0);*/
-/*	_ft_assert(xs.count == 2 && float_equals(xs.x1, -.66666) && float_equals(xs.x2, 0));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	quadratic_roots_03(void)*/
-/*{*/
-/*	t_roots	xs;*/
-/**/
-/*	xs = quadratic_roots(4.5, 10, 2);*/
-/*	_ft_assert(xs.count == 2 && float_equals(xs.x1, -2) && float_equals(xs.x2, -.22222));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	quadratic_roots_04(void)*/
-/*{*/
-/*	t_roots	xs;*/
-/**/
-/*	xs = quadratic_roots(1, 0, 0);*/
-/*	_ft_assert(xs.count == 1 && float_equals(xs.x1, 0) && float_equals(xs.x2, 0));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	ray_position_00(void)*/
-/*{*/
-/*	t_ray	ray = {{2, 3, 4}, {1, 0, 0}};*/
-/**/
-/*	_ft_assert(vector_equals(ray_position(ray, 0), ray.origin));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	ray_position_01(void)*/
-/*{*/
-/*	t_ray	ray = {{2, 3, 4}, {1, 0, 0}};*/
-/**/
-/*	_ft_assert(vector_equals(ray_position(ray, 1), (t_vector){3, 3, 4}));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	ray_position_02(void)*/
-/*{*/
-/*	t_ray	ray = {{2, 3, 4}, {1, 0, 0}};*/
-/**/
-/*	_ft_assert(vector_equals(ray_position(ray, 2.5), (t_vector){4.5, 3, 4}));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	ray_sphere_intersect_00(void)*/
-/*{*/
-/*	t_ray		ray = {{0, 0, -5}, {0, 0, 1}};*/
-/*	t_sphere	sphere = {{0, 0, 0}, 1};*/
-/*	t_roots		xs;*/
-/**/
-/*	xs = ray_sphere_intersect(ray, sphere);*/
-/*	_ft_assert(xs.count == 2 && float_equals(xs.x1, 4) && float_equals(xs.x2, 6));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	ray_sphere_intersect_01(void)*/
-/*{*/
-/*	t_ray		ray = {{0, 1, -5}, {0, 0, 1}};*/
-/*	t_sphere	sphere = {{0, 0, 0}, 1};*/
-/*	t_roots		xs;*/
-/**/
-/*	xs = ray_sphere_intersect(ray, sphere);*/
-/*	_ft_assert(xs.count == 1 && float_equals(xs.x1, 5) && float_equals(xs.x2, 5));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	ray_sphere_intersect_02(void)*/
-/*{*/
-/*	t_ray		ray = {{0, 2, -5}, {0, 0, 1}};*/
-/*	t_sphere	sphere = {{0, 0, 0}, 1};*/
-/*	t_roots		xs;*/
-/**/
-/*	xs = ray_sphere_intersect(ray, sphere);*/
-/*	_ft_assert(xs.count == 0);*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	ray_sphere_intersect_03(void)*/
-/*{*/
-/*	t_ray		ray = {{0, 0, 0}, {0, 0, 1}};*/
-/*	t_sphere	sphere = {{0, 0, 0}, 1};*/
-/*	t_roots		xs;*/
-/**/
-/*	xs = ray_sphere_intersect(ray, sphere);*/
-/*	_ft_assert(xs.count == 2 && float_equals(xs.x1, -1) && float_equals(xs.x2, 1));*/
-/*	return (SUCCESS);*/
-/*}*/
-/**/
-/*int	ray_sphere_intersect_04(void)*/
-/*{*/
-/*	t_ray		ray = {{0, 0, 5}, {0, 0, 1}};*/
-/*	t_sphere	sphere = {{0, 0, 0}, 1};*/
-/*	t_roots		xs;*/
-/**/
-/*	xs = ray_sphere_intersect(ray, sphere);*/
-/*	_ft_assert(xs.count == 2 && float_equals(xs.x1, -6) && float_equals(xs.x2, -4));*/
-/*	return (SUCCESS);*/
-/*}*/
+int	quadratic_roots_00(void)
+{
+	t_roots	xs;
+
+	xs = quadratic_roots(0, 2, 2);
+	_ft_assert(xs.count == 0);
+	return (SUCCESS);
+}
+
+int	quadratic_roots_01(void)
+{
+	t_roots	xs;
+
+	xs = quadratic_roots(4.5, 3, 7);
+	_ft_assert(xs.count == 0);
+	return (SUCCESS);
+}
+
+int	quadratic_roots_02(void)
+{
+	t_roots	xs;
+
+	xs = quadratic_roots(4.5, 3, 0);
+	_ft_assert(xs.count == 2 && double_equals(xs.x1, -.66666) && double_equals(xs.x2, 0));
+	return (SUCCESS);
+}
+
+int	quadratic_roots_03(void)
+{
+	t_roots	xs;
+
+	xs = quadratic_roots(4.5, 10, 2);
+	_ft_assert(xs.count == 2 && double_equals(xs.x1, -2) && double_equals(xs.x2, -.22222));
+	return (SUCCESS);
+}
+
+int	quadratic_roots_04(void)
+{
+	t_roots	xs;
+
+	xs = quadratic_roots(1, 0, 0);
+	_ft_assert(xs.count == 1 && double_equals(xs.x1, 0) && double_equals(xs.x2, 0));
+	return (SUCCESS);
+}
+
+int	ray_position_00(void)
+{
+	t_ray	ray = {{2, 3, 4, 1}, {1, 0, 0, 1}};
+
+	_ft_assert(vector_equals(ray_position(ray, 0), ray.origin));
+	return (SUCCESS);
+}
+
+int	ray_position_01(void)
+{
+	t_ray	ray = {{2, 3, 4, 1}, {1, 0, 0, 1}};
+
+	_ft_assert(vector_equals(ray_position(ray, 1), (t_vector){3, 3, 4, 1}));
+	return (SUCCESS);
+}
+
+int	ray_position_02(void)
+{
+	t_ray	ray = {{2, 3, 4, 1}, {1, 0, 0, 1}};
+
+	_ft_assert(vector_equals(ray_position(ray, 2.5), (t_vector){4.5, 3, 4, 1}));
+	return (SUCCESS);
+}
+
+int	ray_sphere_intersect_00(void)
+{
+	t_ray		ray = {{0, 0, -5, 1}, {0, 0, 1, 1}};
+	t_sphere	sphere = {{0, 0, 0, 1}, 1};
+	t_roots		xs;
+
+	xs = ray_sphere_intersect(ray, sphere);
+	_ft_assert(xs.count == 2 && double_equals(xs.x1, 4) && double_equals(xs.x2, 6));
+	return (SUCCESS);
+}
+
+int	ray_sphere_intersect_01(void)
+{
+	t_ray		ray = {{0, 1, -5, 1}, {0, 0, 1, 1}};
+	t_sphere	sphere = {{0, 0, 0, 1}, 1};
+	t_roots		xs;
+
+	xs = ray_sphere_intersect(ray, sphere);
+	_ft_assert(xs.count == 1 && double_equals(xs.x1, 5) && double_equals(xs.x2, 5));
+	return (SUCCESS);
+}
+
+int	ray_sphere_intersect_02(void)
+{
+	t_ray		ray = {{0, 2, -5, 1}, {0, 0, 1, 1}};
+	t_sphere	sphere = {{0, 0, 0, 1}, 1};
+	t_roots		xs;
+
+	xs = ray_sphere_intersect(ray, sphere);
+	_ft_assert(xs.count == 0);
+	return (SUCCESS);
+}
+
+int	ray_sphere_intersect_03(void)
+{
+	t_ray		ray = {{0, 0, 0, 1}, {0, 0, 1, 1}};
+	t_sphere	sphere = {{0, 0, 0, 1}, 1};
+	t_roots		xs;
+
+	xs = ray_sphere_intersect(ray, sphere);
+	_ft_assert(xs.count == 2 && double_equals(xs.x1, -1) && double_equals(xs.x2, 1));
+	return (SUCCESS);
+}
+
+int	ray_sphere_intersect_04(void)
+{
+	t_ray		ray = {{0, 0, 5, 1}, {0, 0, 1, 1}};
+	t_sphere	sphere = {{0, 0, 0, 1}, 1};
+	t_roots		xs;
+
+	xs = ray_sphere_intersect(ray, sphere);
+	_ft_assert(xs.count == 2 && double_equals(xs.x1, -6) && double_equals(xs.x2, -4));
+	return (SUCCESS);
+}
 
 int	unit_test_suite(suite tests)
 {
@@ -773,7 +772,7 @@ int	main(void)
 
 	result = 0;
 	result += unit_test_suite(tests_laag);
-	/*result += unit_test_suite(tests_ray);*/
+	result += unit_test_suite(tests_ray);
 	if (result == 0)
 		printf(GREEN"PASSED\n");
 	printf(DFLT"Tests run: %d\n", tests_run);

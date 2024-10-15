@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:37:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/14 13:28:53 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/15 20:36:19 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 // |         w       := scalar part of Q
 // |         {a,b,c} := vector part of Q
 
-float	quaternion_smagnitude(t_quaternion q)
+double	quaternion_smagnitude(t_quaternion q)
 {
 	return (q.w * q.w + q.i * q.i + q.j * q.j + q.k * q.k);
 }
@@ -31,14 +31,14 @@ t_quaternion	quaternion_conjugate(t_quaternion q)
 	return ((t_quaternion){q.w, -q.i, -q.j, -q.k});
 }
 
-t_quaternion	quaternion_scalar_product(float a, t_quaternion q)
+t_quaternion	quaternion_scalar_product(double a, t_quaternion q)
 {
 	return ((t_quaternion){a * q.w, a * q.i, a * q.j, a * q.k});
 }
 
 t_quaternion	quaternion_inverse(t_quaternion q)
 {
-	float	aux;
+	double	aux;
 
 	aux = quaternion_smagnitude(q);
 	if (aux == 0)
@@ -56,7 +56,7 @@ t_quaternion	quaternion_inverse(t_quaternion q)
 // |         qp = (ab) + (uv) = (a*b - u.v) + (a*v + b*v + uxv)
 t_quaternion	quaternion_product(t_quaternion q, t_quaternion p)
 {
-	float			a;
+	double			a;
 	t_vector		u;
 	t_vector		v;
 	t_vector		uv;

@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 17:16:40 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/15 15:50:07 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/15 20:37:08 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_matrix	matrix_nil(void)
 
 	i = 0;
 	while (i < MATRIX_SIZE)
-		((float *)aux.matrix)[i++] = 0;
+		((double *)aux.matrix)[i++] = 0;
 	return (aux);
 }
 
@@ -53,13 +53,13 @@ int	matrix_equals(t_matrix a, t_matrix b)
 	int		i;
 
 	i = 0;
-	while (float_equals(((float *)a.matrix)[i], ((float *)b.matrix)[i]))
+	while (double_equals(((double *)a.matrix)[i], ((double *)b.matrix)[i]))
 		if (++i == MATRIX_SIZE)
 			return (1);
 	return (0);
 }
 
-t_matrix	matrix_scalar_product(float a, t_matrix m)
+t_matrix	matrix_scalar_product(double a, t_matrix m)
 {
 	int			i;
 	t_matrix	aux;
@@ -68,7 +68,7 @@ t_matrix	matrix_scalar_product(float a, t_matrix m)
 	i = 0;
 	while (i < MATRIX_SIZE)
 	{
-		((float *)aux.matrix)[i] *= a;
+		((double *)aux.matrix)[i] *= a;
 		i++;
 	}
 	return (aux);
@@ -114,7 +114,7 @@ t_vector	matrix_vector_product(t_matrix a, t_vector u)
 		j = 0;
 		while (j < MATRIX_LINE_SIZE)
 		{
-			((float *)&aux)[i] += a.matrix[i][j] * ((float *)&u)[j];
+			((double *)&aux)[i] += a.matrix[i][j] * ((double *)&u)[j];
 			j++;
 		}
 		i++;
@@ -171,11 +171,11 @@ static t_submatrix	matrix_sub(t_submatrix a, int row, int col)
 	return (aux);
 }
 
-static float	matrix_det_aux(t_submatrix a)
+static double	matrix_det_aux(t_submatrix a)
 {
 	int		i;
 	int		c;
-	float	det;
+	double	det;
 
 	det = 0;
 	i = 0;
@@ -185,14 +185,14 @@ static float	matrix_det_aux(t_submatrix a)
 	while (i < a.size)
 	{
 		c = -c;
-		if (((float *)a.m.matrix)[i])
-			det += ((float *)a.m.matrix)[i] * c * matrix_det_aux(matrix_sub(a, 0, i));
+		if (((double *)a.m.matrix)[i])
+			det += ((double *)a.m.matrix)[i] * c * matrix_det_aux(matrix_sub(a, 0, i));
 		i++;
 	}
 	return (det);
 }
 
-float	matrix_determinant(t_matrix a)
+double	matrix_determinant(t_matrix a)
 {
 	return (matrix_det_aux((t_submatrix){a, MATRIX_LINE_SIZE}));
 }
@@ -200,14 +200,14 @@ float	matrix_determinant(t_matrix a)
 t_matrix	matrix_cofactor(t_matrix a)
 {
 	t_matrix	aux;
-	float		*cof;
+	double		*cof;
 	int			i;
 
-	cof = (float *)((t_matrix){{{1, -1, 1, -1}, {-1, 1, -1, 1}, {1, -1, 1, -1}, {-1, 1, -1, 1}}}.matrix);
+	cof = (double *)((t_matrix){{{1, -1, 1, -1}, {-1, 1, -1, 1}, {1, -1, 1, -1}, {-1, 1, -1, 1}}}.matrix);
 	i = 0;
 	while (i < MATRIX_SIZE)
 	{
-		((float *)aux.matrix)[i] = cof[i] * ((float *)a.matrix)[i];
+		((double *)aux.matrix)[i] = cof[i] * ((double *)a.matrix)[i];
 		i++;
 	}
 	return (aux);
@@ -245,10 +245,10 @@ t_matrix	matrix_adjoint(t_matrix a)
 
 t_matrix	matrix_inverse(t_matrix a)
 {
-	float	det;
+	double	det;
 
 	det = matrix_determinant(a);
-	if (float_equals(det, 0))
+	if (double_equals(det, 0))
 		return ((t_matrix){{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}});
 	return (matrix_scalar_product(1 / det, matrix_adjoint(a)));
 }

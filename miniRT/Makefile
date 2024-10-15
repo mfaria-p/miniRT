@@ -1,7 +1,7 @@
 NAME = miniRT
 
 SRCDIR = srcs
-SRCS = test.c vector.c quaternion.c matrix.c #ray.c light.c
+SRCS = main.c vector.c quaternion.c matrix.c ray.c light.c
 HDRS = laag.h minirt.h
 
 OBJDIR = objs

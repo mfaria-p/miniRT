@@ -6,13 +6,13 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:32:51 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/15 12:18:22 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/15 20:37:10 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "laag.h"
 
-int	float_equals(float x, float y)
+int	double_equals(double x, double y)
 {
 	return (fabs(x - y) < EPSILON);
 }
@@ -24,10 +24,10 @@ t_vector	vector_nil(void)
 
 int	vector_equals(t_vector u, t_vector v)
 {
-	return (float_equals(u.x, v.x) && float_equals(u.y, v.y) && float_equals(u.z, v.z));
+	return (double_equals(u.x, v.x) && double_equals(u.y, v.y) && double_equals(u.z, v.z));
 }
 
-t_vector	vector_scalar_product(float a, t_vector u)
+t_vector	vector_scalar_product(double a, t_vector u)
 {
 	return ((t_vector){a * u.x, a * u.y, a * u.z, 1});
 }
@@ -42,17 +42,17 @@ t_vector	vector_subtract(t_vector u, t_vector v)
 	return (vector_add(u, vector_scalar_product(-1, v)));
 }
 
-float	vector_dot_product(t_vector u, t_vector v)
+double	vector_dot_product(t_vector u, t_vector v)
 {
 	return (u.x * v.x + u.y * v.y + u.z * v.z);
 }
 
-float	vector_magnitude(t_vector u)
+double	vector_magnitude(t_vector u)
 {
 	return (sqrtf(vector_dot_product(u, u)));
 }
 
-float	vector_distance(t_vector u, t_vector v)
+double	vector_distance(t_vector u, t_vector v)
 {
 	return (vector_magnitude(vector_subtract(u, v)));
 }
@@ -69,13 +69,13 @@ t_vector	vector_cross_product(t_vector u, t_vector v)
 	return ((t_vector){u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x, 1});
 }
 
-float	vector_cosine(t_vector u, t_vector v)
+double	vector_cosine(t_vector u, t_vector v)
 {
 	return (vector_dot_product(vector_normalize(u), vector_normalize(v)));
 }
 
 // project u onto v
-float	vector_scalar_projection(t_vector u, t_vector v)
+double	vector_scalar_projection(t_vector u, t_vector v)
 {
 	return (vector_dot_product(u, vector_normalize(v)));
 }
@@ -119,9 +119,9 @@ t_vector	vector_plane_projection(t_vector u, t_vector n)
 // |             q^(-1) := inverse of q
 //
 // rotate u rad degrees [radians] around axis ax
-t_vector	vector_rotate(t_vector u, t_vector ax, float rad)
+t_vector	vector_rotate(t_vector u, t_vector ax, double rad)
 {
-	float			aux;
+	double			aux;
 	t_quaternion	p;
 	t_quaternion	q;
 

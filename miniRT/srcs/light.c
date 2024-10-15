@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:03:16 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/08/09 18:27:00 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/15 20:25:41 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_vector	vector_reflect(t_vector in, t_vector normal)
 
 t_vector	color_blend(t_vector c1, t_vector c2)
 {
-	return ((t_vector){c1.x * c2.x, c1.y * c2.y, c1.z * c2.z});
+	return ((t_vector){c1.x * c2.x, c1.y * c2.y, c1.z * c2.z, 1});
 }
 
 t_vector	lighting(t_material material, t_light_source light, t_vector point, t_vector eyev, t_vector normal)
@@ -43,8 +43,8 @@ t_vector	lighting(t_material material, t_light_source light, t_vector point, t_v
 	cos_light_normal = vector_dot_product(lightv, normal);
 	if (cos_light_normal < 0)
 	{
-		diffuse = (t_vector){0, 0, 0};
-		specular = (t_vector){0, 0, 0};
+		diffuse = (t_vector){0, 0, 0, 1};
+		specular = (t_vector){0, 0, 0, 1};
 	}
 	else
 	{
@@ -52,12 +52,12 @@ t_vector	lighting(t_material material, t_light_source light, t_vector point, t_v
 		reflectv = vector_reflect(vector_scalar_product(-1, lightv), normal);
 		cos_reflect_eye = vector_dot_product(reflectv, eyev);
 		if (cos_reflect_eye <= 0)
-			specular = (t_vector){0, 0, 0};
+			specular = (t_vector){0, 0, 0, 1};
 		else
 		{
 			factor = pow(cos_reflect_eye, material.shine);
 			specular_aux = light.intensity * material.specular * factor;
-			specular = (t_vector){specular_aux, specular_aux, specular_aux};
+			specular = (t_vector){specular_aux, specular_aux, specular_aux, 1};
 		}
 	}
 	return (vector_add(vector_add(ambient, diffuse), specular));
