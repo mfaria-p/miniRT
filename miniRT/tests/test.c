@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/15 20:44:52 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/15 23:42:54 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -707,7 +707,8 @@ int	ray_position_02(void)
 int	ray_sphere_intersect_00(void)
 {
 	t_ray		ray = {{0, 0, -5, 1}, {0, 0, 1, 1}};
-	t_sphere	sphere = {{0, 0, 0, 1}, 1};
+	t_sphere	shape = {{0, 0, 0, 1}, 1};
+	t_object	sphere = {SPHERE, &shape, {{0, 0, 0, 1}, 0, 0, 0, 0}, matrix_identity()};
 	t_roots		xs;
 
 	xs = ray_sphere_intersect(ray, sphere);
@@ -718,7 +719,8 @@ int	ray_sphere_intersect_00(void)
 int	ray_sphere_intersect_01(void)
 {
 	t_ray		ray = {{0, 1, -5, 1}, {0, 0, 1, 1}};
-	t_sphere	sphere = {{0, 0, 0, 1}, 1};
+	t_sphere	shape = {{0, 0, 0, 1}, 1};
+	t_object	sphere = {SPHERE, &shape, {{0, 0, 0, 1}, 0, 0, 0, 0}, matrix_identity()};
 	t_roots		xs;
 
 	xs = ray_sphere_intersect(ray, sphere);
@@ -729,7 +731,8 @@ int	ray_sphere_intersect_01(void)
 int	ray_sphere_intersect_02(void)
 {
 	t_ray		ray = {{0, 2, -5, 1}, {0, 0, 1, 1}};
-	t_sphere	sphere = {{0, 0, 0, 1}, 1};
+	t_sphere	shape = {{0, 0, 0, 1}, 1};
+	t_object	sphere = {SPHERE, &shape, {{0, 0, 0, 1}, 0, 0, 0, 0}, matrix_identity()};
 	t_roots		xs;
 
 	xs = ray_sphere_intersect(ray, sphere);
@@ -740,7 +743,8 @@ int	ray_sphere_intersect_02(void)
 int	ray_sphere_intersect_03(void)
 {
 	t_ray		ray = {{0, 0, 0, 1}, {0, 0, 1, 1}};
-	t_sphere	sphere = {{0, 0, 0, 1}, 1};
+	t_sphere	shape = {{0, 0, 0, 1}, 1};
+	t_object	sphere = {SPHERE, &shape, {{0, 0, 0, 1}, 0, 0, 0, 0}, matrix_identity()};
 	t_roots		xs;
 
 	xs = ray_sphere_intersect(ray, sphere);
@@ -751,7 +755,8 @@ int	ray_sphere_intersect_03(void)
 int	ray_sphere_intersect_04(void)
 {
 	t_ray		ray = {{0, 0, 5, 1}, {0, 0, 1, 1}};
-	t_sphere	sphere = {{0, 0, 0, 1}, 1};
+	t_sphere	shape = {{0, 0, 0, 1}, 1};
+	t_object	sphere = {SPHERE, &shape, {{0, 0, 0, 1}, 0, 0, 0, 0}, matrix_identity()};
 	t_roots		xs;
 
 	xs = ray_sphere_intersect(ray, sphere);
