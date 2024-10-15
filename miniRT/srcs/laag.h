@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/15 14:24:46 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:14:21 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,9 @@ t_matrix		matrix_product(t_matrix a, t_matrix b);
 t_vector		matrix_vector_product(t_matrix a, t_vector u);
 t_matrix		matrix_transpose(t_matrix a);
 float			matrix_determinant(t_matrix a);
-/*t_matrix		matrix_adjoint(t_matrix a);*/
-/*t_matrix		matrix_inverse(t_matrix a);*/
+t_matrix		matrix_cofactor(t_matrix a);
+t_matrix		matrix_minor(t_matrix a);
+t_matrix		matrix_adjoint(t_matrix a);
+t_matrix		matrix_inverse(t_matrix a);
 
 #endif
