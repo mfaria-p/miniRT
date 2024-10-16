@@ -48,6 +48,9 @@ prof:
 	./$(NAME)
 	gprof $(NAME) > prof
 
+test:
+	@make -s -C tests re test
+
 clean:
 	rm -rf $(OBJS) miniRT.o
 	make -C $(LIBFT_DIR) clean
@@ -58,4 +61,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re prof
+.PHONY: all clean fclean re prof test
