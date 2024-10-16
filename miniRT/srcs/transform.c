@@ -6,15 +6,15 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 20:51:14 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/16 11:27:34 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:50:53 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_matrix	matrix_tranlate(float x, float y, float z)
+t_matrix	matrix_translate(float x, float y, float z)
 {
-	return ((t_matrix){{{0, 0, 0, x}, {0, 0, 0, y}, {0, 0, 0, z}, {0, 0, 0, 1}}});
+	return ((t_matrix){{{1, 0, 0, x}, {0, 1, 0, y}, {0, 0, 1, z}, {0, 0, 0, 1}}});
 }
 
 t_matrix	matrix_scale(float x, float y, float z)

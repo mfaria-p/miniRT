@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/15 23:10:28 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:44:43 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,61 +19,61 @@
 
 int	color_rgb(t_vector color);
 
-// int	main(void) { return (0); }
+int	main(void) { return (0); }
 
-int	main(void)
-{
-	void		*mlx_ptr;
-	void		*mlx_win;
-	t_img		img;
-
-	ft_memset(&img, 0, sizeof(img));
-	mlx_ptr = mlx_init();
-	// mlx_get_screen_size(mlx_ptr, &w, &h);
-	mlx_win = mlx_new_window(mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL, "Hello World!");
-	img.img = mlx_new_image(mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL);
-	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
-
-	float			pixel_size = (float)WALL_SIZE / CANVAS_PIXEL;
-	float			half = (float)WALL_SIZE / 2;
-	t_sphere		shape = {{0, 0, 0, 1}, 1};
-	t_object		sphere = {SPHERE, &shape, {{53./255, 33./255, 0, 1}, .5, 1, 1, 10}};
-	t_light_source	light = {{-10, 10, -10, 1}, 1};
-	float			world_y;
-	float			world_x;
-	t_vector		position;
-	t_ray			ray;
-	t_roots			xs;
-	t_vector		point;
-	t_vector		normal;
-	t_vector		eyev;
-
-	ray.origin = (t_vector){0, 0, -5, 1};
-	for (int y = 0; y < CANVAS_PIXEL; y++)
-	{
-		world_y = half - pixel_size * y;
-		for (int x = 0; x < CANVAS_PIXEL; x++)
-		{
-			world_x = -half + pixel_size * x;
-			position = (t_vector){world_x, world_y, WALL_Z, 1};
-			ray.direction = vector_normalize(vector_subtract(position, ray.origin));
-			xs = ray_sphere_intersect(ray, *(t_sphere  *)sphere.shape);
-			if (xs.count > 0)
-			{
-				float	minx = (xs.x1 < xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2;
-				point = ray_position(ray, minx);
-				normal = vector_normalize(vector_subtract(point, (*(t_sphere *)sphere.shape).origin));
-				eyev = vector_scalar_product(-1, ray.direction);
-				t_vector	color = lighting(sphere.material, light, point, eyev, normal);
-				my_mlx_pixel_put(&img, x, y, color_rgb(color));
-			}
-		}
-	}
-
-	mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx_ptr);
-	return (0);
-}
+/*int	main(void)*/
+/*{*/
+/*	void		*mlx_ptr;*/
+/*	void		*mlx_win;*/
+/*	t_img		img;*/
+/**/
+/*	ft_memset(&img, 0, sizeof(img));*/
+/*	mlx_ptr = mlx_init();*/
+/*	// mlx_get_screen_size(mlx_ptr, &w, &h);*/
+/*	mlx_win = mlx_new_window(mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL, "Hello World!");*/
+/*	img.img = mlx_new_image(mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL);*/
+/*	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);*/
+/**/
+/*	float			pixel_size = (float)WALL_SIZE / CANVAS_PIXEL;*/
+/*	float			half = (float)WALL_SIZE / 2;*/
+/*	t_sphere		shape = {{0, 0, 0, 1}, 1};*/
+/*	t_object		sphere = {SPHERE, &shape, {{53./255, 33./255, 0, 1}, .5, 1, 1, 10}};*/
+/*	t_light_source	light = {{-10, 10, -10, 1}, 1};*/
+/*	float			world_y;*/
+/*	float			world_x;*/
+/*	t_vector		position;*/
+/*	t_ray			ray;*/
+/*	t_roots			xs;*/
+/*	t_vector		point;*/
+/*	t_vector		normal;*/
+/*	t_vector		eyev;*/
+/**/
+/*	ray.origin = (t_vector){0, 0, -5, 1};*/
+/*	for (int y = 0; y < CANVAS_PIXEL; y++)*/
+/*	{*/
+/*		world_y = half - pixel_size * y;*/
+/*		for (int x = 0; x < CANVAS_PIXEL; x++)*/
+/*		{*/
+/*			world_x = -half + pixel_size * x;*/
+/*			position = (t_vector){world_x, world_y, WALL_Z, 1};*/
+/*			ray.direction = vector_normalize(vector_subtract(position, ray.origin));*/
+/*			xs = ray_sphere_intersect(ray, *(t_sphere  *)sphere.shape);*/
+/*			if (xs.count > 0)*/
+/*			{*/
+/*				float	minx = (xs.x1 < xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2;*/
+/*				point = ray_position(ray, minx);*/
+/*				normal = vector_normalize(vector_subtract(point, (*(t_sphere *)sphere.shape).origin));*/
+/*				eyev = vector_scalar_product(-1, ray.direction);*/
+/*				t_vector	color = lighting(sphere.material, light, point, eyev, normal);*/
+/*				my_mlx_pixel_put(&img, x, y, color_rgb(color));*/
+/*			}*/
+/*		}*/
+/*	}*/
+/**/
+/*	mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);*/
+/*	mlx_loop(mlx_ptr);*/
+/*	return (0);*/
+/*}*/
 
 t_proj	tick(t_env env, t_proj proj)
 {

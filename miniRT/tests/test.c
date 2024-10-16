@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/15 23:42:54 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:51:55 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,17 @@ int	ray_sphere_intersect_01(void);
 int	ray_sphere_intersect_02(void);
 int	ray_sphere_intersect_03(void);
 int	ray_sphere_intersect_04(void);
+int	matrix_translate_00(void);
+int	matrix_translate_01(void);
+int	matrix_scale_00(void);
+int	matrix_scale_01(void);
+int	matrix_scale_02(void);
+int	matrix_shear_00(void);
+int	matrix_shear_01(void);
+int	matrix_shear_02(void);
+int	matrix_rotate_00(void);
+int	matrix_rotate_01(void);
+int	matrix_rotate_02(void);
 
 int	tests_run = 0;
 suite	tests_laag = {
@@ -110,6 +121,10 @@ suite	tests_laag = {
 					matrix_minor_00,
 					matrix_adjoint_00,
 					matrix_inverse_00, matrix_inverse_01, matrix_inverse_02,
+					matrix_translate_00, matrix_translate_01,
+					matrix_scale_00, matrix_scale_01, matrix_scale_02,
+					matrix_shear_00, matrix_shear_01, matrix_shear_02,
+					matrix_rotate_00, matrix_rotate_01, matrix_rotate_02,
 					NULL
 				};
 
@@ -761,6 +776,110 @@ int	ray_sphere_intersect_04(void)
 
 	xs = ray_sphere_intersect(ray, sphere);
 	_ft_assert(xs.count == 2 && double_equals(xs.x1, -6) && double_equals(xs.x2, -4));
+	return (SUCCESS);
+}
+
+int	matrix_translate_00(void)
+{
+	t_matrix	shift = matrix_translate(0, 0, 0);
+	t_vector	point = (t_vector){1, 1, 1, 1};
+
+	_ft_assert(vector_equals(matrix_vector_product(shift, point), point));
+	return (SUCCESS);
+}
+
+int	matrix_translate_01(void)
+{
+	t_matrix	shift = matrix_translate(1, 2, 3);
+	t_vector	point = (t_vector){1, 1, 1, 1};
+	t_vector	dest = (t_vector){2, 3, 4, 1};
+
+	_ft_assert(vector_equals(matrix_vector_product(shift, point), dest));
+	return (SUCCESS);
+}
+
+int	matrix_scale_00(void)
+{
+	t_matrix	stretch = matrix_scale(0, 0, 0);
+	t_vector	point = (t_vector){1, 1, 1, 1};
+	t_vector	dest = (t_vector){0, 0, 0, 1};
+
+	_ft_assert(vector_equals(matrix_vector_product(stretch, point), dest));
+	return (SUCCESS);
+}
+
+int	matrix_scale_01(void)
+{
+	t_matrix	stretch = matrix_scale(1, 1, 1);
+	t_vector	point = (t_vector){1, 1, 1, 1};
+
+	_ft_assert(vector_equals(matrix_vector_product(stretch, point), point));
+	return (SUCCESS);
+}
+
+int	matrix_scale_02(void)
+{
+	t_matrix	stretch = matrix_scale(2, .5, 6);
+	t_vector	point = (t_vector){5, 2, 2, 1};
+	t_vector	dest = (t_vector){10, 1, 12, 1};
+
+	_ft_assert(vector_equals(matrix_vector_product(stretch, point), dest));
+	return (SUCCESS);
+}
+
+int	matrix_shear_00(void)
+{
+	t_matrix	shear = matrix_shear((float [2]){0,0}, NULL, NULL);
+	t_vector	point = (t_vector){0, 0, 0, 1};
+
+	_ft_assert(vector_equals(matrix_vector_product(shear, point), point));
+	return (SUCCESS);
+}
+
+int	matrix_shear_01(void)
+{
+	t_matrix	shear = matrix_shear((float [2]){0,0}, NULL, NULL);
+	t_vector	point = (t_vector){0, 0, 0, 1};
+
+	_ft_assert(vector_equals(matrix_vector_product(shear, point), point));
+	return (SUCCESS);
+}
+
+int	matrix_shear_02(void)
+{
+	t_matrix	shear = matrix_shear((float [2]){0,0}, NULL, NULL);
+	t_vector	point = (t_vector){0, 0, 0, 1};
+
+	_ft_assert(vector_equals(matrix_vector_product(shear, point), point));
+	return (SUCCESS);
+}
+
+int	matrix_rotate_00(void)
+{
+	t_matrix	rotate = matrix_rotate(M_PI, 0, 0);
+	t_vector	point = (t_vector){1, 0, 0, 1};
+
+	_ft_assert(vector_equals(matrix_vector_product(rotate, point), point));
+	return (SUCCESS);
+}
+
+int	matrix_rotate_01(void)
+{
+	t_matrix	rotate = matrix_rotate(M_PI, 0, 0);
+	t_vector	point = (t_vector){0, 1, 0, 1};
+	t_vector	dest = (t_vector){0, -1, 0, 1};
+
+	_ft_assert(vector_equals(matrix_vector_product(rotate, point), dest));
+	return (SUCCESS);
+}
+
+int	matrix_rotate_02(void)
+{
+	t_matrix	rotate = matrix_rotate(M_PI, 0, 0);
+	t_vector	point = (t_vector){0, 1, 1, 1};
+	t_vector	dest = (t_vector){0, -1, -1, 1};
+
+	_ft_assert(vector_equals(matrix_vector_product(rotate, point), dest));
 	return (SUCCESS);
 }
 

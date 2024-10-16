@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/15 20:36:55 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:41:11 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,12 @@ t_matrix		matrix_cofactor(t_matrix a);
 t_matrix		matrix_minor(t_matrix a);
 t_matrix		matrix_adjoint(t_matrix a);
 t_matrix		matrix_inverse(t_matrix a);
+
+/* ************************************************************************** */
+// transform.c
+t_matrix	matrix_translate(float x, float y, float z);
+t_matrix	matrix_scale(float x, float y, float z);
+t_matrix	matrix_shear(float x[2], float y[2], float z[2]);
+t_matrix	matrix_rotate(float x, float y, float z);
 
 #endif
