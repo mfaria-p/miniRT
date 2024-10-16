@@ -8,7 +8,7 @@ OBJDIR = objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+RTFLAGS = -Wall -Wextra -Werror -g
 
 LIBMLX_DIR = minilibx-linux
 LIBMLX = $(LIBMLX_DIR)/libmlx.a
@@ -24,7 +24,7 @@ INCLUDES = -I$(LIBFT_DIR) -I$(LIBMLX_DIR)
 all: $(NAME)
 
 $(NAME): $(addsuffix .o, $(NAME)) $(addprefix $(SRCDIR)/, $(SRCS)) $(addprefix $(SRCDIR)/, $(HDRS)) $(LIBFT) $(LIBMLX)
-	$(CC) -o $@ $(CFLAGS) $< $(INCLUDES) $(LDFLAGS) $(LDLIBS)
+	$(CC) -o $@ $(RTFLAGS) $< $(INCLUDES) $(LDFLAGS) $(LDLIBS)
 
 $(addsuffix .o, $(NAME)): $(OBJS)
 	ld -r $^ -o $@
@@ -38,10 +38,15 @@ $(LIBMLX):
 	@make -C $(LIBMLX_DIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
-	$(CC) -o $@ $(CFLAGS) -c $< $(INCLUDES)
+	$(CC) -o $@ $(RTFLAGS) -c $< $(INCLUDES)
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
+
+prof:
+	@make RTFLAGS="$(RTFLAGS) -pg" re
+	./$(NAME)
+	gprof $(NAME) > prof
 
 clean:
 	rm -rf $(OBJS) miniRT.o
@@ -49,8 +54,8 @@ clean:
 	make -C $(LIBMLX_DIR) clean
 
 fclean: clean
-	rm -rf $(NAME) $(LIBFT) $(LIBMLX) $(OBJDIR)
+	rm -rf $(NAME) $(LIBFT) $(LIBMLX) $(OBJDIR) prof
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re prof
