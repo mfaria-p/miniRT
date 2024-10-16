@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/15 23:30:13 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/16 11:54:25 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,13 @@ int	main(void)
 
 	ray.origin = (t_vector){0, 0, -5, 1};
 	float angle = 0;
-	sphere.transformation = matrix_product(matrix_rotate(.01, 0, 0), sphere.transformation);
+	/*float xsh[2] = {.2, 0};*/
+	/*sphere.transformation = matrix_product(matrix_shear(xsh, NULL, NULL), sphere.transformation);*/
+	/*sphere.transformation = matrix_product(matrix_scale(.1, 1, 1), sphere.transformation);*/
 	while (angle <= 2 * M_PI)
 	{
+		light.origin = matrix_vector_product(matrix_rotate(0, angle, 0), light.origin);
 		mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
-		// sphere.transformation = matrix_scale(.7, 1, .3);
 		for (int y = 0; y < CANVAS_PIXEL; y++)
 		{
 			world_y = half - pixel_size * y;
@@ -67,21 +69,25 @@ int	main(void)
 					float	minx = (xs.x1 < xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2;
 					point = ray_position(ray, minx);
 					normal = vector_normalize(vector_subtract(point, (*(t_sphere *)sphere.shape).origin));
-					normal = vector_normalize(matrix_vector_product(matrix_transpose(matrix_inverse(sphere.transformation)), normal));
+					/*normal = vector_normalize(matrix_vector_product(matrix_transpose(matrix_inverse(sphere.transformation)), normal));*/
 					eyev = vector_scalar_product(-1, ray.direction);
 					t_vector	color = lighting(sphere.material, light, point, eyev, normal);
 					my_mlx_pixel_put(&img, x, y, color_rgb(color));
 				}
 			}
 		}
-		angle += M_PI/6;
-		if (angle > 2 * M_PI)
-			angle = 0;
+		angle += .6;
+		/*if (angle > 2 * M_PI)*/
+		/*	angle = 0;*/
 		mlx_clear_window(mlx_ptr, mlx_win);
 	}
 
 	mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx_ptr);
+	/*mlx_loop(mlx_ptr);*/
+	mlx_clear_window(mlx_ptr, mlx_win);
+	mlx_destroy_image(mlx_ptr, img.img);
+	mlx_destroy_window(mlx_ptr, mlx_win);
+	mlx_destroy_display(mlx_ptr);
 	return (0);
 }
 
