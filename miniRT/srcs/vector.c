@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:32:51 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/15 20:37:10 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:51:10 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@ int	double_equals(double x, double y)
 	return (fabs(x - y) < EPSILON);
 }
 
-t_vector	vector_nil(void)
-{
-	return ((t_vector){0, 0, 0, 1});
-}
-
 int	vector_equals(t_vector u, t_vector v)
 {
 	return (double_equals(u.x, v.x) && double_equals(u.y, v.y) && double_equals(u.z, v.z));
@@ -29,12 +24,12 @@ int	vector_equals(t_vector u, t_vector v)
 
 t_vector	vector_scalar_product(double a, t_vector u)
 {
-	return ((t_vector){a * u.x, a * u.y, a * u.z, 1});
+	return ((t_vector){a * u.x, a * u.y, a * u.z});
 }
 
 t_vector	vector_add(t_vector u, t_vector v)
 {
-	return ((t_vector){u.x + v.x, u.y + v.y, u.z + v.z, 1});
+	return ((t_vector){u.x + v.x, u.y + v.y, u.z + v.z});
 }
 
 t_vector	vector_subtract(t_vector u, t_vector v)
@@ -59,14 +54,14 @@ double	vector_distance(t_vector u, t_vector v)
 
 t_vector	vector_normalize(t_vector u)
 {
-	if (vector_equals(u, vector_nil()))
-		return (vector_nil());
+	if (vector_equals(u, (t_vector){0, 0, 0}))
+		return ((t_vector){0, 0, 0});
 	return (vector_scalar_product(1 / vector_magnitude(u), u));
 }
 
 t_vector	vector_cross_product(t_vector u, t_vector v)
 {
-	return ((t_vector){u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x, 1});
+	return ((t_vector){u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x});
 }
 
 double	vector_cosine(t_vector u, t_vector v)
@@ -130,5 +125,5 @@ t_vector	vector_rotate(t_vector u, t_vector ax, double rad)
 	q = (t_quaternion){1 - (aux * aux), ax.x, ax.y, ax.z};
 	p = (t_quaternion){0, u.x, u.y, u.z};
 	p = quaternion_product(quaternion_product(quaternion_inverse(q), p), q);
-	return ((t_vector){p.i, p.j, p.k, 1});
+	return ((t_vector){p.i, p.j, p.k});
 }

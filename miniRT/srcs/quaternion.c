@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:37:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/15 20:36:19 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:18:26 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ t_quaternion	quaternion_product(t_quaternion q, t_quaternion p)
 	t_vector		v;
 	t_vector		uv;
 
-	u = (t_vector){q.i, q.j, q.k, 1};
-	v = (t_vector){p.i, p.j, p.k, 1};
+	u = (t_vector){q.i, q.j, q.k};
+	v = (t_vector){p.i, p.j, p.k};
 	uv = vector_cross_product(u, v);
 	a = (q.w * p.w) - vector_dot_product(u, v);
 	u = vector_scalar_product(p.w, u);

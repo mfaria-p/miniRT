@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/16 12:41:11 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:38:06 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,33 +18,23 @@
 
 // maximum absolute difference where doubles are considered equal
 # define EPSILON 1e-4
-# define MATRIX_SIZE 16
-# define MATRIX_LINE_SIZE 4
+# define MATRIX_SIZE 9
+# define MATRIX_LINE_SIZE 3
 # define VECTOR_SIZE 3
 
 typedef unsigned char	t_uint8;
 
-// homogeneous coordinates (w = 1)
-// allows to represent translation as linear transformation
-// translation will have matrix representation
 typedef struct s_vector
 {
 	double	x;
 	double	y;
 	double	z;
-	double	w;
 }	t_vector;
 
 typedef struct s_matrix
 {
 	double	matrix[MATRIX_LINE_SIZE][MATRIX_LINE_SIZE];
 }	t_matrix;
-
-typedef struct s_submatrix
-{
-	t_matrix	m;
-	int			size;
-}	t_submatrix;
 
 typedef struct s_quaternion
 {
@@ -84,6 +74,8 @@ t_quaternion	quaternion_product(t_quaternion q, t_quaternion p);
 // matrix.c
 t_matrix		matrix_identity(void);
 int				matrix_equals(t_matrix a, t_matrix b);
+t_matrix		matrix_add(t_matrix a, t_matrix b);
+t_matrix		matrix_subtract(t_matrix a, t_matrix b);
 t_matrix		matrix_scalar_product(double a, t_matrix m);
 t_matrix		matrix_product(t_matrix a, t_matrix b);
 t_vector		matrix_vector_product(t_matrix a, t_vector u);
@@ -93,12 +85,5 @@ t_matrix		matrix_cofactor(t_matrix a);
 t_matrix		matrix_minor(t_matrix a);
 t_matrix		matrix_adjoint(t_matrix a);
 t_matrix		matrix_inverse(t_matrix a);
-
-/* ************************************************************************** */
-// transform.c
-t_matrix	matrix_translate(float x, float y, float z);
-t_matrix	matrix_scale(float x, float y, float z);
-t_matrix	matrix_shear(float x[2], float y[2], float z[2]);
-t_matrix	matrix_rotate(float x, float y, float z);
 
 #endif
