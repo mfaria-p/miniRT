@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/17 15:36:58 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/17 22:39:34 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ int	quadratic_roots_04(void);
 int	ray_position_00(void);
 int	ray_position_01(void);
 int	ray_position_02(void);
-int	ray_sphere_intersect_00(void);
-int	ray_sphere_intersect_01(void);
-int	ray_sphere_intersect_02(void);
-int	ray_sphere_intersect_03(void);
-int	ray_sphere_intersect_04(void);
+int	ray_object_intersect_00(void);
+int	ray_object_intersect_01(void);
+int	ray_object_intersect_02(void);
+int	ray_object_intersect_03(void);
+int	ray_object_intersect_04(void);
 
 int	tests_run = 0;
 suite	tests_laag = {
@@ -116,7 +116,7 @@ suite	tests_laag = {
 suite	tests_ray = {
 					quadratic_roots_00, quadratic_roots_01, quadratic_roots_02, quadratic_roots_03, quadratic_roots_04,
 					ray_position_00, ray_position_01, ray_position_02,
-					ray_sphere_intersect_00, ray_sphere_intersect_01, ray_sphere_intersect_02, ray_sphere_intersect_03, ray_sphere_intersect_04,
+					ray_object_intersect_00, ray_object_intersect_01, ray_object_intersect_02, ray_object_intersect_03, ray_object_intersect_04,
 					NULL
 				};
 
@@ -702,62 +702,64 @@ int	ray_position_02(void)
 	return (SUCCESS);
 }
 
-int	ray_sphere_intersect_00(void)
+int	ray_object_intersect_00(void)
 {
 	t_ray		ray = {{0, 0, -5}, {0, 0, 1}};
-	t_sphere	shape = {{0, 0, 0}, 1};
-	t_object	sphere = {SPHERE, &shape, {{0, 0, 0}, 0, 0, 0, 0}, (t_matrix){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}}};
+	t_shape		shape = sphere();
+	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
-	xs = ray_sphere_intersect(ray, sphere);
+	xs = ray_object_intersect(ray, object);
+	printf("%f\n", xs.x1);
+	printf("%f\n", xs.x1);
 	_ft_assert(xs.count == 2 && double_equals(xs.x1, 4) && double_equals(xs.x2, 6));
 	return (SUCCESS);
 }
 
-int	ray_sphere_intersect_01(void)
+int	ray_object_intersect_01(void)
 {
 	t_ray		ray = {{0, 1, -5}, {0, 0, 1}};
-	t_sphere	shape = {{0, 0, 0}, 1};
-	t_object	sphere = {SPHERE, &shape, {{0, 0, 0}, 0, 0, 0, 0}, (t_matrix){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}}};
+	t_shape		shape = sphere();
+	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
-	xs = ray_sphere_intersect(ray, sphere);
+	xs = ray_object_intersect(ray, object);
 	_ft_assert(xs.count == 1 && double_equals(xs.x1, 5) && double_equals(xs.x2, 5));
 	return (SUCCESS);
 }
 
-int	ray_sphere_intersect_02(void)
+int	ray_object_intersect_02(void)
 {
 	t_ray		ray = {{0, 2, -5}, {0, 0, 1}};
-	t_sphere	shape = {{0, 0, 0}, 1};
-	t_object	sphere = {SPHERE, &shape, {{0, 0, 0}, 0, 0, 0, 0}, (t_matrix){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}}};
+	t_shape		shape = sphere();
+	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
-	xs = ray_sphere_intersect(ray, sphere);
+	xs = ray_object_intersect(ray, object);
 	_ft_assert(xs.count == 0);
 	return (SUCCESS);
 }
 
-int	ray_sphere_intersect_03(void)
+int	ray_object_intersect_03(void)
 {
 	t_ray		ray = {{0, 0, 0}, {0, 0, 1}};
-	t_sphere	shape = {{0, 0, 0}, 1};
-	t_object	sphere = {SPHERE, &shape, {{0, 0, 0}, 0, 0, 0, 0}, (t_matrix){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}}};
+	t_shape		shape = sphere();
+	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
-	xs = ray_sphere_intersect(ray, sphere);
+	xs = ray_object_intersect(ray, object);
 	_ft_assert(xs.count == 2 && double_equals(xs.x1, -1) && double_equals(xs.x2, 1));
 	return (SUCCESS);
 }
 
-int	ray_sphere_intersect_04(void)
+int	ray_object_intersect_04(void)
 {
 	t_ray		ray = {{0, 0, 5}, {0, 0, 1}};
-	t_sphere	shape = {{0, 0, 0}, 1};
-	t_object	sphere = {SPHERE, &shape, {{0, 0, 0}, 0, 0, 0, 0}, (t_matrix){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}}};
+	t_shape		shape = sphere();
+	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
-	xs = ray_sphere_intersect(ray, sphere);
+	xs = ray_object_intersect(ray, object);
 	_ft_assert(xs.count == 2 && double_equals(xs.x1, -6) && double_equals(xs.x2, -4));
 	return (SUCCESS);
 }
