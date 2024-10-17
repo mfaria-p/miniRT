@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/16 12:38:00 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/17 21:26:09 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,36 @@ typedef struct s_material
 	float		shine;
 }	t_material;
 
-typedef struct s_sphere
-{
-	t_vector	origin;
-	float		r;
-}	t_sphere;
-
 enum e_shape_type
 {
-	SPHERE
+	SPHERE,
+	CYLINDER,
+	CONE,
 };
 
-// should add a transformation matrix to keep track of transformations
-// will make calculating surface normals easier
+typedef struct s_shape
+{
+	struct	s_parameters
+	{
+		e_shape_type	type;
+		t_vector		coefficients;
+		t_vector		shift;
+		double			constant;
+	}					parameters;
+	double				scale;
+	t_matrix			transform;
+}	t_shape;
+
 typedef struct s_object
 {
-	int			type;
-	void		*shape;
-	t_material	material;
-	t_matrix	transformation;
+	t_shape			shape;
+	t_material		material;
+	t_vector		translation;
+	struct	s_rotation
+	{
+		t_vector	axis;
+		double		angle;
+	}				rotation;
 }	t_object;
 
 // will need a list of intersections
@@ -88,6 +99,10 @@ t_roots		quadratic_roots(float a, float b, float c);
 t_roots		ray_sphere_intersect(t_ray ray, t_object sphere);
 
 /* ************************************************************************** */
+// shape.c
+t_shape		sphere(void);
+t_shape		cylinder(void);
+t_shape		cone(void);
 
 typedef struct s_img
 {

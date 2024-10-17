@@ -6,22 +6,9 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 17:16:40 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/17 15:34:45 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/17 19:53:36 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// THESE FUNCTIOS SUCK:
-// matrix_sub
-// matrix_nil
-// matrix_det_ret
-// matrix_minor
-// matrix_vector_product
-// matrix_cofactor
-//
-// improve:
-// matrix_scalar_product
-// ray_sphere_intersect
-// DO BETTER
 
 #include "laag.h"
 

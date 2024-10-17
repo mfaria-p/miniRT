@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/15 23:22:10 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/17 21:37:05 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,27 @@ t_roots	quadratic_roots(float a, float b, float c)
 	return ((t_roots){2, x1, x2});
 }
 
+static double	sqr(double x)
+{
+	return (x * x);
+}
+
+t_roots	ray_shape_intersect(t_ray ray, t_object object)
+{
+	t_shape		shape;
+	t_vector	aux;
+	double		a;
+	double		b;
+	double		c;
+
+	shape = object.shape;
+	ray.origin = vector_subtract(ray.origin, object.translation);
+	ray.direction = vector_rotate(ray.direction, object.rotation.axis, -object.rotation.angle);
+	// a b c ? check notebook
+	return (quadratic_roots(a, b, c));
+}
+
+// OUTDATED:
 // Ray
 // | ray := {O, D}
 // |   where
@@ -72,20 +93,3 @@ t_roots	quadratic_roots(float a, float b, float c)
 // 
 // working:
 //  S => k = (-b+sqrt(b^2 -4ac))/(2*a) or (-b-sqrt(b^2 -4ac))/(2*a)
-t_roots	ray_sphere_intersect(t_ray ray, t_object sphere)
-{
-	t_sphere	shape;
-	t_vector	aux;
-	float		a;
-	float		b;
-	float		c;
-
-	shape = *(t_sphere *)sphere.shape;
-	ray.direction = matrix_vector_product(matrix_inverse(sphere.transformation), ray.direction);
-	ray.origin = matrix_vector_product(matrix_inverse(sphere.transformation), ray.origin);
-	aux = vector_subtract(ray.origin, shape.origin);
-	a = vector_dot_product(ray.direction, ray.direction);
-	b = 2 * vector_dot_product(ray.direction, aux);
-	c = vector_dot_product(aux, aux) - shape.r * shape.r;
-	return (quadratic_roots(a, b, c));
-}
