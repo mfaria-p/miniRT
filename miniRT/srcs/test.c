@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/16 14:07:40 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:59:22 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ int	main(void)
 
 	float			pixel_size = (float)WALL_SIZE / CANVAS_PIXEL;
 	float			half = (float)WALL_SIZE / 2;
-	t_sphere		shape = {{0, 0, 0, 1}, 1};
-	t_object		sphere = {SPHERE, &shape, {{53./255, 33./255, 0, 1}, .5, 1, 1, 10}, matrix_identity()};
-	t_light_source	light = {{-10, 10, -10, 1}, 1};
+	t_shape			sphere = create_cone();
+	sphere.scale = 1;
+	/*sphere.shear.matrix[0][1] = 2;*/
+	t_object		object = {sphere, {{53./255, 33./255, 0}, .5, 1, 1, 10}, {0, 0, 10}, {{.1, 1, .3}, 0}};
+	t_light_source	light = {{-10, 10, -10}, 1};
 	float			world_y;
 	float			world_x;
 	t_vector		position;
@@ -46,38 +48,40 @@ int	main(void)
 	t_vector		normal;
 	t_vector		eyev;
 
-	ray.origin = (t_vector){0, 0, -5, 1};
+	ray.origin = (t_vector){0, 0, -5};
 	float angle = 0;
 	/*float xsh[2] = {.2, 0};*/
-	/*sphere.transformation = matrix_product(matrix_shear(xsh, NULL, NULL), sphere.transformation);*/
-	/*sphere.transformation = matrix_product(matrix_scale(.1, 1, 1), sphere.transformation);*/
-	while (angle <= 2 * M_PI)
+	/*object.transformation = matrix_product(matrix_shear(xsh, NULL, NULL), object.transformation);*/
+	/*object.transformation = matrix_product(matrix_scale(.1, 1, 1), object.transformation);*/
+	while (1)
 	{
-		light.origin = matrix_vector_product(matrix_rotate(0, angle, 0), light.origin);
+		/*light.origin = vector_rotate(light.origin, (t_vector){0, 1, 0}, angle);*/
+		object.rotation.angle = angle;
 		mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
+		mlx_destroy_image(mlx_ptr, img.img);
+		img.img = mlx_new_image(mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL);
 		for (int y = 0; y < CANVAS_PIXEL; y++)
 		{
 			world_y = half - pixel_size * y;
 			for (int x = 0; x < CANVAS_PIXEL; x++)
 			{
 				world_x = -half + pixel_size * x;
-				position = (t_vector){world_x, world_y, WALL_Z, 1};
+				position = (t_vector){world_x, world_y, WALL_Z};
 				ray.direction = vector_normalize(vector_subtract(position, ray.origin));
-				xs = ray_sphere_intersect(ray, sphere);
+				xs = ray_object_intersect(ray, object);
 				if (xs.count > 0)
 				{
 					float	minx = (xs.x1 < xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2;
 					point = ray_position(ray, minx);
-					normal = vector_normalize(vector_subtract(point, (*(t_sphere *)sphere.shape).origin));
-					/*normal = vector_normalize(matrix_vector_product(matrix_transpose(matrix_inverse(sphere.transformation)), normal));*/
+					normal = normal_at(point, object);
 					eyev = vector_scalar_product(-1, ray.direction);
-					t_vector	color = lighting(sphere.material, light, point, eyev, normal);
+					t_vector	color = lighting(object.material, light, point, eyev, normal);
 					my_mlx_pixel_put(&img, x, y, color_rgb(color));
 				}
 			}
 		}
-		angle += .6;
-		if (angle > 2 * M_PI)
+		angle += .1;
+		if (angle >= 2 * M_PI)
 			angle = 0;
 		mlx_clear_window(mlx_ptr, mlx_win);
 	}

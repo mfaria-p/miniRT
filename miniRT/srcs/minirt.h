@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/17 22:37:46 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:22:38 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,10 @@ t_roots		ray_object_intersect(t_ray ray, t_object object);
 
 /* ************************************************************************** */
 // shape.c
-t_shape		sphere(void);
-t_shape		cylinder(void);
-t_shape		cone(void);
+t_shape		create_sphere(void);
+t_shape		create_cylinder(void);
+t_shape		create_cone(void);
+t_vector	normal_at(t_vector p, t_object object);
 
 typedef struct s_img
 {
