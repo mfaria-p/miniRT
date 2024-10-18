@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/18 01:47:56 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/18 12:29:44 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_roots	ray_object_intersect(t_ray ray, t_object object)
 
 	shape = object.shape;
 	ray.origin = vector_subtract(ray.origin, object.translation);
+	ray.origin = vector_rotate(ray.origin, object.rotation.axis, -object.rotation.angle);
 	ray.direction = vector_rotate(ray.direction, object.rotation.axis, -object.rotation.angle);
 	h.x = vector_dot_product(ray.direction, (t_vector){shape.scale * shape.shear.matrix[0][0], shape.shear.matrix[0][1], shape.shear.matrix[0][2]});
 	h.y = vector_dot_product(ray.direction, (t_vector){shape.shear.matrix[1][0], shape.scale * shape.shear.matrix[1][1], shape.shear.matrix[1][2]});
