@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/17 22:39:34 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/18 01:48:56 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -710,8 +710,6 @@ int	ray_object_intersect_00(void)
 	t_roots		xs;
 
 	xs = ray_object_intersect(ray, object);
-	printf("%f\n", xs.x1);
-	printf("%f\n", xs.x1);
 	_ft_assert(xs.count == 2 && double_equals(xs.x1, 4) && double_equals(xs.x2, 6));
 	return (SUCCESS);
 }
