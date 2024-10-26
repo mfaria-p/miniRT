@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/18 20:55:32 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:21:04 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,27 @@ t_roots	quadratic_roots(float a, float b, float c)
 	return ((t_roots){2, x1, x2});
 }
 
+t_roots	ray_circle_intersect(t_ray ray, t_object object, int z)
+{
+	double		t;
+	double		r;
+	t_vector	p;
+
+	r = object.shape.scale;
+	ray.origin = vector_subtract(ray.origin, object.translation);
+	ray.origin = vector_rotate(ray.origin, object.rotation.axis, -object.rotation.angle);
+	ray.direction = vector_rotate(ray.direction, object.rotation.axis, -object.rotation.angle);
+	t = (z - ray.origin.z) / ray.direction.z;
+	p = ray_position(ray, t);
+	return ((t_roots){(p.x * p.x + p.y * p.y) <= (r * r), t, 0});
+}
+
 t_roots	ray_object_intersect(t_ray ray, t_object object)
 {
 	t_shape		shape;
 	double		a;
 	double		b;
 	double		c;
-	t_vector	h;
-	t_vector	i;
-	t_vector	ii;
 	t_roots		xs;
 	t_vector	point;
 
@@ -55,22 +67,14 @@ t_roots	ray_object_intersect(t_ray ray, t_object object)
 	ray.origin = vector_subtract(ray.origin, object.translation);
 	ray.origin = vector_rotate(ray.origin, object.rotation.axis, -object.rotation.angle);
 	ray.direction = vector_rotate(ray.direction, object.rotation.axis, -object.rotation.angle);
-	h.x = vector_dot_product(ray.direction, (t_vector){shape.scale * shape.shear.matrix[0][0], shape.shear.matrix[0][1], shape.shear.matrix[0][2]});
-	h.y = vector_dot_product(ray.direction, (t_vector){shape.shear.matrix[1][0], shape.scale * shape.shear.matrix[1][1], shape.shear.matrix[1][2]});
-	h.z = vector_dot_product(ray.direction, (t_vector){shape.shear.matrix[2][0], shape.shear.matrix[2][1], shape.scale * shape.shear.matrix[2][2]});
-	i.x = shape.scale * (ray.origin.x - shape.parameters.shift.x) * shape.shear.matrix[0][0];
-	i.y = shape.scale * (ray.origin.y - shape.parameters.shift.y) * shape.shear.matrix[1][1];
-	i.z = shape.scale * (ray.origin.z - shape.parameters.shift.z) * shape.shear.matrix[2][2];
-	ii.x = ray.origin.y * shape.shear.matrix[0][1] + ray.origin.z * shape.shear.matrix[0][2];
-	ii.y = ray.origin.x * shape.shear.matrix[1][0] + ray.origin.z * shape.shear.matrix[1][2];
-	ii.z = ray.origin.x * shape.shear.matrix[2][0] + ray.origin.y * shape.shear.matrix[2][1];
-	a = vector_dot_product(shape.parameters.coefficients, (t_vector){h.x * h.x, h.y * h.y, h.z * h.z});
-	b = 2 * vector_dot_product(shape.parameters.coefficients, (t_vector){(i.x + ii.x) * h.x + i.x * ii.x, (i.y + ii.y) * h.y + i.y * ii.y, (i.z + ii.z) * h.z + i.z * ii.z});
-	c = vector_dot_product(shape.parameters.coefficients, (t_vector){i.x * i.x + ii.x * ii.x, i.y * i.y + ii.y * ii.y, i.z * i.z + ii.z * ii.z});
-	c -= shape.parameters.constant;
+	a = shape.scale * vector_dot_product(shape.coefficients, (t_vector){ray.direction.x * ray.direction.x, ray.direction.y * ray.direction.y, ray.direction.z * ray.direction.z});
+	b = shape.scale * vector_dot_product(shape.coefficients, (t_vector){ray.origin.x * ray.direction.x, ray.origin.y * ray.direction.y, ray.origin.z * ray.direction.z});
+	b *= 2;
+	c = shape.scale * vector_dot_product(shape.coefficients, (t_vector){ray.origin.x * ray.origin.x, ray.origin.y * ray.origin.y, ray.origin.z * ray.origin.z});
+	c -= shape.constant;
 	xs = quadratic_roots(a, b, c);
 	point = ray_position(ray, (xs.x1 < xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2);
-	if (point.z <= -(1 / shape.scale) || point.z >= (1 / shape.scale))
+	if (point.z <= (shape.bounds[0] * shape.scale) || point.z >= (shape.bounds[1] * shape.scale))
 		return ((t_roots){0, 0, 0});
 	return (xs);
 }

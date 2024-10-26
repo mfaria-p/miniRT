@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/18 20:59:22 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:42:19 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@ int	main(void)
 
 	float			pixel_size = (float)WALL_SIZE / CANVAS_PIXEL;
 	float			half = (float)WALL_SIZE / 2;
-	t_shape			sphere = create_cone();
+	t_shape			sphere = create_cylinder();
 	sphere.scale = 1;
 	/*sphere.shear.matrix[0][1] = 2;*/
-	t_object		object = {sphere, {{53./255, 33./255, 0}, .5, 1, 1, 10}, {0, 0, 10}, {{.1, 1, .3}, 0}};
+	t_object		object = {sphere, {{252./255, 15./255, 192./255}, .5, 1, 1, 10}, {0, 0, 10}, {{.1, 1, .3}, 0}};
 	t_light_source	light = {{-10, 10, -10}, 1};
 	float			world_y;
 	float			world_x;
 	t_vector		position;
 	t_ray			ray;
-	t_roots			xs;
+	t_roots			xs[4];
 	t_vector		point;
 	t_vector		normal;
 	t_vector		eyev;
@@ -68,10 +68,21 @@ int	main(void)
 				world_x = -half + pixel_size * x;
 				position = (t_vector){world_x, world_y, WALL_Z};
 				ray.direction = vector_normalize(vector_subtract(position, ray.origin));
-				xs = ray_object_intersect(ray, object);
-				if (xs.count > 0)
+				float	minx;
+				xs[1] = ray_object_intersect(ray, object);
+				xs[2] = ray_circle_intersect(ray, object, -object.shape.scale);
+				xs[3] = ray_circle_intersect(ray, object, object.shape.scale);
+				minx = -1;
+				if (xs[1].count > 0)
+					minx = xs[1].x1;
+				if (xs[1].count == 2 && (xs[1].x2 < minx || minx < 0))
+					minx = xs[1].x2;
+				if (xs[2].count > 0 && (xs[2].x1 < minx || minx < 0))
+					minx = xs[2].x1;
+				if (xs[3].count > 0 && (xs[3].x1 < minx || minx < 0))
+					minx = xs[3].x1;
+				if (minx >= 0)
 				{
-					float	minx = (xs.x1 < xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2;
 					point = ray_position(ray, minx);
 					normal = normal_at(point, object);
 					eyev = vector_scalar_product(-1, ray.direction);
@@ -81,7 +92,7 @@ int	main(void)
 			}
 		}
 		angle += .1;
-		if (angle >= 2 * M_PI)
+		if (angle >= 4 * M_PI)
 			angle = 0;
 		mlx_clear_window(mlx_ptr, mlx_win);
 	}

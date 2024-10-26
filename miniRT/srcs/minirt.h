@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/18 20:22:38 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:18:32 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,11 @@ enum e_shape_type
 
 typedef struct s_shape
 {
-	struct	s_parameters
-	{
-		int				type;
-		t_vector		coefficients;
-		t_vector		shift;
-		double			constant;
-	}					parameters;
-	double				scale;
-	t_matrix			shear;
+	int			type;
+	t_vector	coefficients;
+	double		bounds[2];
+	double		constant;
+	double		scale;
 }	t_shape;
 
 typedef struct s_object
@@ -97,6 +93,7 @@ t_vector	lighting(t_material material, t_light_source light, t_vector point, t_v
 t_vector	ray_position(t_ray ray, float t);
 t_roots		quadratic_roots(float a, float b, float c);
 t_roots		ray_object_intersect(t_ray ray, t_object object);
+t_roots		ray_circle_intersect(t_ray ray, t_object object, int z);
 
 /* ************************************************************************** */
 // shape.c
