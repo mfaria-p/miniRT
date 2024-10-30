@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:37:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/17 15:18:26 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:21:08 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,17 @@ t_quaternion	quaternion_scalar_product(double a, t_quaternion q)
 
 t_quaternion	quaternion_inverse(t_quaternion q)
 {
-	double	aux;
+	double			a;
 
-	aux = quaternion_smagnitude(q);
-	if (aux == 0)
+	/*a = quaternion_smagnitude(q);*/
+	a = q.w * q.w + q.i * q.i + q.j * q.j + q.k * q.k;
+	a = 1 / a;
+	if (a == 0)
 		return ((t_quaternion){0, 0, 0, 0});
-	return (quaternion_scalar_product(1 / aux, quaternion_conjugate(q)));
+	q = (t_quaternion){q.w, -q.i, -q.j, -q.k};
+	q = (t_quaternion){a * q.w, a * q.i, a * q.j, a * q.k};
+	return (q);
+	/*return (quaternion_scalar_product(1 / a, quaternion_conjugate(q)));*/
 }
 
 // Quaternion Product
@@ -64,9 +69,14 @@ t_quaternion	quaternion_product(t_quaternion q, t_quaternion p)
 	u = (t_vector){q.i, q.j, q.k};
 	v = (t_vector){p.i, p.j, p.k};
 	uv = vector_cross_product(u, v);
-	a = (q.w * p.w) - vector_dot_product(u, v);
-	u = vector_scalar_product(p.w, u);
-	v = vector_scalar_product(q.w, v);
-	uv = vector_add(vector_add(uv, u), v);
+	/*a = (q.w * p.w) - vector_dot_product(u, v);*/
+	a = (q.w * p.w) - (u.x * v.x + u.y * v.y + u.z * v.z);
+	/*u = vector_scalar_product(p.w, u);*/
+	u = (t_vector){p.w * u.x, p.w * u.y, p.w * u.z};
+	/*v = vector_scalar_product(q.w, v);*/
+	v = (t_vector){q.w * v.x, q.w * v.y, q.w * v.z};
+	/*uv = vector_add(vector_add(uv, u), v);*/
+	uv = (t_vector){u.x + uv.x, u.y + uv.y, u.z + uv.z};
+	uv = (t_vector){v.x + uv.x, v.y + uv.y, v.z + uv.z};
 	return ((t_quaternion){a, uv.x, uv.y, uv.z});
 }

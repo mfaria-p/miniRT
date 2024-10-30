@@ -1,0 +1,334 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ns/call  ns/call  name    
+ 17.34      7.54     7.54 780373572     9.66    19.02  quaternion_product
+  9.73     11.77     4.23 2963306306     1.43     1.43  vector_scalar_product
+  9.45     15.88     4.11 126000000    32.62   184.76  ray_circle_intersect
+  9.40     19.97     4.09 390186786    10.48    69.90  vector_rotate
+  7.56     23.26     3.29 2070900596     1.59     1.59  vector_add
+  6.55     26.11     2.85 63000000    45.24   207.12  ray_object_intersect
+  5.84     28.65     2.54                             main
+  4.58     30.64     1.99 1481653153     1.34     1.34  vector_dot_product
+  3.84     32.31     1.67 483653751     3.45    12.28  vector_normalize
+  3.56     33.86     1.55 780373572     1.99     1.99  vector_cross_product
+  3.27     35.28     1.42                             _init
+  2.85     36.52     1.24 390186786     3.18     7.66  quaternion_inverse
+  2.41     37.57     1.05 483653751     2.17     3.51  vector_magnitude
+  2.39     38.61     1.04 483653751     2.15     3.89  vector_equals
+  2.00     39.48     0.87 278499701     3.12     6.14  vector_subtract
+  1.93     40.32     0.84 483907927     1.74     1.74  double_equals
+  1.68     41.05     0.73 390186786     1.87     1.87  quaternion_conjugate
+  1.43     41.67     0.62 195093393     3.18     6.19  ray_position
+  1.31     42.24     0.57 390186786     1.46     1.46  quaternion_scalar_product
+  1.03     42.69     0.45 390186786     1.15     1.15  quaternion_smagnitude
+  0.83     43.05     0.36 63000000     5.71     5.71  quadratic_roots
+  0.53     43.28     0.23 12186786    18.87    67.43  lighting
+  0.25     43.39     0.11  6093393    18.05   177.87  normal_at
+  0.16     43.46     0.07  6093393    11.49    11.49  my_mlx_pixel_put
+  0.05     43.48     0.02  8219522     2.43    11.34  vector_reflect
+  0.02     43.49     0.01  6093393     1.64     1.64  color_rgb
+  0.00     43.49     0.00        1     0.00     0.00  create_cylinder
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2022 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 0.02% of 43.49 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     96.7    2.54   39.53                 main [1]
+                4.11   19.17 126000000/126000000     ray_circle_intersect [3]
+                2.85   10.20 63000000/63000000     ray_object_intersect [5]
+                0.11    0.97 6093393/6093393     normal_at [17]
+                0.23    0.59 12186786/12186786     lighting [19]
+                0.22    0.56 63000000/483653751     vector_normalize [6]
+                0.20    0.19 63000000/278499701     vector_subtract [12]
+                0.07    0.00 6093393/6093393     my_mlx_pixel_put [25]
+                0.02    0.02 6093393/195093393     ray_position [16]
+                0.01    0.00 6093393/6093393     color_rgb [26]
+                0.01    0.00 6093393/2070900596     vector_add [8]
+                0.01    0.00 6093393/2963306306     vector_scalar_product [7]
+                0.00    0.00       1/1           create_cylinder [27]
+-----------------------------------------------
+                0.13    0.72 12186786/390186786     normal_at [17]
+                1.32    7.49 126000000/390186786     ray_object_intersect [5]
+                2.64   14.97 252000000/390186786     ray_circle_intersect [3]
+[2]     62.7    4.09   23.18 390186786         vector_rotate [2]
+                7.54    7.31 780373572/780373572     quaternion_product [4]
+                1.35    3.44 390186786/483653751     vector_normalize [6]
+                1.24    1.75 390186786/390186786     quaternion_inverse [9]
+                0.56    0.00 390186786/2963306306     vector_scalar_product [7]
+-----------------------------------------------
+                4.11   19.17 126000000/126000000     main [1]
+[3]     53.5    4.11   19.17 126000000         ray_circle_intersect [3]
+                2.64   14.97 252000000/390186786     vector_rotate [2]
+                0.40    0.38 126000000/195093393     ray_position [16]
+                0.39    0.38 126000000/278499701     vector_subtract [12]
+-----------------------------------------------
+                7.54    7.31 780373572/780373572     vector_rotate [2]
+[4]     34.1    7.54    7.31 780373572         quaternion_product [4]
+                2.48    0.00 1560747144/2070900596     vector_add [8]
+                2.23    0.00 1560747144/2963306306     vector_scalar_product [7]
+                1.55    0.00 780373572/780373572     vector_cross_product [14]
+                1.05    0.00 780373572/1481653153     vector_dot_product [10]
+-----------------------------------------------
+                2.85   10.20 63000000/63000000     main [1]
+[5]     30.0    2.85   10.20 63000000         ray_object_intersect [5]
+                1.32    7.49 126000000/390186786     vector_rotate [2]
+                0.20    0.19 63000000/195093393     ray_position [16]
+                0.20    0.19 63000000/278499701     vector_subtract [12]
+                0.36    0.00 63000000/63000000     quadratic_roots [23]
+                0.25    0.00 189000000/1481653153     vector_dot_product [10]
+-----------------------------------------------
+                0.02    0.05 6093393/483653751     normal_at [17]
+                0.08    0.22 24373572/483653751     lighting [19]
+                0.22    0.56 63000000/483653751     main [1]
+                1.35    3.44 390186786/483653751     vector_rotate [2]
+[6]     13.7    1.67    4.27 483653751         vector_normalize [6]
+                1.04    0.84 483653751/483653751     vector_equals [11]
+                1.05    0.65 483653751/483653751     vector_magnitude [13]
+                0.69    0.00 483653751/2963306306     vector_scalar_product [7]
+-----------------------------------------------
+                0.01    0.00 6093393/2963306306     main [1]
+                0.01    0.00 8219522/2963306306     vector_reflect [24]
+                0.06    0.00 40812616/2963306306     lighting [19]
+                0.28    0.00 195093393/2963306306     ray_position [16]
+                0.40    0.00 278499701/2963306306     vector_subtract [12]
+                0.56    0.00 390186786/2963306306     vector_rotate [2]
+                0.69    0.00 483653751/2963306306     vector_normalize [6]
+                2.23    0.00 1560747144/2963306306     quaternion_product [4]
+[7]      9.7    4.23    0.00 2963306306         vector_scalar_product [7]
+-----------------------------------------------
+                0.01    0.00 6093393/2070900596     main [1]
+                0.01    0.00 6093393/2070900596     normal_at [17]
+                0.04    0.00 24373572/2070900596     lighting [19]
+                0.31    0.00 195093393/2070900596     ray_position [16]
+                0.44    0.00 278499701/2070900596     vector_subtract [12]
+                2.48    0.00 1560747144/2070900596     quaternion_product [4]
+[8]      7.6    3.29    0.00 2070900596         vector_add [8]
+-----------------------------------------------
+                1.24    1.75 390186786/390186786     vector_rotate [2]
+[9]      6.9    1.24    1.75 390186786         quaternion_inverse [9]
+                0.73    0.00 390186786/390186786     quaternion_conjugate [20]
+                0.57    0.00 390186786/390186786     quaternion_scalar_product [21]
+                0.45    0.00 390186786/390186786     quaternion_smagnitude [22]
+-----------------------------------------------
+                0.01    0.00 8219522/1481653153     vector_reflect [24]
+                0.03    0.00 20406308/1481653153     lighting [19]
+                0.25    0.00 189000000/1481653153     ray_object_intersect [5]
+                0.65    0.00 483653751/1481653153     vector_magnitude [13]
+                1.05    0.00 780373572/1481653153     quaternion_product [4]
+[10]     4.6    1.99    0.00 1481653153         vector_dot_product [10]
+-----------------------------------------------
+                1.04    0.84 483653751/483653751     vector_normalize [6]
+[11]     4.3    1.04    0.84 483653751         vector_equals [11]
+                0.84    0.00 483907927/483907927     double_equals [18]
+-----------------------------------------------
+                0.02    0.02 6093393/278499701     normal_at [17]
+                0.03    0.02 8219522/278499701     vector_reflect [24]
+                0.04    0.04 12186786/278499701     lighting [19]
+                0.20    0.19 63000000/278499701     main [1]
+                0.20    0.19 63000000/278499701     ray_object_intersect [5]
+                0.39    0.38 126000000/278499701     ray_circle_intersect [3]
+[12]     3.9    0.87    0.84 278499701         vector_subtract [12]
+                0.44    0.00 278499701/2070900596     vector_add [8]
+                0.40    0.00 278499701/2963306306     vector_scalar_product [7]
+-----------------------------------------------
+                1.05    0.65 483653751/483653751     vector_normalize [6]
+[13]     3.9    1.05    0.65 483653751         vector_magnitude [13]
+                0.65    0.00 483653751/1481653153     vector_dot_product [10]
+-----------------------------------------------
+                1.55    0.00 780373572/780373572     quaternion_product [4]
+[14]     3.6    1.55    0.00 780373572         vector_cross_product [14]
+-----------------------------------------------
+                                                 <spontaneous>
+[15]     3.3    1.42    0.00                 _init [15]
+-----------------------------------------------
+                0.02    0.02 6093393/195093393     main [1]
+                0.20    0.19 63000000/195093393     ray_object_intersect [5]
+                0.40    0.38 126000000/195093393     ray_circle_intersect [3]
+[16]     2.8    0.62    0.59 195093393         ray_position [16]
+                0.31    0.00 195093393/2070900596     vector_add [8]
+                0.28    0.00 195093393/2963306306     vector_scalar_product [7]
+-----------------------------------------------
+                0.11    0.97 6093393/6093393     main [1]
+[17]     2.5    0.11    0.97 6093393         normal_at [17]
+                0.13    0.72 12186786/390186786     vector_rotate [2]
+                0.02    0.05 6093393/483653751     vector_normalize [6]
+                0.02    0.02 6093393/278499701     vector_subtract [12]
+                0.01    0.00 6093393/2070900596     vector_add [8]
+-----------------------------------------------
+                0.84    0.00 483907927/483907927     vector_equals [11]
+[18]     1.9    0.84    0.00 483907927         double_equals [18]
+-----------------------------------------------
+                0.23    0.59 12186786/12186786     main [1]
+[19]     1.9    0.23    0.59 12186786         lighting [19]
+                0.08    0.22 24373572/483653751     vector_normalize [6]
+                0.02    0.07 8219522/8219522     vector_reflect [24]
+                0.04    0.04 12186786/278499701     vector_subtract [12]
+                0.06    0.00 40812616/2963306306     vector_scalar_product [7]
+                0.04    0.00 24373572/2070900596     vector_add [8]
+                0.03    0.00 20406308/1481653153     vector_dot_product [10]
+-----------------------------------------------
+                0.73    0.00 390186786/390186786     quaternion_inverse [9]
+[20]     1.7    0.73    0.00 390186786         quaternion_conjugate [20]
+-----------------------------------------------
+                0.57    0.00 390186786/390186786     quaternion_inverse [9]
+[21]     1.3    0.57    0.00 390186786         quaternion_scalar_product [21]
+-----------------------------------------------
+                0.45    0.00 390186786/390186786     quaternion_inverse [9]
+[22]     1.0    0.45    0.00 390186786         quaternion_smagnitude [22]
+-----------------------------------------------
+                0.36    0.00 63000000/63000000     ray_object_intersect [5]
+[23]     0.8    0.36    0.00 63000000         quadratic_roots [23]
+-----------------------------------------------
+                0.02    0.07 8219522/8219522     lighting [19]
+[24]     0.2    0.02    0.07 8219522         vector_reflect [24]
+                0.03    0.02 8219522/278499701     vector_subtract [12]
+                0.01    0.00 8219522/2963306306     vector_scalar_product [7]
+                0.01    0.00 8219522/1481653153     vector_dot_product [10]
+-----------------------------------------------
+                0.07    0.00 6093393/6093393     main [1]
+[25]     0.2    0.07    0.00 6093393         my_mlx_pixel_put [25]
+-----------------------------------------------
+                0.01    0.00 6093393/6093393     main [1]
+[26]     0.0    0.01    0.00 6093393         color_rgb [26]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[27]     0.0    0.00    0.00       1         create_cylinder [27]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2022 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [15] _init                  [20] quaternion_conjugate   [14] vector_cross_product
+  [26] color_rgb               [9] quaternion_inverse     [10] vector_dot_product
+  [27] create_cylinder         [4] quaternion_product     [11] vector_equals
+  [18] double_equals          [21] quaternion_scalar_product [13] vector_magnitude
+  [19] lighting               [22] quaternion_smagnitude   [6] vector_normalize
+   [1] main                    [3] ray_circle_intersect   [24] vector_reflect
+  [25] my_mlx_pixel_put        [5] ray_object_intersect    [2] vector_rotate
+  [17] normal_at              [16] ray_position            [7] vector_scalar_product
+  [23] quadratic_roots         [8] vector_add             [12] vector_subtract

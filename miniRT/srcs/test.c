@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/26 18:42:19 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:33:48 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ int	main(void)
 	t_shape			sphere = create_cylinder();
 	sphere.scale = 1;
 	/*sphere.shear.matrix[0][1] = 2;*/
-	t_object		object = {sphere, {{252./255, 15./255, 192./255}, .5, 1, 1, 10}, {0, 0, 10}, {{.1, 1, .3}, 0}};
-	t_light_source	light = {{-10, 10, -10}, 1};
+	t_object		object = {sphere, {{252./255, 15./255, 192./255}, 1, 1, 1, 50}, {0, 0, 10}, {{.1, 1, .3}, 0}};
+	t_light_source	light = {{-1, 1, -1}, 1};
+	t_light_source	light2 = {{10, -10, 10}, .2};
 	float			world_y;
 	float			world_x;
 	t_vector		position;
@@ -73,27 +74,37 @@ int	main(void)
 				xs[2] = ray_circle_intersect(ray, object, -object.shape.scale);
 				xs[3] = ray_circle_intersect(ray, object, object.shape.scale);
 				minx = -1;
-				if (xs[1].count > 0)
+				t_vector	colors[3] = {{255,0,0}, {0,255,0}, {0,0,255}};
+				if (xs[1].count > 0) {
 					minx = xs[1].x1;
-				if (xs[1].count == 2 && (xs[1].x2 < minx || minx < 0))
+					object.material.color = colors[0];
+				}
+				if (xs[1].count == 2 && (xs[1].x2 < minx || minx < 0)) {
 					minx = xs[1].x2;
-				if (xs[2].count > 0 && (xs[2].x1 < minx || minx < 0))
+					object.material.color = colors[0];
+				}
+				if (xs[2].count > 0 && (xs[2].x1 < minx || minx < 0)) {
 					minx = xs[2].x1;
-				if (xs[3].count > 0 && (xs[3].x1 < minx || minx < 0))
+					object.material.color = colors[1];
+				}
+				if (xs[3].count > 0 && (xs[3].x1 < minx || minx < 0)) {
 					minx = xs[3].x1;
+					object.material.color = colors[2];
+				}
 				if (minx >= 0)
 				{
 					point = ray_position(ray, minx);
 					normal = normal_at(point, object);
 					eyev = vector_scalar_product(-1, ray.direction);
 					t_vector	color = lighting(object.material, light, point, eyev, normal);
+					color = vector_add(color, lighting(object.material, light2, point, eyev, normal));
 					my_mlx_pixel_put(&img, x, y, color_rgb(color));
 				}
 			}
 		}
 		angle += .1;
-		if (angle >= 4 * M_PI)
-			angle = 0;
+		/*if (angle >= 8 * M_PI)*/
+		/*	break;*/
 		mlx_clear_window(mlx_ptr, mlx_win);
 	}
 
