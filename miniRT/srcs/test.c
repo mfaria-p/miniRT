@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/30 13:33:48 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:07:15 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ int	main(void)
 			}
 		}
 		angle += .1;
-		/*if (angle >= 8 * M_PI)*/
-		/*	break;*/
+		if (angle >= 8 * M_PI)
+			break;
 		mlx_clear_window(mlx_ptr, mlx_win);
 	}
 

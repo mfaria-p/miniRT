@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:32:51 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/30 13:28:39 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:03:37 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,18 @@
 
 int	double_equals(double x, double y)
 {
-	return (fabs(x - y) < EPSILON);
+	return (((x - y) < EPSILON) && ((x - y) > -EPSILON));
 }
 
 int	vector_equals(t_vector u, t_vector v)
 {
-	return (double_equals(u.x, v.x) && double_equals(u.y, v.y) && double_equals(u.z, v.z));
+	int		result;
+
+	result = 1;
+	result = result && (((u.x - v.x) < EPSILON) && ((u.x - v.x) > -EPSILON));
+	result = result && (((u.y - v.y) < EPSILON) && ((u.y - v.y) > -EPSILON));
+	result = result && (((u.z - v.z) < EPSILON) && ((u.z - v.z) > -EPSILON));
+	return (result);
 }
 
 t_vector	vector_scalar_product(double a, t_vector u)
@@ -34,7 +40,7 @@ t_vector	vector_add(t_vector u, t_vector v)
 
 t_vector	vector_subtract(t_vector u, t_vector v)
 {
-	return (vector_add(u, vector_scalar_product(-1, v)));
+	return ((t_vector){u.x - v.x, u.y - v.y, u.z - v.z});
 }
 
 double	vector_dot_product(t_vector u, t_vector v)
@@ -44,19 +50,32 @@ double	vector_dot_product(t_vector u, t_vector v)
 
 double	vector_magnitude(t_vector u)
 {
-	return (sqrtf(vector_dot_product(u, u)));
+	return (sqrtf(u.x * u.x + u.y * u.y + u.z * u.z));
 }
 
 double	vector_distance(t_vector u, t_vector v)
 {
-	return (vector_magnitude(vector_subtract(u, v)));
+	t_vector	a;
+
+	a = (t_vector){u.x - v.x, u.y - v.y, u.z - v.z};
+	return (sqrtf(a.x * a.x + a.y * a.y + a.z * a.z));
 }
 
 t_vector	vector_normalize(t_vector u)
 {
-	if (vector_equals(u, (t_vector){0, 0, 0}))
+	t_vector	nil;
+	double		imag;
+	int			res;
+
+	nil = (t_vector){0, 0, 0};
+	res = 1;
+	res = res && (((u.x - nil.x) < EPSILON) && ((u.x - nil.x) > -EPSILON));
+	res = res && (((u.y - nil.y) < EPSILON) && ((u.y - nil.y) > -EPSILON));
+	res = res && (((u.z - nil.z) < EPSILON) && ((u.z - nil.z) > -EPSILON));
+	if (res)
 		return ((t_vector){0, 0, 0});
-	return (vector_scalar_product(1 / vector_magnitude(u), u));
+	imag = 1 / sqrtf(u.x * u.x + u.y * u.y + u.z * u.z);
+	return ((t_vector){imag * u.x, imag * u.y, imag * u.z});
 }
 
 t_vector	vector_cross_product(t_vector u, t_vector v)
@@ -66,28 +85,39 @@ t_vector	vector_cross_product(t_vector u, t_vector v)
 
 double	vector_cosine(t_vector u, t_vector v)
 {
-	return (vector_dot_product(vector_normalize(u), vector_normalize(v)));
+	u = vector_normalize(u);
+	v = vector_normalize(v);
+	return (u.x * v.x + u.y * v.y + u.z * v.z);
 }
 
 // project u onto v
 double	vector_scalar_projection(t_vector u, t_vector v)
 {
-	return (vector_dot_product(u, vector_normalize(v)));
+	v = vector_normalize(v);
+	return (u.x * v.x + u.y * v.y + u.z * v.z);
 }
 
 // project u onto v
 t_vector	vector_projection(t_vector u, t_vector v)
 {
 	t_vector	aux;
+	double		dot;
 
 	aux = vector_normalize(v);
-	return (vector_scalar_product(vector_dot_product(u, aux), aux));
+	dot = u.x * aux.x + u.y * aux.y + u.z * aux.z;
+	return ((t_vector){dot * aux.x, dot * aux.y, dot * aux.z});
 }
 
 // project u onto plane defined by normal n
 t_vector	vector_plane_projection(t_vector u, t_vector n)
 {
-	return (vector_subtract(u, vector_projection(u, n)));
+	t_vector	aux;
+	double		dot;
+
+	aux = vector_normalize(n);
+	dot = u.x * aux.x + u.y * aux.y + u.z * aux.z;
+	aux = ((t_vector){dot * aux.x, dot * aux.y, dot * aux.z});
+	return ((t_vector){u.x - aux.x, u.y - aux.y, u.z - aux.z});
 }
 
 // Axis-Angle Rotation

@@ -1,0 +1,288 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ns/call  ns/call  name    
+ 27.76      8.77     8.77 780373612    11.24    13.25  quaternion_product
+ 14.15     13.24     4.47 390186806    11.46    50.03  vector_rotate
+ 11.02     16.72     3.48 126000000    27.62   134.01  ray_circle_intersect
+  8.36     19.36     2.64 63000000    41.90   158.24  ray_object_intersect
+  8.01     21.89     2.53                             main
+  7.82     24.36     2.47 483653821     5.11     5.11  vector_normalize
+  6.58     26.44     2.08 390186806     5.33     5.33  quaternion_inverse
+  4.97     28.01     1.57 780373612     2.01     2.01  vector_cross_product
+  3.32     29.06     1.05 640405811     1.64     1.64  vector_scalar_product
+  1.58     29.56     0.50                             _init
+  1.49     30.03     0.47 63000000     7.46     7.46  quadratic_roots
+  1.39     30.47     0.44 195093403     2.26     4.89  ray_position
+  1.27     30.87     0.40 278499738     1.44     1.44  vector_subtract
+  0.73     31.10     0.23 231653821     0.99     0.99  vector_add
+  0.57     31.28     0.18 217625864     0.83     0.83  vector_dot_product
+  0.41     31.41     0.13  6093403    21.33   128.94  normal_at
+  0.38     31.53     0.12 12186806     9.85    35.45  lighting
+  0.09     31.56     0.03  8219529     3.65     7.55  vector_reflect
+  0.09     31.59     0.03  6093403     4.92     4.92  my_mlx_pixel_put
+  0.00     31.59     0.00  6093403     0.00     0.00  color_rgb
+  0.00     31.59     0.00        1     0.00     0.00  create_cylinder
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2022 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 0.03% of 31.59 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     98.4    2.53   28.56                 main [1]
+                3.48   13.41 126000000/126000000     ray_circle_intersect [3]
+                2.64    7.33 63000000/63000000     ray_object_intersect [5]
+                0.13    0.66 6093403/6093403     normal_at [11]
+                0.12    0.31 12186806/12186806     lighting [14]
+                0.32    0.00 63000000/483653821     vector_normalize [6]
+                0.09    0.00 63000000/278499738     vector_subtract [15]
+                0.03    0.00 6093403/6093403     my_mlx_pixel_put [19]
+                0.01    0.02 6093403/195093403     ray_position [10]
+                0.01    0.00 6093403/640405811     vector_scalar_product [9]
+                0.01    0.00 6093403/231653821     vector_add [16]
+                0.00    0.00 6093403/6093403     color_rgb [20]
+                0.00    0.00       1/1           create_cylinder [21]
+-----------------------------------------------
+                0.14    0.47 12186806/390186806     normal_at [11]
+                1.44    4.86 126000000/390186806     ray_object_intersect [5]
+                2.89    9.72 252000000/390186806     ray_circle_intersect [3]
+[2]     61.8    4.47   15.05 390186806         vector_rotate [2]
+                8.77    1.57 780373612/780373612     quaternion_product [4]
+                2.08    0.00 390186806/390186806     quaternion_inverse [7]
+                1.99    0.00 390186806/483653821     vector_normalize [6]
+                0.64    0.00 390186806/640405811     vector_scalar_product [9]
+-----------------------------------------------
+                3.48   13.41 126000000/126000000     main [1]
+[3]     53.5    3.48   13.41 126000000         ray_circle_intersect [3]
+                2.89    9.72 252000000/390186806     vector_rotate [2]
+                0.28    0.33 126000000/195093403     ray_position [10]
+                0.18    0.00 126000000/278499738     vector_subtract [15]
+-----------------------------------------------
+                8.77    1.57 780373612/780373612     vector_rotate [2]
+[4]     32.7    8.77    1.57 780373612         quaternion_product [4]
+                1.57    0.00 780373612/780373612     vector_cross_product [8]
+-----------------------------------------------
+                2.64    7.33 63000000/63000000     main [1]
+[5]     31.6    2.64    7.33 63000000         ray_object_intersect [5]
+                1.44    4.86 126000000/390186806     vector_rotate [2]
+                0.47    0.00 63000000/63000000     quadratic_roots [13]
+                0.14    0.17 63000000/195093403     ray_position [10]
+                0.16    0.00 189000000/217625864     vector_dot_product [17]
+                0.09    0.00 63000000/278499738     vector_subtract [15]
+-----------------------------------------------
+                0.03    0.00 6093403/483653821     normal_at [11]
+                0.12    0.00 24373612/483653821     lighting [14]
+                0.32    0.00 63000000/483653821     main [1]
+                1.99    0.00 390186806/483653821     vector_rotate [2]
+[6]      7.8    2.47    0.00 483653821         vector_normalize [6]
+-----------------------------------------------
+                2.08    0.00 390186806/390186806     vector_rotate [2]
+[7]      6.6    2.08    0.00 390186806         quaternion_inverse [7]
+-----------------------------------------------
+                1.57    0.00 780373612/780373612     quaternion_product [4]
+[8]      5.0    1.57    0.00 780373612         vector_cross_product [8]
+-----------------------------------------------
+                0.01    0.00 6093403/640405811     main [1]
+                0.01    0.00 8219529/640405811     vector_reflect [18]
+                0.07    0.00 40812670/640405811     lighting [14]
+                0.32    0.00 195093403/640405811     ray_position [10]
+                0.64    0.00 390186806/640405811     vector_rotate [2]
+[9]      3.3    1.05    0.00 640405811         vector_scalar_product [9]
+-----------------------------------------------
+                0.01    0.02 6093403/195093403     main [1]
+                0.14    0.17 63000000/195093403     ray_object_intersect [5]
+                0.28    0.33 126000000/195093403     ray_circle_intersect [3]
+[10]     3.0    0.44    0.51 195093403         ray_position [10]
+                0.32    0.00 195093403/640405811     vector_scalar_product [9]
+                0.19    0.00 195093403/231653821     vector_add [16]
+-----------------------------------------------
+                0.13    0.66 6093403/6093403     main [1]
+[11]     2.5    0.13    0.66 6093403         normal_at [11]
+                0.14    0.47 12186806/390186806     vector_rotate [2]
+                0.03    0.00 6093403/483653821     vector_normalize [6]
+                0.01    0.00 6093403/278499738     vector_subtract [15]
+                0.01    0.00 6093403/231653821     vector_add [16]
+-----------------------------------------------
+                                                 <spontaneous>
+[12]     1.6    0.50    0.00                 _init [12]
+-----------------------------------------------
+                0.47    0.00 63000000/63000000     ray_object_intersect [5]
+[13]     1.5    0.47    0.00 63000000         quadratic_roots [13]
+-----------------------------------------------
+                0.12    0.31 12186806/12186806     main [1]
+[14]     1.4    0.12    0.31 12186806         lighting [14]
+                0.12    0.00 24373612/483653821     vector_normalize [6]
+                0.07    0.00 40812670/640405811     vector_scalar_product [9]
+                0.03    0.03 8219529/8219529     vector_reflect [18]
+                0.02    0.00 24373612/231653821     vector_add [16]
+                0.02    0.00 12186806/278499738     vector_subtract [15]
+                0.02    0.00 20406335/217625864     vector_dot_product [17]
+-----------------------------------------------
+                0.01    0.00 6093403/278499738     normal_at [11]
+                0.01    0.00 8219529/278499738     vector_reflect [18]
+                0.02    0.00 12186806/278499738     lighting [14]
+                0.09    0.00 63000000/278499738     main [1]
+                0.09    0.00 63000000/278499738     ray_object_intersect [5]
+                0.18    0.00 126000000/278499738     ray_circle_intersect [3]
+[15]     1.3    0.40    0.00 278499738         vector_subtract [15]
+-----------------------------------------------
+                0.01    0.00 6093403/231653821     main [1]
+                0.01    0.00 6093403/231653821     normal_at [11]
+                0.02    0.00 24373612/231653821     lighting [14]
+                0.19    0.00 195093403/231653821     ray_position [10]
+[16]     0.7    0.23    0.00 231653821         vector_add [16]
+-----------------------------------------------
+                0.01    0.00 8219529/217625864     vector_reflect [18]
+                0.02    0.00 20406335/217625864     lighting [14]
+                0.16    0.00 189000000/217625864     ray_object_intersect [5]
+[17]     0.6    0.18    0.00 217625864         vector_dot_product [17]
+-----------------------------------------------
+                0.03    0.03 8219529/8219529     lighting [14]
+[18]     0.2    0.03    0.03 8219529         vector_reflect [18]
+                0.01    0.00 8219529/640405811     vector_scalar_product [9]
+                0.01    0.00 8219529/278499738     vector_subtract [15]
+                0.01    0.00 8219529/217625864     vector_dot_product [17]
+-----------------------------------------------
+                0.03    0.00 6093403/6093403     main [1]
+[19]     0.1    0.03    0.00 6093403         my_mlx_pixel_put [19]
+-----------------------------------------------
+                0.00    0.00 6093403/6093403     main [1]
+[20]     0.0    0.00    0.00 6093403         color_rgb [20]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[21]     0.0    0.00    0.00       1         create_cylinder [21]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2022 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [12] _init                  [13] quadratic_roots         [8] vector_cross_product
+  [20] color_rgb               [7] quaternion_inverse     [17] vector_dot_product
+  [21] create_cylinder         [4] quaternion_product      [6] vector_normalize
+  [14] lighting                [3] ray_circle_intersect   [18] vector_reflect
+   [1] main                    [5] ray_object_intersect    [2] vector_rotate
+  [19] my_mlx_pixel_put       [10] ray_position            [9] vector_scalar_product
+  [11] normal_at              [16] vector_add             [15] vector_subtract
