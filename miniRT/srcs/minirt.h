@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/26 18:18:32 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:28:27 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_quadratic_root
 	int		count;
 	float	x1;
 	float	x2;
-
 }	t_roots;
 
 typedef struct s_light_source
@@ -93,13 +92,14 @@ t_vector	lighting(t_material material, t_light_source light, t_vector point, t_v
 t_vector	ray_position(t_ray ray, float t);
 t_roots		quadratic_roots(float a, float b, float c);
 t_roots		ray_object_intersect(t_ray ray, t_object object);
-t_roots		ray_circle_intersect(t_ray ray, t_object object, int z);
+t_roots		ray_circle_intersect(t_ray ray, t_object object, double z);
 
 /* ************************************************************************** */
 // shape.c
 t_shape		create_sphere(void);
 t_shape		create_cylinder(void);
 t_shape		create_cone(void);
+t_shape		*shape_scale(t_shape *shape, double scale);
 t_vector	normal_at(t_vector p, t_object object);
 
 typedef struct s_img

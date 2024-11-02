@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/26 18:21:04 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:34:02 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ t_roots	quadratic_roots(float a, float b, float c)
 	return ((t_roots){2, x1, x2});
 }
 
-t_roots	ray_circle_intersect(t_ray ray, t_object object, int z)
+t_roots	ray_circle_intersect(t_ray ray, t_object object, double z)
 {
 	double		t;
 	double		r;
 	t_vector	p;
 
-	r = object.shape.scale;
+	r = (double)1 / object.shape.scale;
 	ray.origin = vector_subtract(ray.origin, object.translation);
 	ray.origin = vector_rotate(ray.origin, object.rotation.axis, -object.rotation.angle);
 	ray.direction = vector_rotate(ray.direction, object.rotation.axis, -object.rotation.angle);
@@ -74,7 +74,7 @@ t_roots	ray_object_intersect(t_ray ray, t_object object)
 	c -= shape.constant;
 	xs = quadratic_roots(a, b, c);
 	point = ray_position(ray, (xs.x1 < xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2);
-	if (point.z <= (shape.bounds[0] * shape.scale) || point.z >= (shape.bounds[1] * shape.scale))
+	if (point.z <= (shape.bounds[0] * (1 / shape.scale)) || point.z >= (shape.bounds[1] * (1 / shape.scale)))
 		return ((t_roots){0, 0, 0});
 	return (xs);
 }

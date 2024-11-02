@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/30 15:07:15 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:41:27 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ int	main(void)
 
 	float			pixel_size = (float)WALL_SIZE / CANVAS_PIXEL;
 	float			half = (float)WALL_SIZE / 2;
-	t_shape			sphere = create_cylinder();
-	sphere.scale = 1;
+	t_shape			sphere = create_sphere();
+	shape_scale(&sphere, .5);
 	/*sphere.shear.matrix[0][1] = 2;*/
-	t_object		object = {sphere, {{252./255, 15./255, 192./255}, 1, 1, 1, 50}, {0, 0, 10}, {{.1, 1, .3}, 0}};
-	t_light_source	light = {{-1, 1, -1}, 1};
-	t_light_source	light2 = {{10, -10, 10}, .2};
+	t_object		object = {sphere, {{252./255, 15./255, 192./255}, .1, .5, .8, 50}, {0, 0, 10}, {{.1, 1, .3}, 0}};
+	t_light_source	light = {{-10, 10, -10}, 1};
+	/*t_light_source	light2 = {{10, -10, 10}, .2};*/
 	float			world_y;
 	float			world_x;
 	t_vector		position;
@@ -51,6 +51,8 @@ int	main(void)
 
 	ray.origin = (t_vector){0, 0, -5};
 	float angle = 0;
+	float scale = 1;
+	float scale_inc = .1;
 	/*float xsh[2] = {.2, 0};*/
 	/*object.transformation = matrix_product(matrix_shear(xsh, NULL, NULL), object.transformation);*/
 	/*object.transformation = matrix_product(matrix_scale(.1, 1, 1), object.transformation);*/
@@ -58,6 +60,7 @@ int	main(void)
 	{
 		/*light.origin = vector_rotate(light.origin, (t_vector){0, 1, 0}, angle);*/
 		object.rotation.angle = angle;
+		shape_scale(&object.shape, scale);
 		mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
 		mlx_destroy_image(mlx_ptr, img.img);
 		img.img = mlx_new_image(mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL);
@@ -71,25 +74,25 @@ int	main(void)
 				ray.direction = vector_normalize(vector_subtract(position, ray.origin));
 				float	minx;
 				xs[1] = ray_object_intersect(ray, object);
-				xs[2] = ray_circle_intersect(ray, object, -object.shape.scale);
-				xs[3] = ray_circle_intersect(ray, object, object.shape.scale);
+				xs[2] = ray_circle_intersect(ray, object, -((double)1 / object.shape.scale));
+				xs[3] = ray_circle_intersect(ray, object, ((double)1 / object.shape.scale));
 				minx = -1;
-				t_vector	colors[3] = {{255,0,0}, {0,255,0}, {0,0,255}};
+				/*t_vector	colors[3] = {{255,0,0}, {0,255,0}, {0,0,255}};*/
 				if (xs[1].count > 0) {
 					minx = xs[1].x1;
-					object.material.color = colors[0];
+					/*object.material.color = colors[0];*/
 				}
 				if (xs[1].count == 2 && (xs[1].x2 < minx || minx < 0)) {
 					minx = xs[1].x2;
-					object.material.color = colors[0];
+					/*object.material.color = colors[0];*/
 				}
 				if (xs[2].count > 0 && (xs[2].x1 < minx || minx < 0)) {
 					minx = xs[2].x1;
-					object.material.color = colors[1];
+					/*object.material.color = colors[1];*/
 				}
 				if (xs[3].count > 0 && (xs[3].x1 < minx || minx < 0)) {
 					minx = xs[3].x1;
-					object.material.color = colors[2];
+					/*object.material.color = colors[2];*/
 				}
 				if (minx >= 0)
 				{
@@ -97,14 +100,17 @@ int	main(void)
 					normal = normal_at(point, object);
 					eyev = vector_scalar_product(-1, ray.direction);
 					t_vector	color = lighting(object.material, light, point, eyev, normal);
-					color = vector_add(color, lighting(object.material, light2, point, eyev, normal));
+					/*color = vector_add(color, lighting(object.material, light2, point, eyev, normal));*/
 					my_mlx_pixel_put(&img, x, y, color_rgb(color));
 				}
 			}
 		}
+		scale += scale_inc;
 		angle += .1;
 		if (angle >= 8 * M_PI)
 			break;
+		if (scale >= 2 || scale <= .5)
+			scale_inc = -scale_inc;
 		mlx_clear_window(mlx_ptr, mlx_win);
 	}
 

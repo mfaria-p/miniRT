@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 20:07:22 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/26 18:41:59 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/02 12:38:32 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_shape	create_sphere(void)
 {
 	t_shape	ret = {SPHERE, (t_vector){1, 1, 1}, {-1, 1}, 1, 1};
+	ret.constant = ret.scale;
 
 	return (ret);
 }
@@ -22,6 +23,7 @@ t_shape	create_sphere(void)
 t_shape	create_cylinder(void)
 {
 	t_shape	ret = {CYLINDER, (t_vector){1, 1, 0}, {-1, 1}, 1, 1};
+	ret.constant = ret.scale;
 
 	return (ret);
 }
@@ -31,6 +33,14 @@ t_shape	create_cone(void)
 	t_shape	ret = {CONE, (t_vector){1, 1, -1}, {-1, 0}, 0, 1};
 
 	return (ret);
+}
+
+t_shape	*shape_scale(t_shape *shape, double scale)
+{
+	shape->scale = (double)1 / scale;
+	if (shape->type != CONE)
+		shape->constant = (double)1 / shape->scale;
+	return (shape);
 }
 
 // circle normal = {0, 0, 1}
