@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:03:16 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/17 15:37:43 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/02 17:21:58 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ t_vector	lighting(t_material material, t_light_source light, t_vector point, t_v
 	t_vector	color;
 	t_vector	lightv;
 	t_vector	ambient;
-	float		cos_light_normal;
+	double		cos_light_normal;
 	t_vector	diffuse;
-	float		specular_aux;	
+	double		specular_aux;	
 	t_vector	specular;
 	t_vector	reflectv;
-	float		cos_reflect_eye;
-	float		factor;
+	double		cos_reflect_eye;
+	double		factor;
 
 	color = vector_scalar_product(light.intensity, material.color);
 	lightv = vector_normalize(vector_subtract(light.origin, point));

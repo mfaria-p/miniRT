@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 20:07:22 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/02 12:38:32 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/02 17:09:07 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ t_shape	create_cylinder(void)
 	return (ret);
 }
 
+t_shape	create_plane(void)
+{
+	t_shape	ret = {PLANE, (t_vector){1, 0, 0}, {0, 0}, 0, 1};
+
+	return (ret);
+}
+
 t_shape	create_cone(void)
 {
 	t_shape	ret = {CONE, (t_vector){1, 1, -1}, {-1, 0}, 0, 1};
@@ -38,8 +45,12 @@ t_shape	create_cone(void)
 t_shape	*shape_scale(t_shape *shape, double scale)
 {
 	shape->scale = (double)1 / scale;
-	if (shape->type != CONE)
+	if (shape->type == SPHERE || shape->type == CYLINDER)
 		shape->constant = (double)1 / shape->scale;
+	else if (shape->type ==	CONE)
+		shape->coefficients.z = -(double)1 / shape->scale;
+	else if (shape->type == PLANE)
+		shape->scale = 1;
 	return (shape);
 }
 

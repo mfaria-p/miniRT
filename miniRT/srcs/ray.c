@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/02 13:55:56 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/02 17:33:49 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ t_vector	ray_position(t_ray ray, float t)
 
 t_roots	quadratic_roots(double a, double b, double c)
 {
-	float	delta;
-	float	x1;
-	float	x2;
+	double	delta;
+	double	x1;
+	double	x2;
 
 	if (a == 0)
 		return ((t_roots){0, 0, 0});
@@ -51,7 +51,20 @@ t_roots	ray_circle_intersect(t_ray ray, t_object object, double z)
 	ray.direction = vector_rotate(ray.direction, object.rotation.axis, -object.rotation.angle);
 	t = (z - ray.origin.z) / ray.direction.z;
 	p = ray_position(ray, t);
-	return ((t_roots){(p.x * p.x + p.y * p.y) < (r * r), t, 0});
+	return ((t_roots){(p.x * p.x + p.y * p.y) < (r * r), t, t});
+}
+
+t_roots	ray_plane_intersect(t_ray ray, t_object object, double z)
+{
+	double		t;
+	t_vector	p;
+
+	ray.origin = vector_subtract(ray.origin, object.translation);
+	ray.origin = vector_rotate(ray.origin, object.rotation.axis, -object.rotation.angle);
+	ray.direction = vector_rotate(ray.direction, object.rotation.axis, -object.rotation.angle);
+	t = (z - ray.origin.z) / ray.direction.z;
+	p = ray_position(ray, t);
+	return ((t_roots){1, t, t});
 }
 
 t_roots	ray_object_intersect(t_ray ray, t_object object)
@@ -61,9 +74,11 @@ t_roots	ray_object_intersect(t_ray ray, t_object object)
 	double		b;
 	double		c;
 	t_roots		xs;
-	t_vector	point;
+	/*t_vector	point;*/
 
 	shape = object.shape;
+	if (shape.type == PLANE)
+		return (ray_plane_intersect(ray, object, 0));
 	ray.origin = vector_subtract(ray.origin, object.translation);
 	ray.origin = vector_rotate(ray.origin, object.rotation.axis, -object.rotation.angle);
 	ray.direction = vector_rotate(ray.direction, object.rotation.axis, -object.rotation.angle);
@@ -73,9 +88,19 @@ t_roots	ray_object_intersect(t_ray ray, t_object object)
 	c = shape.scale * vector_dot_product(shape.coefficients, (t_vector){ray.origin.x * ray.origin.x, ray.origin.y * ray.origin.y, ray.origin.z * ray.origin.z});
 	c -= shape.constant;
 	xs = quadratic_roots(a, b, c);
-	point = ray_position(ray, (xs.x1 <= xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2);
-	if (point.z < (shape.bounds[0] * (1 / shape.scale)) || point.z > (shape.bounds[1] * (1 / shape.scale)))
-		return ((t_roots){0, 0, 0});
+	/*if (shape.type == CONE || shape.type == CYLINDER) {*/
+	/*	xs[1] = ray_circle_intersect(ray, object, -((double)1 / shape.scale));*/
+	/*	if (xs[1].x1 < xs[0].x1 && xs[1].x1 < xs[0].x2)*/
+	/*		xs[0] = xs[1];*/
+	/*}*/
+	/*if (shape.type == CYLINDER) {*/
+	/*	xs[1] = ray_circle_intersect(ray, object, ((double)1 / shape.scale));*/
+	/*	if (xs[1].x1 < xs[0].x1 && xs[1].x1 < xs[0].x2)*/
+	/*		xs[0] = xs[1];*/
+	/*}*/
+	/*point = ray_position(ray, (xs.x1 <= xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2);*/
+	/*if (point.z < (shape.bounds[0] * (1 / shape.scale)) || point.z > (shape.bounds[1] * (1 / shape.scale)))*/
+	/*	return ((t_roots){0, 0, 0});*/
 	return (xs);
 }
 

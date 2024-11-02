@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/02 13:51:15 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/02 18:04:36 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ typedef struct s_ray
 typedef struct s_quadratic_root
 {
 	int		count;
-	float	x1;
-	float	x2;
+	double	x1;
+	double	x2;
 }	t_roots;
 
 typedef struct s_light_source
@@ -49,8 +49,9 @@ typedef struct s_material
 enum e_shape_type
 {
 	SPHERE,
-	CYLINDER,
 	CONE,
+	CYLINDER,
+	PLANE,
 };
 
 typedef struct s_shape
@@ -82,6 +83,13 @@ typedef struct s_intersection
 	float		time;
 }	t_intersection;
 
+typedef struct	s_world
+{
+	t_object		*objects;
+	t_light_source	*lights;
+	//t_camera		camera;
+}	t_world;
+
 /* ************************************************************************** */
 // light.c
 t_vector	vector_reflect(t_vector in, t_vector normal);
@@ -93,12 +101,14 @@ t_vector	ray_position(t_ray ray, float t);
 t_roots		quadratic_roots(double a, double b, double c);
 t_roots		ray_object_intersect(t_ray ray, t_object object);
 t_roots		ray_circle_intersect(t_ray ray, t_object object, double z);
+t_roots		ray_plane_intersect(t_ray ray, t_object object, double z);
 
 /* ************************************************************************** */
 // shape.c
 t_shape		create_sphere(void);
 t_shape		create_cylinder(void);
 t_shape		create_cone(void);
+t_shape		create_plane(void);
 t_shape		*shape_scale(t_shape *shape, double scale);
 t_vector	normal_at(t_vector p, t_object object);
 
