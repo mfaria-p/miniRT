@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/02 12:28:27 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/02 13:51:15 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_vector	lighting(t_material material, t_light_source light, t_vector point, t_v
 /* ************************************************************************** */
 // ray.c
 t_vector	ray_position(t_ray ray, float t);
-t_roots		quadratic_roots(float a, float b, float c);
+t_roots		quadratic_roots(double a, double b, double c);
 t_roots		ray_object_intersect(t_ray ray, t_object object);
 t_roots		ray_circle_intersect(t_ray ray, t_object object, double z);
 

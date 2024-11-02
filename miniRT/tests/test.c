@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/18 01:48:56 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/02 13:56:10 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -705,7 +705,7 @@ int	ray_position_02(void)
 int	ray_object_intersect_00(void)
 {
 	t_ray		ray = {{0, 0, -5}, {0, 0, 1}};
-	t_shape		shape = sphere();
+	t_shape		shape = create_sphere();;
 	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
@@ -717,7 +717,7 @@ int	ray_object_intersect_00(void)
 int	ray_object_intersect_01(void)
 {
 	t_ray		ray = {{0, 1, -5}, {0, 0, 1}};
-	t_shape		shape = sphere();
+	t_shape		shape = create_sphere();;
 	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
@@ -729,7 +729,7 @@ int	ray_object_intersect_01(void)
 int	ray_object_intersect_02(void)
 {
 	t_ray		ray = {{0, 2, -5}, {0, 0, 1}};
-	t_shape		shape = sphere();
+	t_shape		shape = create_sphere();;
 	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
@@ -741,7 +741,7 @@ int	ray_object_intersect_02(void)
 int	ray_object_intersect_03(void)
 {
 	t_ray		ray = {{0, 0, 0}, {0, 0, 1}};
-	t_shape		shape = sphere();
+	t_shape		shape = create_sphere();;
 	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
@@ -753,7 +753,7 @@ int	ray_object_intersect_03(void)
 int	ray_object_intersect_04(void)
 {
 	t_ray		ray = {{0, 0, 5}, {0, 0, 1}};
-	t_shape		shape = sphere();
+	t_shape		shape = create_sphere();;
 	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
