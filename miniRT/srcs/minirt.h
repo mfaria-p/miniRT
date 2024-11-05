@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/04 20:45:38 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/05 09:47:28 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,18 @@ typedef struct s_object
 	}				rotation;
 }	t_object;
 
-// will need a list of intersections
-// should probably make a linked list
-typedef struct s_intersection
+typedef struct s_intersection 
 {
-	t_object	object;
-	float		time;
+	double		t;
+	t_object	*obj;
 }	t_intersection;
+
+typedef	struct s_intersections
+{
+	size_t			size;
+	double			hit;
+	t_intersection	*is;
+}	t_intersections;
 
 typedef struct	s_world
 {

@@ -6,12 +6,54 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/04 20:19:21 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/05 09:57:13 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "laag.h"
 #include "minirt.h"
+
+t_intersections *intersections_realloc(t_intersections *is)
+{
+	const size_t	buf_inc = 64;
+	t_intersection	*new_is;
+	int				i;
+
+	new_is = ft_calloc((is->size + buf_inc), sizeof(t_intersection));
+	if (is->size > 0)
+	{
+		i = 0;
+		while (i < is->size)
+		{
+			new_is[i].t = is->is[i].t;
+			new_is[i].obj = is->is[i].obj;
+			i++;
+		}
+		free(is->is);
+	}
+	is->is = new_is;
+	return (is);
+}
+
+t_intersections	*intersections_add(t_intersections *is, double t, t_object *obj)
+{
+	const size_t	buf_inc = 64;
+
+	if (is->size % buf_inc == 0)
+		intersections_realloc(is);
+	is->is[is->size].t = t;
+	is->is[is->size].obj = obj;
+	return (is);
+}
+
+t_intersections	*intersections_add_roots(t_intersections *is, t_roots xs, t_object *obj)
+{
+	if (xs.count > 0)
+		intersections_add(is, xs.x1, obj);
+	if (xs.count > 1)
+		intersections_add(is, xs.x2, obj);
+	return (is);
+}
 
 t_vector	ray_position(t_ray ray, float t)
 {
