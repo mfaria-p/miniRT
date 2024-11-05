@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/02 17:33:49 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/04 20:19:21 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ t_roots	ray_circle_intersect(t_ray ray, t_object object, double z)
 t_roots	ray_plane_intersect(t_ray ray, t_object object, double z)
 {
 	double		t;
-	t_vector	p;
+	// t_vector	p;
 
 	ray.origin = vector_subtract(ray.origin, object.translation);
 	ray.origin = vector_rotate(ray.origin, object.rotation.axis, -object.rotation.angle);
 	ray.direction = vector_rotate(ray.direction, object.rotation.axis, -object.rotation.angle);
 	t = (z - ray.origin.z) / ray.direction.z;
-	p = ray_position(ray, t);
+	// p = ray_position(ray, t);
 	return ((t_roots){1, t, t});
 }
 

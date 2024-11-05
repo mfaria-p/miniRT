@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/02 18:04:36 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/04 20:45:38 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_intersection
 
 typedef struct	s_world
 {
+	t_vector		ray_origin;
 	t_object		*objects;
 	t_light_source	*lights;
 	//t_camera		camera;

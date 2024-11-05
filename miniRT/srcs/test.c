@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/02 17:53:15 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/04 20:41:07 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,14 @@ int	main(void)
 
 	double			pixel_size = (double)WALL_SIZE / CANVAS_PIXEL;
 	double			half = (double)WALL_SIZE / 2;
-	t_shape			sphere = create_cylinder();
-	t_object		object = {sphere, {{252./255, 15./255, 192./255}, .1, .5, .8, 50}, {5, 5, 10}, {{0, 1, 0}, 0}};
-	t_object		object2 = {sphere, {{252./255, 15./255, 192./255}, .1, .5, .8, 50}, {0, 0, 10}, {{0, 1, 1}, 0}};
+	t_shape			sphere = create_sphere();
+	t_object		object = {sphere, {{252./255, 15./255, 192./255}, .1, .5, .8, 50}, {-2, -2, 10}, {{0, 0, 0}, 0}};
+	shape_scale(&sphere, .5);
+	t_object		object2 = {sphere, {{252./255, 15./255, 192./255}, .1, .5, .8, 50}, {2, 2, 10}, {{0, 0, 0}, 0}};
+	t_object		plane1 = {sphere, {{1, 0, 0}, .1, .5, .8, 50}, {0, 0, 0}, {{0, 1, 0}, M_PI / 4}};
+	t_object		plane2 = {sphere, {{1, 0, 0}, .1, .5, .8, 50}, {0, 0, 0}, {{0, 1, 0}, M_PI / 4}};
+	t_object		plane3 = {sphere, {{1, 0, 0}, .1, .5, .8, 50}, {0, 0, 0}, {{1, 0, 0}, M_PI / 2}};
+	t_object		planes[3] = {plane1, plane2, plane3};
 	t_light_source	light = {{-10, 10, -10}, 1};
 	double			world_y;
 	double			world_x;
@@ -48,13 +53,13 @@ int	main(void)
 	t_vector		eyev;
 
 	ray.origin = (t_vector){0, 0, -5};
-	double angle = (double)M_PI / 2;
-	double scale = 1;
-	double scale_inc = 0;
+	// double angle = (double)M_PI / 2;
+	// double scale = 1;
+	// double scale_inc = 0;
 	while (42)
 	{
-		object.rotation.angle = angle;
-		shape_scale(&object.shape, scale);
+		// object.rotation.angle = angle;
+		// shape_scale(&object.shape, scale);
 		mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
 		mlx_destroy_image(mlx_ptr, img.img);
 		img.img = mlx_new_image(mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL);
@@ -67,6 +72,7 @@ int	main(void)
 				position = (t_vector){world_x, world_y, WALL_Z};
 				ray.direction = vector_normalize(vector_subtract(position, ray.origin));
 				double	minx;
+				t_roots xss[3];
 				xs = ray_object_intersect(ray, object);
 				if (xs.count > 0)
 				{
@@ -87,14 +93,39 @@ int	main(void)
 					t_vector	color = lighting(object.material, light, point, eyev, normal);
 					my_mlx_pixel_put(&img, x, y, color_rgb(color));
 				}
+				xss[0] = ray_plane_intersect(ray, planes[0], 0);
+				// xss[1] = ray_plane_intersect(ray, planes[1], 0);
+				// xss[2] = ray_plane_intersect(ray, planes[2], 0);
+				// minx = -1;
+				// if (xss[0].x1 <= xss[1].x1 && xss[0].x1 <= xss[2].x1) {
+				// 	if (xss[0].count > 0)
+				// 		minx = xss[0].x1;
+				// }
+				// else if (xss[1].x1 <= xss[0].x1 && xss[1].x1 <= xss[2].x1) {
+				// 	if (xss[1].count > 0)
+				// 		minx = xss[1].x1;
+				// }
+				// else if (xss[2].x1 <= xss[1].x1 && xss[2].x1 <= xss[0].x1) {
+				// 	if (xss[2].count > 0)
+				// 		minx = xss[2].x1;
+				// }
+				minx = xss[0].x1;
+				if (minx > 0)
+				{
+					point = ray_position(ray, minx);
+					normal = normal_at(point, object);
+					eyev = vector_scalar_product(-1, ray.direction);
+					t_vector	color = lighting(object.material, light, point, eyev, normal);
+					my_mlx_pixel_put(&img, x, y, color_rgb(color));
+				}
 			}
 		}
-		scale += scale_inc;
-		angle += .1;
-		if (angle >= 8 * M_PI)
-			break;
-		if (scale >= 2 || scale <= .5)
-			scale_inc = -scale_inc;
+		// scale += scale_inc;
+		// angle += .1;
+		// if (angle >= 8 * M_PI)
+		// 	break;
+		// if (scale >= 2 || scale <= .5)
+		// 	scale_inc = -scale_inc;
 		mlx_clear_window(mlx_ptr, mlx_win);
 	}
 

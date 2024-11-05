@@ -1,0 +1,6 @@
+intersection
+	t
+	object
+
+intersections
+	interesection[]
