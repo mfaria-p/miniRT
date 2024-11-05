@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/05 09:47:28 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/05 20:39:10 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINIRT_H
 
 # include "mlx.h"
-# include "libft.h"
+# include "../libft/libft/libft.h"
 # include "laag.h"
 # include <math.h>
 
@@ -75,6 +75,10 @@ typedef struct s_object
 	}				rotation;
 }	t_object;
 
+// increment to reallocate for intersections array
+// minimizing nbr of allocations
+# define INTERSECTION_BUFFER_STEP 2048
+
 typedef struct s_intersection 
 {
 	double		t;
@@ -83,16 +87,16 @@ typedef struct s_intersection
 
 typedef	struct s_intersections
 {
+	t_intersection	*hit;
 	size_t			size;
-	double			hit;
 	t_intersection	*is;
 }	t_intersections;
 
-typedef struct	s_world
+typedef struct s_world
 {
 	t_vector		ray_origin;
-	t_object		*objects;
-	t_light_source	*lights;
+	t_list	*objects;
+	t_list	*lights;
 	//t_camera		camera;
 }	t_world;
 
@@ -108,15 +112,36 @@ t_roots		quadratic_roots(double a, double b, double c);
 t_roots		ray_object_intersect(t_ray ray, t_object object);
 t_roots		ray_circle_intersect(t_ray ray, t_object object, double z);
 t_roots		ray_plane_intersect(t_ray ray, t_object object, double z);
+t_intersections	*ray_world_intersect(t_intersections *is, t_ray ray, t_world *world);
 
 /* ************************************************************************** */
 // shape.c
-t_shape		create_sphere(void);
-t_shape		create_cylinder(void);
-t_shape		create_cone(void);
-t_shape		create_plane(void);
+t_shape		shape_sphere_create(void);
+t_shape		shape_cylinder_create(void);
+t_shape		shape_cone_create(void);
+t_shape		shape_plane_create(void);
 t_shape		*shape_scale(t_shape *shape, double scale);
 t_vector	normal_at(t_vector p, t_object object);
+
+
+/* ************************************************************************** */
+// object.c
+t_object	*object_sphere_create(t_vector xyz, t_vector rgb, double d);
+t_object	*object_cylinder_create(t_vector xyz, t_vector rgb, t_vector axis, double d, double h);
+t_object	*object_plane_create(t_vector xyz, t_vector rgb, t_vector axis);
+t_object	*object_cone_create(t_vector xyz, t_vector rgb, t_vector axis, double d, double h);
+
+/* ************************************************************************** */
+// world.c
+t_world		*world_object_add(t_world *world, t_object *object);
+t_world		*world_light_add(t_world *world, t_light_source *light);
+void		world_destroy(t_world *world);
+t_world		*world_init(t_world *world);
+
+/* ************************************************************************** */
+// intersections.c
+t_intersections	*intersections_roots_add(t_intersections *is, t_roots xs, t_object *obj);
+t_intersections	*intersections_init(t_intersections *is);
 
 typedef struct s_img
 {

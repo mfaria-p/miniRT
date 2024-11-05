@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/04 20:41:07 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/05 22:11:09 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,103 +34,49 @@ int	main(void)
 
 	double			pixel_size = (double)WALL_SIZE / CANVAS_PIXEL;
 	double			half = (double)WALL_SIZE / 2;
-	t_shape			sphere = create_sphere();
-	t_object		object = {sphere, {{252./255, 15./255, 192./255}, .1, .5, .8, 50}, {-2, -2, 10}, {{0, 0, 0}, 0}};
-	shape_scale(&sphere, .5);
-	t_object		object2 = {sphere, {{252./255, 15./255, 192./255}, .1, .5, .8, 50}, {2, 2, 10}, {{0, 0, 0}, 0}};
-	t_object		plane1 = {sphere, {{1, 0, 0}, .1, .5, .8, 50}, {0, 0, 0}, {{0, 1, 0}, M_PI / 4}};
-	t_object		plane2 = {sphere, {{1, 0, 0}, .1, .5, .8, 50}, {0, 0, 0}, {{0, 1, 0}, M_PI / 4}};
-	t_object		plane3 = {sphere, {{1, 0, 0}, .1, .5, .8, 50}, {0, 0, 0}, {{1, 0, 0}, M_PI / 2}};
-	t_object		planes[3] = {plane1, plane2, plane3};
-	t_light_source	light = {{-10, 10, -10}, 1};
+	t_light_source	light = {{-5, 0, -5}, 1};
 	double			world_y;
 	double			world_x;
 	t_vector		position;
 	t_ray			ray;
-	t_roots			xs;
 	t_vector		point;
 	t_vector		normal;
 	t_vector		eyev;
 
+	static t_world	world;
+	world_init(&world);
+	t_object		*object;
+	object = object_cylinder_create((t_vector){0, 0, 0}, (t_vector){.5, .5, .5}, (t_vector){0, 1, 0}, .2, 1);
+	world_object_add(&world, object);
+
+	t_intersections	is;
+
 	ray.origin = (t_vector){0, 0, -5};
-	// double angle = (double)M_PI / 2;
-	// double scale = 1;
-	// double scale_inc = 0;
-	while (42)
+	for (int y = 0; y < CANVAS_PIXEL; y++)
 	{
-		// object.rotation.angle = angle;
-		// shape_scale(&object.shape, scale);
-		mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
-		mlx_destroy_image(mlx_ptr, img.img);
-		img.img = mlx_new_image(mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL);
-		for (int y = 0; y < CANVAS_PIXEL; y++)
+		world_y = half - pixel_size * y;
+		for (int x = 0; x < CANVAS_PIXEL; x++)
 		{
-			world_y = half - pixel_size * y;
-			for (int x = 0; x < CANVAS_PIXEL; x++)
+			intersections_init(&is);
+			world_x = -half + pixel_size * x;
+			position = (t_vector){world_x, world_y, WALL_Z};
+			ray.direction = vector_normalize(vector_subtract(position, ray.origin));
+			ray_world_intersect(&is, ray, &world);
+			if (is.hit)
 			{
-				world_x = -half + pixel_size * x;
-				position = (t_vector){world_x, world_y, WALL_Z};
-				ray.direction = vector_normalize(vector_subtract(position, ray.origin));
-				double	minx;
-				t_roots xss[3];
-				xs = ray_object_intersect(ray, object);
-				if (xs.count > 0)
-				{
-					minx = (xs.x1 <= xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2;
-					point = ray_position(ray, minx);
-					normal = normal_at(point, object);
-					eyev = vector_scalar_product(-1, ray.direction);
-					t_vector	color = lighting(object.material, light, point, eyev, normal);
-					my_mlx_pixel_put(&img, x, y, color_rgb(color));
-				}
-				xs = ray_object_intersect(ray, object2);
-				if (xs.count > 0)
-				{
-					minx = (xs.x1 <= xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2;
-					point = ray_position(ray, minx);
-					normal = normal_at(point, object2);
-					eyev = vector_scalar_product(-1, ray.direction);
-					t_vector	color = lighting(object.material, light, point, eyev, normal);
-					my_mlx_pixel_put(&img, x, y, color_rgb(color));
-				}
-				xss[0] = ray_plane_intersect(ray, planes[0], 0);
-				// xss[1] = ray_plane_intersect(ray, planes[1], 0);
-				// xss[2] = ray_plane_intersect(ray, planes[2], 0);
-				// minx = -1;
-				// if (xss[0].x1 <= xss[1].x1 && xss[0].x1 <= xss[2].x1) {
-				// 	if (xss[0].count > 0)
-				// 		minx = xss[0].x1;
-				// }
-				// else if (xss[1].x1 <= xss[0].x1 && xss[1].x1 <= xss[2].x1) {
-				// 	if (xss[1].count > 0)
-				// 		minx = xss[1].x1;
-				// }
-				// else if (xss[2].x1 <= xss[1].x1 && xss[2].x1 <= xss[0].x1) {
-				// 	if (xss[2].count > 0)
-				// 		minx = xss[2].x1;
-				// }
-				minx = xss[0].x1;
-				if (minx > 0)
-				{
-					point = ray_position(ray, minx);
-					normal = normal_at(point, object);
-					eyev = vector_scalar_product(-1, ray.direction);
-					t_vector	color = lighting(object.material, light, point, eyev, normal);
-					my_mlx_pixel_put(&img, x, y, color_rgb(color));
-				}
+				point = ray_position(ray, is.hit->t);
+				normal = normal_at(point, *is.hit->obj);
+				eyev = vector_scalar_product(-1, ray.direction);
+				t_vector	color = lighting(is.hit->obj->material, light, point, eyev, normal);
+				my_mlx_pixel_put(&img, x, y, color_rgb(color));
 			}
+			free(is.is);
 		}
-		// scale += scale_inc;
-		// angle += .1;
-		// if (angle >= 8 * M_PI)
-		// 	break;
-		// if (scale >= 2 || scale <= .5)
-		// 	scale_inc = -scale_inc;
-		mlx_clear_window(mlx_ptr, mlx_win);
 	}
 
 	mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
-	/*mlx_loop(mlx_ptr);*/
+	mlx_loop(mlx_ptr);
+	world_destroy(&world);
 	mlx_clear_window(mlx_ptr, mlx_win);
 	mlx_destroy_image(mlx_ptr, img.img);
 	mlx_destroy_window(mlx_ptr, mlx_win);

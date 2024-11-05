@@ -1,14 +1,14 @@
 NAME = miniRT
 
 SRCDIR = srcs
-SRCS = test.c vector.c quaternion.c matrix.c ray.c light.c shape.c
+SRCS = test.c vector.c quaternion.c matrix.c ray.c light.c shape.c object.c intersections.c world.c
 HDRS = laag.h minirt.h
 
 OBJDIR = objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 CC = cc
-RTFLAGS = -Wall -Wextra -Werror -g -pg
+RTFLAGS = -Wall -Wextra -Werror -g #-pg
 
 LIBMLX_DIR = minilibx-linux
 LIBMLX = $(LIBMLX_DIR)/libmlx.a
