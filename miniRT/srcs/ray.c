@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/06 09:35:08 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/06 18:45:03 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ t_roots	ray_object_intersect(t_ray ray, t_object object)
 	abc[2] -= shape.constant;
 	xs = quadratic_roots(abc[0], abc[1], abc[2]);
 	p = ray_position(ray, xs.x1);
-	if (object.shape.bounds > 0 && (p.z > object.shape.bounds || p.z < 0))
+	if (object.shape.height > 0 && (p.z > object.shape.height || p.z < 0))
 		xs.x1 = -1;
 	p = ray_position(ray, xs.x2);
-	if (object.shape.bounds > 0 && (p.z > object.shape.bounds || p.z < 0))
+	if (object.shape.height > 0 && (p.z > object.shape.height || p.z < 0))
 		xs.x2 = -1;
 	return (xs);
 }

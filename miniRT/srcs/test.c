@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/06 09:41:53 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/06 19:09:17 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,12 @@ int	main(void)
 	static t_world	world;
 	world_init(&world);
 	t_object		*object;
-	object = object_cylinder_create((t_vector){0, -.5, 0}, (t_vector){.9, .7, .65}, (t_vector){0, 1, 0}, .3, 1);
+	object = object_sphere_create((t_vector){0, .4, -.4}, (t_vector){.9, .4, .5}, .5);
+	object_coord_new(object, (t_vector){0, 0, 0});
+	object_translate(object, (t_vector){1, 0 ,0}, -.5);
 	world_object_add(&world, object);
-	object = object_sphere_create((t_vector){-.15, -.5, -.2}, (t_vector){.9, .7, .65}, .4);
-	world_object_add(&world, object);
-	object = object_sphere_create((t_vector){.15, -.5, -.2}, (t_vector){.9, .7, .65}, .4);
-	world_object_add(&world, object);
-	object = object_sphere_create((t_vector){0, .4, -.4}, (t_vector){.9, .4, .5}, .37);
-	object_coef_new(object, (t_vector){1, 2, 1});
+	object = object_cylinder_create((t_vector){0, -.25, 0}, (t_vector){.9, .4, .5}, (t_vector){0, 1, 0}, .5, .5);
+	object_translate(object, (t_vector){1, 0 ,0}, .5);
 	world_object_add(&world, object);
 
 	t_intersections	is;

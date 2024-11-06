@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/06 09:40:24 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/06 19:03:07 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_shape
 {
 	int			type;
 	t_vector	coefficients;
-	double		bounds;
+	double		height;
 	double		constant;
 	double		scale;
 }	t_shape;
@@ -73,6 +73,7 @@ typedef struct s_object
 		t_vector	axis;
 		double		angle;
 	}				rotation;
+	t_vector		axis;
 }	t_object;
 
 // increment to reallocate for intersections array
@@ -130,8 +131,13 @@ t_object	*object_sphere_create(t_vector xyz, t_vector rgb, double d);
 t_object	*object_cylinder_create(t_vector xyz, t_vector rgb, t_vector axis, double d, double h);
 t_object	*object_plane_create(t_vector xyz, t_vector rgb, t_vector axis);
 t_object	*object_cone_create(t_vector xyz, t_vector rgb, t_vector axis, double d, double h);
-t_object	*object_scale(t_object *obj, double scale);
+t_object	*object_height_new(t_object *obj, double height);
+t_object	*object_coord_new(t_object *obj, t_vector coord);
+t_object	*object_rot_new(t_object *obj, t_vector axis, double angle);
 t_object	*object_coef_new(t_object *obj, t_vector new_coef);
+t_object	*object_translate(t_object *obj, t_vector direction, double shift);
+t_object	*object_rotate(t_object *obj, t_vector axis, double angle);
+t_object	*object_scale(t_object *obj, double scale);
 
 /* ************************************************************************** */
 // world.c
