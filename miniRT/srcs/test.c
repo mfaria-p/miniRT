@@ -6,14 +6,14 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/05 22:11:09 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/06 09:41:53 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "laag.h"
 #include "minirt.h"
 
-#define CANVAS_PIXEL 500
+#define CANVAS_PIXEL 700
 #define WALL_Z 10
 #define WALL_SIZE 7
 
@@ -34,7 +34,7 @@ int	main(void)
 
 	double			pixel_size = (double)WALL_SIZE / CANVAS_PIXEL;
 	double			half = (double)WALL_SIZE / 2;
-	t_light_source	light = {{-5, 0, -5}, 1};
+	t_light_source	light = {{-5, 0, -5}, .4};
 	double			world_y;
 	double			world_x;
 	t_vector		position;
@@ -46,7 +46,14 @@ int	main(void)
 	static t_world	world;
 	world_init(&world);
 	t_object		*object;
-	object = object_cylinder_create((t_vector){0, 0, 0}, (t_vector){.5, .5, .5}, (t_vector){0, 1, 0}, .2, 1);
+	object = object_cylinder_create((t_vector){0, -.5, 0}, (t_vector){.9, .7, .65}, (t_vector){0, 1, 0}, .3, 1);
+	world_object_add(&world, object);
+	object = object_sphere_create((t_vector){-.15, -.5, -.2}, (t_vector){.9, .7, .65}, .4);
+	world_object_add(&world, object);
+	object = object_sphere_create((t_vector){.15, -.5, -.2}, (t_vector){.9, .7, .65}, .4);
+	world_object_add(&world, object);
+	object = object_sphere_create((t_vector){0, .4, -.4}, (t_vector){.9, .4, .5}, .37);
+	object_coef_new(object, (t_vector){1, 2, 1});
 	world_object_add(&world, object);
 
 	t_intersections	is;

@@ -6,13 +6,13 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/05 20:37:19 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/06 09:35:08 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_vector	ray_position(t_ray ray, float t)
+t_vector	ray_position(t_ray ray, double t)
 {
 	return (vector_add(ray.origin, vector_scalar_product(t, ray.direction)));
 }
@@ -69,6 +69,7 @@ t_roots	ray_object_intersect(t_ray ray, t_object object)
 	t_shape		shape;
 	double		abc[3];
 	t_roots		xs;
+	t_vector	p;
 
 	shape = object.shape;
 	if (shape.type == PLANE)
@@ -76,12 +77,18 @@ t_roots	ray_object_intersect(t_ray ray, t_object object)
 	ray.origin = vector_subtract(ray.origin, object.translation);
 	ray.origin = vector_rotate(ray.origin, object.rotation.axis, -object.rotation.angle);
 	ray.direction = vector_rotate(ray.direction, object.rotation.axis, -object.rotation.angle);
-	abc[0] = shape.scale * vector_dot_product(shape.coefficients, (t_vector){ray.direction.x * ray.direction.x, ray.direction.y * ray.direction.y, ray.direction.z * ray.direction.z});
-	abc[1] = shape.scale * vector_dot_product(shape.coefficients, (t_vector){ray.origin.x * ray.direction.x, ray.origin.y * ray.direction.y, ray.origin.z * ray.direction.z});
+	abc[0] = vector_dot_product(shape.coefficients, (t_vector){ray.direction.x * ray.direction.x, ray.direction.y * ray.direction.y, ray.direction.z * ray.direction.z});
+	abc[1] = vector_dot_product(shape.coefficients, (t_vector){ray.origin.x * ray.direction.x, ray.origin.y * ray.direction.y, ray.origin.z * ray.direction.z});
 	abc[1] *= 2;
-	abc[2] = shape.scale * vector_dot_product(shape.coefficients, (t_vector){ray.origin.x * ray.origin.x, ray.origin.y * ray.origin.y, ray.origin.z * ray.origin.z});
+	abc[2] = vector_dot_product(shape.coefficients, (t_vector){ray.origin.x * ray.origin.x, ray.origin.y * ray.origin.y, ray.origin.z * ray.origin.z});
 	abc[2] -= shape.constant;
 	xs = quadratic_roots(abc[0], abc[1], abc[2]);
+	p = ray_position(ray, xs.x1);
+	if (object.shape.bounds > 0 && (p.z > object.shape.bounds || p.z < 0))
+		xs.x1 = -1;
+	p = ray_position(ray, xs.x2);
+	if (object.shape.bounds > 0 && (p.z > object.shape.bounds || p.z < 0))
+		xs.x2 = -1;
 	return (xs);
 }
 

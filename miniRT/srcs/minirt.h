@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/05 20:39:10 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/06 09:40:24 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_shape
 {
 	int			type;
 	t_vector	coefficients;
-	double		bounds[2];
+	double		bounds;
 	double		constant;
 	double		scale;
 }	t_shape;
@@ -107,7 +107,7 @@ t_vector	lighting(t_material material, t_light_source light, t_vector point, t_v
 
 /* ************************************************************************** */
 // ray.c
-t_vector	ray_position(t_ray ray, float t);
+t_vector	ray_position(t_ray ray, double t);
 t_roots		quadratic_roots(double a, double b, double c);
 t_roots		ray_object_intersect(t_ray ray, t_object object);
 t_roots		ray_circle_intersect(t_ray ray, t_object object, double z);
@@ -130,6 +130,8 @@ t_object	*object_sphere_create(t_vector xyz, t_vector rgb, double d);
 t_object	*object_cylinder_create(t_vector xyz, t_vector rgb, t_vector axis, double d, double h);
 t_object	*object_plane_create(t_vector xyz, t_vector rgb, t_vector axis);
 t_object	*object_cone_create(t_vector xyz, t_vector rgb, t_vector axis, double d, double h);
+t_object	*object_scale(t_object *obj, double scale);
+t_object	*object_coef_new(t_object *obj, t_vector new_coef);
 
 /* ************************************************************************** */
 // world.c
