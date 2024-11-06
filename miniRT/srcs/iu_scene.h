@@ -1,5 +1,5 @@
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef IU_SCENE_H
+#define IU_SCENE_H
 
 #include <mlx.h>
 #include <stdlib.h>
@@ -7,6 +7,10 @@
 #include <string.h>
 #include <fcntl.h>
 #include "minirt.h"
+#include "../libft/libft/ft_printf.h"
+#include "../libft/libft/get_next_line.h"
+#include "../libft/libft/libft.h"
+#include "../minilibx-linux/mlx.h"
 
 #define ESC_KEY 65307
 
@@ -76,5 +80,32 @@ typedef struct s_scene {
     t_cylinder *cylinders;
     int cylinder_count;
 } t_scene;
+
+//window related functions
+void open_window(t_data *data);
+void close_window(t_data *data);
+int key_hook(int keycode, t_data *data);
+int close_hook(t_data *data);
+
+//error handling
+void ft_checkfile(char * file, t_data *data);
+int ft_error(char *str, t_data *data, int e);
+
+//scene parsing functions
+void parse_scene(const char *filename, t_scene *scene);
+void parse_ambient(const char *line, t_scene *scene);
+void parse_camera(const char *line, t_scene *scene);
+void parse_light(const char *line, t_scene *scene);
+void parse_sphere(const char *line, t_scene *scene);
+void parse_plane(const char *line, t_scene *scene);
+void parse_cylinder(const char *line, t_scene *scene);
+
+//scene parsing utility functions
+int parse_int(const char **str);
+float parse_float(const char **str);
+void skip_spaces(const char **str);
+void parse_color(const char **str, t_color *color, t_scene *scene);
+void *ft_realloc(void *ptr, size_t size);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 
 #endif

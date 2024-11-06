@@ -4,7 +4,7 @@ void open_window(t_data *data) {
     data->mlx_ptr = mlx_init();
     if (!data->mlx_ptr)
         ft_error("Initializing MiniLibX", data, EXIT_FAILURE);
-    data->win_ptr = mlx_new_window(data->mlx_ptr, 500, 500, "Hello World!");
+    data->win_ptr = mlx_new_window(data->mlx_ptr, 500, 500, "MUEHEHE");
     if (!data->win_ptr)
         ft_error("Creating window", data, EXIT_FAILURE);
     data->img_ptr = mlx_new_image(data->mlx_ptr, 500, 500);

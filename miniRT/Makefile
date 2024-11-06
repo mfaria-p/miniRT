@@ -1,7 +1,7 @@
 NAME = miniRT
 
 SRCDIR = srcs
-SRCS = test.c vector.c quaternion.c matrix.c ray.c light.c shape.c
+SRCS = iu_main.c iu_error.c iu_scene_parser_utils.c iu_scene_parser.c iu_window.c
 HDRS = laag.h minirt.h
 
 OBJDIR = objs
