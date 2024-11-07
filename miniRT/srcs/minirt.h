@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/07 15:19:51 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:00:07 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,15 @@ typedef	struct s_intersections
 	t_intersection	*is;
 }	t_intersections;
 
+typedef struct s_hit
+{
+	t_intersection	i;
+	t_vector		point;
+	t_vector		normal;
+	t_vector		eyev;
+	int				is_inside;
+}	t_hit;
+
 typedef struct s_world
 {
 	t_vector		ray_origin;
@@ -151,6 +160,12 @@ t_world		*world_init(t_world *world);
 // intersections.c
 t_intersections	*intersections_roots_add(t_intersections *is, t_roots xs, t_object *obj);
 t_intersections	*intersections_init(t_intersections *is);
+
+/* ************************************************************************** */
+// hit.c
+t_hit		hit(t_intersection i, t_ray ray);
+t_vector	shade_hit(t_world *world, t_hit hit);
+t_vector	color_at(t_world *world, t_ray ray);
 
 typedef struct s_img
 {
