@@ -1,19 +1,18 @@
-/* ************************************************************************** */
-/*                                                                            */
+/* ************************************************************************** */ /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/07 16:00:17 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/07 22:04:31 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "laag.h"
 #include "minirt.h"
 
-#define CANVAS_PIXEL 100
+#define CANVAS_PIXEL 600
 #define WALL_Z 10
 #define WALL_SIZE 7
 
@@ -25,14 +24,16 @@ int	main(void)
 	void		*mlx_win;
 	t_img		img;
 
-	ft_memset(&img, 0, sizeof(img));
-	mlx_ptr = mlx_init();
+	ft_memset(&img, 0, sizeof(img)); mlx_ptr = mlx_init();
 	// mlx_get_screen_size(mlx_ptr, &w, &h);
 	mlx_win = mlx_new_window(mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL, "Hello World!");
 	img.img = mlx_new_image(mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL);
 	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
 
-	double			pixel_size = (double)WALL_SIZE / CANVAS_PIXEL;
+	int	resolution = 300;
+	int	scale = CANVAS_PIXEL / resolution;
+
+	double			pixel_size = (double)WALL_SIZE / resolution;
 	double			half = (double)WALL_SIZE / 2;
 	double			world_y;
 	double			world_x;
@@ -44,29 +45,32 @@ int	main(void)
 	world_init(&world);
 
 	t_light_source *light;
-	light = light_create((t_vector){10, 1, -10}, (t_vector){1, 0, 0}, 1);
+	light = light_create((t_vector){10, 0, -1}, (t_vector){.9, .8, .2}, 1);
 	world_light_add(&world, light);
 
 	t_object		*object;
-	object = object_sphere_create((t_vector){0, .4, -.4}, (t_vector){.9, .4, .5}, .5);
+	object = object_sphere_create((t_vector){-.5, 0, 0}, (t_vector){1, 1, 1}, .5);
 	object_coord_new(object, (t_vector){0, 0, 0});
 	object_translate(object, (t_vector){1, 0 ,0}, -.5);
 	world_object_add(&world, object);
-	object = object_cylinder_create((t_vector){0, -.25, 0}, (t_vector){.9, .4, .5}, (t_vector){0, 1, 0}, .5, .5);
+	object = object_cylinder_create((t_vector){0, -.25, 0}, (t_vector){0, .4, .5}, (t_vector){0, 1, 0}, .5, .5);
 	object_translate(object, (t_vector){1, 0 ,0}, .5);
 	world_object_add(&world, object);
 
 
 	ray.origin = (t_vector){0, 0, -5};
-	for (int y = 0; y < CANVAS_PIXEL; y++)
+	for (int y = 0; y < resolution; y++)
 	{
 		world_y = half - pixel_size * y;
-		for (int x = 0; x < CANVAS_PIXEL; x++)
+		for (int x = 0; x < resolution; x++)
 		{
 			world_x = -half + pixel_size * x;
 			position = (t_vector){world_x, world_y, WALL_Z};
 			ray.direction = vector_normalize(vector_subtract(position, ray.origin));
-			my_mlx_pixel_put(&img, x, y, color_rgb(color_at(&world, ray)));
+			int	color = color_rgb(color_at(&world, ray));
+			for (int yy = y * scale; yy < y * scale + scale; yy++)
+				for (int xx = x * scale; xx < x * scale + scale; xx++)
+					my_mlx_pixel_put(&img, xx, yy, color);
 		}
 	}
 

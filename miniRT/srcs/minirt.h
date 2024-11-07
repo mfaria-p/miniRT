@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/07 16:00:07 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/07 21:42:34 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "../libft/libft/libft.h"
 # include "laag.h"
 # include <math.h>
+
+// color vector have values between 0 and 1
 
 typedef struct s_ray
 {
@@ -31,6 +33,7 @@ typedef struct s_quadratic_root
 	double	x2;
 }	t_roots;
 
+// intensity is between [0,1]
 typedef struct s_light_source
 {
 	t_vector	origin;
@@ -38,6 +41,14 @@ typedef struct s_light_source
 	float		intensity;
 }	t_light_source;
 
+typedef struct s_phong
+{
+	t_vector	ambient;
+	t_vector	diffuse;
+	t_vector	specular;
+}	t_phong;
+
+// all properties are between [0,1]
 typedef struct s_material
 {
 	t_vector	color;
@@ -115,7 +126,7 @@ typedef struct s_world
 // light.c
 t_light_source	*light_create(t_vector xyz, t_vector rgb, double intensity);
 t_vector	vector_reflect(t_vector in, t_vector normal);
-t_vector	lighting(t_material material, t_light_source light,t_vector point, t_vector eyev, t_vector normal);
+t_phong		lighting(t_material material, t_light_source light,t_vector point, t_vector eyev, t_vector normal);
 /* ************************************************************************** */
 // ray.c
 t_vector	ray_position(t_ray ray, double t);

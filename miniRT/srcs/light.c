@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:03:16 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/07 15:18:35 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/07 21:42:58 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_vector	color_blend(t_vector c1, t_vector c2)
 	return ((t_vector){c1.x * c2.x, c1.y * c2.y, c1.z * c2.z});
 }
 
-t_vector	lighting(t_material material, t_light_source light, t_vector point, t_vector eyev, t_vector normal)
+t_phong	lighting(t_material material, t_light_source light, t_vector point, t_vector eyev, t_vector normal)
 {
 	t_vector	color;
 	t_vector	lightv;
@@ -71,5 +71,5 @@ t_vector	lighting(t_material material, t_light_source light, t_vector point, t_v
 			specular = (t_vector){specular_aux, specular_aux, specular_aux};
 		}
 	}
-	return (vector_add(vector_add(ambient, diffuse), specular));
+	return ((t_phong){ambient, diffuse, specular});
 }
