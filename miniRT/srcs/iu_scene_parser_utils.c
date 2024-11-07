@@ -89,7 +89,7 @@ void *ft_realloc(void *ptr, size_t size) {
     }
 
     // Copy the old data to the new memory block
-    memcpy(new_ptr, ptr, size);
+    ft_memcpy(new_ptr, ptr, size);
     free(ptr);
 
     return new_ptr;

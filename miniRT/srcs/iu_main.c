@@ -5,8 +5,14 @@ int main(int argc, char **argv)
     t_data data = {0};
     t_scene scene = {0};
 
-    if (argc != 2 || !strstr(argv[1], ".rt")) 
-        ft_error( "Usage: ./miniRT <scene_description_file.rt>", &data, EXIT_FAILURE);
+    if (argc != 2)
+        ft_error("Usage: ./miniRT <scene_description_file.rt>", &data, EXIT_FAILURE);
+    // Calculate the length of the filename
+    size_t filename_len = ft_strlen(argv[1]);
+    size_t extension_len = ft_strlen(".rt");
+    if (filename_len < extension_len || !ft_strnstr(argv[1] + filename_len - extension_len, ".rt", extension_len)) {
+        ft_error("Usage: ./miniRT <scene_description_file.rt>", &data, EXIT_FAILURE);
+    }
     //ft_checkfile(argv[1], &data);
     parse_scene(argv[1], &scene);
     open_window(&data);

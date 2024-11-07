@@ -167,11 +167,11 @@ void process_line(const char *line, t_scene *scene) {
         check_camera(clean_line, scene);
     } else if (clean_line[0] == 'L') {
         check_light(clean_line, scene);
-    } else if (strncmp(clean_line, "sp", 2) == 0) {
+    } else if (ft_strncmp(clean_line, "sp", 2) == 0) {
         check_sphere(clean_line, scene);
-    } else if (strncmp(clean_line, "pl", 2) == 0) {
+    } else if (ft_strncmp(clean_line, "pl", 2) == 0) {
         check_plane(clean_line, scene);
-    } else if (strncmp(clean_line, "cy", 2) == 0) {
+    } else if (ft_strncmp(clean_line, "cy", 2) == 0) {
         check_cylinder(clean_line, scene);
     } else {
         ft_error("Invalid element", &scene->data, EXIT_FAILURE);
