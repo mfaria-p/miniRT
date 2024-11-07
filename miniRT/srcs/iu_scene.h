@@ -79,6 +79,9 @@ typedef struct s_scene {
     int plane_count;
     t_cylinder *cylinders;
     int cylinder_count;
+    int camera_count;
+    int light_count;
+    int ambient_count;
 } t_scene;
 
 //window related functions
@@ -89,7 +92,18 @@ int close_hook(t_data *data);
 
 //error handling
 void ft_checkfile(char * file, t_data *data);
+void	is_invalid_file(t_scene *scene);
 int ft_error(char *str, t_data *data, int e);
+
+//checks before parsing functions
+void check_ambient(const char *line, t_scene *scene);
+void check_camera(const char *line, t_scene *scene) ;
+void check_light(const char *line, t_scene *scene) ;
+void check_sphere(const char *line, t_scene *scene) ;
+void check_plane(const char *line, t_scene *scene) ;
+void check_cylinder(const char *line, t_scene *scene) ;
+void	check_vector(char ***str, t_scene *scene, int j);
+void	check_colors(char ***str, t_scene *scene, int j);
 
 //scene parsing functions
 void parse_scene(const char *filename, t_scene *scene);
@@ -107,5 +121,9 @@ void skip_spaces(const char **str);
 void parse_color(const char **str, t_color *color, t_scene *scene);
 void *ft_realloc(void *ptr, size_t size);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
+int	is_float(char *str);
+int	is_int(char *str);
+void	free_array(char *arr[]);
+int	array_length(char *arr[]);
 
 #endif

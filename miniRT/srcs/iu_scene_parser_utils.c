@@ -39,7 +39,8 @@ void skip_spaces(const char **str) {
     while (**str == ' ' || **str == '\t') (*str)++;
 }
 
-void parse_color(const char **str, t_color *color, t_scene *scene) {
+void parse_color(const char **str, t_color *color, t_scene *scene) 
+{
     color->r = parse_int(str);
     if (color->r < 0 || color->r > 255) 
         ft_error("Color R out of range [0, 255]", &scene->data, EXIT_FAILURE);
@@ -92,4 +93,55 @@ void *ft_realloc(void *ptr, size_t size) {
     free(ptr);
 
     return new_ptr;
+}
+
+int	array_length(char *arr[])
+{
+	int	i;
+
+	i = 0;
+	while (arr && arr[i])
+		i++;
+	return (i);
+}
+
+void	free_array(char *arr[])
+{
+	int	i;
+
+	i = 0;
+	if (arr)
+	{
+		while (arr[i])
+			free(arr[i++]);
+		free(arr);
+	}
+}
+
+int	is_float(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i])
+	{
+		if (ft_isdigit(str[i]) != 1 && str[i] != '-' && str[i] != '.')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	is_int(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i])
+	{
+		if (ft_isdigit(str[i]) != 1 && str[i] != '-')
+			return (0);
+		i++;
+	}
+	return (1);
 }

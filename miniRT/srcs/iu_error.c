@@ -23,3 +23,15 @@ void ft_checkfile(char * file, t_data *data)
     if (data->fd == -1)
         ft_error("Invalid file", data, EXIT_FAILURE);
 }
+
+//checkar com o edu s isto é uma cena
+void	is_invalid_file(t_scene *scene)
+{
+	if (!scene->ambient_count)
+		ft_error("Missing Ambient element", &scene->data, EXIT_FAILURE);
+	if (!scene->camera_count)
+        ft_error("Missing Camera element", &scene->data, EXIT_FAILURE);
+    if (!scene->light_count)
+        ft_error("Missing Light element", &scene->data, EXIT_FAILURE);
+
+}
