@@ -17,12 +17,12 @@ int ft_error(char *str, t_data *data, int e)
 	exit(EXIT_FAILURE);
 }
 
-void ft_checkfile(char * file, t_data *data)
+/* void ft_checkfile(char * file, t_data *data)
 {
     data->fd = open(file, O_RDONLY, 0444);
     if (data->fd == -1)
         ft_error("Invalid file", data, EXIT_FAILURE);
-}
+} */
 
 //checkar com o edu s isto é uma cena
 void	is_invalid_file(t_scene *scene)

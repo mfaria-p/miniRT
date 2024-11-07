@@ -118,18 +118,33 @@ void	free_array(char *arr[])
 	}
 }
 
-int	is_float(char *str)
-{
-	int	i;
+int is_float(char *str) {
+    int i = 0;
+    int has_decimal_point = 0;
 
-	i = 0;
-	while (str[i] && str[i])
-	{
-		if (ft_isdigit(str[i]) != 1 && str[i] != '-' && str[i] != '.')
-			return (0);
-		i++;
-	}
-	return (1);
+    // Check for optional sign at the beginning
+    if (str[i] == '-' || str[i] == '+') {
+        i++;
+    }
+    // Ensure there is at least one digit or decimal point
+    if (!str[i]) {
+        return 0;
+    }
+    // Check the rest of the string for digits and a single decimal point
+    while (str[i]) {
+        if (ft_isdigit(str[i])) {
+            i++;
+        } else if (str[i] == '.') {
+            if (has_decimal_point) {
+                return 0; // More than one decimal point
+            }
+            has_decimal_point = 1;
+            i++;
+        } else {
+            return 0; // Invalid character
+        }
+    }
+    return 1;
 }
 
 int	is_int(char *str)
@@ -137,11 +152,22 @@ int	is_int(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] && str[i])
-	{
-		if (ft_isdigit(str[i]) != 1 && str[i] != '-')
-			return (0);
-		i++;
-	}
-	return (1);
+	// Check for optional sign at the beginning
+    if (str[i] == '-' || str[i] == '+') {
+        i++;
+    }
+
+    // Ensure there is at least one digit
+    if (!str[i]) {
+        return 0;
+    }
+
+    // Check the rest of the string for digits
+    while (str[i]) {
+        if (ft_isdigit(str[i]) == 0)
+            return 0;
+        i++;
+    }
+
+    return 1;
 }

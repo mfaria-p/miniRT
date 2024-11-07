@@ -91,7 +91,7 @@ int key_hook(int keycode, t_data *data);
 int close_hook(t_data *data);
 
 //error handling
-void ft_checkfile(char * file, t_data *data);
+//void ft_checkfile(char * file, t_data *data);
 void	is_invalid_file(t_scene *scene);
 int ft_error(char *str, t_data *data, int e);
 
@@ -106,6 +106,7 @@ void	check_vector(char ***str, t_scene *scene, int j);
 void	check_colors(char ***str, t_scene *scene, int j);
 
 //scene parsing functions
+void process_line(const char *line, t_scene *scene);
 void parse_scene(const char *filename, t_scene *scene);
 void parse_ambient(const char *line, t_scene *scene);
 void parse_camera(const char *line, t_scene *scene);

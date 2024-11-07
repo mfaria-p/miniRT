@@ -52,7 +52,6 @@ void parse_light(const char *line, t_scene *scene) {
         ft_error("Light brightness out of range [0.0, 1.0]", &scene->data, EXIT_FAILURE);
 
     skip_spaces(&line);
-    printf("line: %s\n", line);
     parse_color(&line, &scene->light.color, scene);
 }
 
@@ -72,7 +71,6 @@ void parse_sphere(const char *line, t_scene *scene) {
         ft_error("Sphere diameter must be positive", &scene->data, EXIT_FAILURE);
 
     skip_spaces(&line);
-    printf("line: %s\n", line);
     parse_color(&line, &sphere.color, scene);
 
     scene->spheres = ft_realloc(scene->spheres, sizeof(t_sphere) * (scene->sphere_count + 1));
@@ -103,7 +101,6 @@ void parse_plane(const char *line, t_scene *scene) {
         ft_error("Plane orientation values out of range [-1.0, 1.0]", &scene->data, EXIT_FAILURE);
 
     skip_spaces(&line);
-    printf("line: %s\n", line);
     parse_color(&line, &plane.color, scene);
 
     scene->planes = ft_realloc(scene->planes, sizeof(t_plane) * (scene->plane_count + 1));
@@ -143,35 +140,61 @@ void parse_cylinder(const char *line, t_scene *scene) {
         ft_error("Cylinder height must be positive", &scene->data, EXIT_FAILURE);
 
     skip_spaces(&line);
-    printf("line: %s\n", line);
     parse_color(&line, &cylinder.color, scene);
 
     scene->cylinders = ft_realloc(scene->cylinders, sizeof(t_cylinder) * (scene->cylinder_count + 1));
     scene->cylinders[scene->cylinder_count++] = cylinder;
 }
 
+void process_line(const char *line, t_scene *scene) {
+    size_t len = strlen(line);
+    if (len > 0 && line[len - 1] == '\n') {
+        len--; // Exclude the newline character
+    }
+
+    // Allocate a new buffer and copy the content up to the newline character
+    char *clean_line = (char *)malloc(len + 1);
+    if (!clean_line) {
+        ft_error("Memory allocation failed", &scene->data, EXIT_FAILURE);
+    }
+    memcpy(clean_line, line, len);
+    clean_line[len] = '\0'; // Null-terminate the new buffer
+
+    // Process the clean line
+    if (clean_line[0] == 'A') {
+        check_ambient(clean_line, scene);
+    } else if (clean_line[0] == 'C') {
+        check_camera(clean_line, scene);
+    } else if (clean_line[0] == 'L') {
+        check_light(clean_line, scene);
+    } else if (strncmp(clean_line, "sp", 2) == 0) {
+        check_sphere(clean_line, scene);
+    } else if (strncmp(clean_line, "pl", 2) == 0) {
+        check_plane(clean_line, scene);
+    } else if (strncmp(clean_line, "cy", 2) == 0) {
+        check_cylinder(clean_line, scene);
+    } else {
+        ft_error("Invalid element", &scene->data, EXIT_FAILURE);
+    }
+    free(clean_line); // Free the new buffer after processing
+}
+
 void parse_scene(const char *filename, t_scene *scene) {
     int fd = open(filename, O_RDONLY);
-    char *line;
+    if (fd < 0) {
+        ft_error("Failed to open file", &scene->data, EXIT_FAILURE);
+    }
 
     scene->ambient_count=0;
     scene->light_count=0;
     scene->camera_count=0;
-    // Use get_next_line to read each line
+    char *line;
     while ((line = get_next_line(fd)) != NULL) {
-        if (line[0] == 'A') {
-            check_ambient(line, scene);
-        } else if (line[0] == 'C') {
-            check_camera(line, scene);
-        } else if (line[0] == 'L') {
-            check_light(line, scene);
-        } else if (strncmp(line, "sp", 2) == 0) {
-            parse_sphere(line, scene);
-        } else if (strncmp(line, "pl", 2) == 0) {
-            parse_plane(line, scene);
-        } else if (strncmp(line, "cy", 2) == 0) {
-            parse_cylinder(line, scene);
+        if (line[0] == '\n' ) {
+            free(line);
+            continue;
         }
+        process_line(line, scene);
         free(line);  // Free each line after processing
     }
     close(fd);  // Close the file descriptor after reading all lines
@@ -193,7 +216,10 @@ void check_ambient(const char *line, t_scene *scene)
         free_array(params);
 		ft_error("Invalid number of parameters for ambient element", &scene->data, EXIT_FAILURE);
     }
-    
+    if (!is_float(params[1])) {
+        free_array(params);
+        ft_error("Ambient lighting ratio must be a float number", &scene->data, EXIT_FAILURE);
+    }
     check_colors(&params, scene, 2);
     free_array(params);
     parse_ambient(line, scene);
@@ -216,6 +242,10 @@ void check_camera(const char *line, t_scene *scene)
     }
     check_vector(&params, scene, 1);
     check_vector(&params, scene, 2);
+    if (!is_float(params[3])) {
+        free_array(params);
+        ft_error("Camera FOV must be a float number", &scene->data, EXIT_FAILURE);
+    }
     free_array(params);
     parse_camera(line, scene);
 }
@@ -236,6 +266,10 @@ void check_light(const char *line, t_scene *scene)
 		ft_error("Invalid number of parameters for Light element", &scene->data, EXIT_FAILURE);
     }
     check_vector(&params, scene, 1);
+    if (!is_float(params[2])) {
+        free_array(params);
+        ft_error("Light brightness ratio must be a float number", &scene->data, EXIT_FAILURE);
+    }
     check_colors(&params, scene, 3);
     free_array(params);
     parse_light(line, scene);
@@ -252,6 +286,10 @@ void check_sphere(const char *line, t_scene *scene)
 		ft_error("Invalid number of parameters for sphere element", &scene->data, EXIT_FAILURE);
     }
     check_vector(&params, scene, 1);
+    if (!is_float(params[2])) {
+        free_array(params);
+        ft_error("Sphere Diameter must be a float number", &scene->data, EXIT_FAILURE);
+    }
     check_colors(&params, scene, 3);
     free_array(params);
     parse_sphere(line, scene);
@@ -286,6 +324,14 @@ void check_cylinder(const char *line, t_scene *scene)
     }
     check_vector(&params, scene, 1);
     check_vector(&params, scene, 2);
+    if (!is_float(params[3])) {
+        free_array(params);
+        ft_error("Cylinder Diameter must be a float number", &scene->data, EXIT_FAILURE);
+    }
+    if (!is_float(params[4])) {
+        free_array(params);
+        ft_error("Cylinder Height must be a float number", &scene->data, EXIT_FAILURE);
+    }
     check_colors(&params, scene, 5);
     free_array(params);
     parse_cylinder(line, scene);
@@ -296,15 +342,20 @@ void	check_vector(char ***str, t_scene *scene, int j)
 	int		i;
 	char	**nbrs;
 
-	i = -1;
+	i = 0;
 	nbrs = ft_split((*str)[j], ',');
-	while (nbrs && nbrs[++i])
-		if (!is_float(nbrs[i]))
-        {
+	if (!nbrs) {
+        free_array(*str);
+        ft_error("Memory allocation failed for nbrs", &scene->data, EXIT_FAILURE);
+    }
+    while (nbrs[i]) {
+        if (!is_float(nbrs[i])) {
             free_array(*str);
             free_array(nbrs);
-			ft_error("All parameters must be numbers", &scene->data, EXIT_FAILURE);
+            ft_error("All parameters must be numbers", &scene->data, EXIT_FAILURE);
         }
+        i++;
+    }
 	if (array_length(nbrs) != 3)
     {
         free_array(*str);
@@ -321,18 +372,18 @@ void	check_colors(char ***str, t_scene *scene, int j)
 
 	i = -1;
 	nbrs = ft_split((*str)[j], ',');
-	while (nbrs && nbrs[++i])
-		if (!is_int(nbrs[i]))
-        {
+    while (nbrs && nbrs[++i]) {
+        if (is_int(nbrs[i]) == 0) {
             free_array(*str);
             free_array(nbrs);
-			ft_error("Rgd colors must be constituited integers numbers only", &scene->data, EXIT_FAILURE);
+            ft_error("RGB colors must be constituted of integers numbers only", &scene->data, EXIT_FAILURE);
         }
+    }
 	if (array_length(nbrs) != 3)
     {
         free_array(*str);
         free_array(nbrs);
-		ft_error("You must input three integers numbers for rgb colors.", &scene->data, EXIT_FAILURE);
+		ft_error("You must input three integers numbers for RGB colors.", &scene->data, EXIT_FAILURE);
     }
 	free_array(nbrs);
 }
