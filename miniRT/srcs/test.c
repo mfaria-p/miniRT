@@ -6,14 +6,14 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/06 19:09:17 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:26:27 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "laag.h"
 #include "minirt.h"
 
-#define CANVAS_PIXEL 700
+#define CANVAS_PIXEL 5
 #define WALL_Z 10
 #define WALL_SIZE 7
 
@@ -34,7 +34,6 @@ int	main(void)
 
 	double			pixel_size = (double)WALL_SIZE / CANVAS_PIXEL;
 	double			half = (double)WALL_SIZE / 2;
-	t_light_source	light = {{-5, 0, -5}, .4};
 	double			world_y;
 	double			world_x;
 	t_vector		position;
@@ -43,8 +42,14 @@ int	main(void)
 	t_vector		normal;
 	t_vector		eyev;
 
+
 	static t_world	world;
 	world_init(&world);
+
+	t_light_source *light;
+	light = light_create((t_vector){10, 1, -10}, (t_vector){1, 0, 0}, 1);
+	world_light_add(&world, light);
+
 	t_object		*object;
 	object = object_sphere_create((t_vector){0, .4, -.4}, (t_vector){.9, .4, .5}, .5);
 	object_coord_new(object, (t_vector){0, 0, 0});
@@ -54,7 +59,6 @@ int	main(void)
 	object_translate(object, (t_vector){1, 0 ,0}, .5);
 	world_object_add(&world, object);
 
-	t_intersections	is;
 
 	ray.origin = (t_vector){0, 0, -5};
 	for (int y = 0; y < CANVAS_PIXEL; y++)
@@ -62,6 +66,7 @@ int	main(void)
 		world_y = half - pixel_size * y;
 		for (int x = 0; x < CANVAS_PIXEL; x++)
 		{
+			t_intersections	is;
 			intersections_init(&is);
 			world_x = -half + pixel_size * x;
 			position = (t_vector){world_x, world_y, WALL_Z};
@@ -72,7 +77,7 @@ int	main(void)
 				point = ray_position(ray, is.hit->t);
 				normal = normal_at(point, *is.hit->obj);
 				eyev = vector_scalar_product(-1, ray.direction);
-				t_vector	color = lighting(is.hit->obj->material, light, point, eyev, normal);
+				t_vector	color = lighting(is.hit->obj->material, *light, point, eyev, normal);
 				my_mlx_pixel_put(&img, x, y, color_rgb(color));
 			}
 			free(is.is);
@@ -80,7 +85,7 @@ int	main(void)
 	}
 
 	mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx_ptr);
+	/*mlx_loop(mlx_ptr);*/
 	world_destroy(&world);
 	mlx_clear_window(mlx_ptr, mlx_win);
 	mlx_destroy_image(mlx_ptr, img.img);

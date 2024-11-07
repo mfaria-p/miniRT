@@ -6,12 +6,23 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:03:16 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/02 17:21:58 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:18:35 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "laag.h"
 #include "minirt.h"
+
+t_light_source	*light_create(t_vector xyz, t_vector rgb, double intensity)
+{
+	t_light_source	*light;
+
+	light = malloc(sizeof(t_light_source));
+	light->origin = xyz;
+	light->color = rgb;
+	light->intensity = intensity;
+	return (light);
+}
 
 t_vector	vector_reflect(t_vector in, t_vector normal)
 {

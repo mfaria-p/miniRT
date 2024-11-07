@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:48:27 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/05 20:35:03 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:29:31 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,16 @@ void	world_destroy(t_world *world)
 	while (world->objects)
 	{
 		tmp = world->objects->next;
+		if (world->objects->content)
+			free(world->objects->content);
 		free(world->objects);
 		world->objects = tmp;
 	}
 	while (world->lights)
 	{
 		tmp = world->lights->next;
+		if (world->lights->content)
+			free(world->lights->content);
 		free(world->lights);
 		world->lights = tmp;
 	}
