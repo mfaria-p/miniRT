@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/16 12:44:43 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/09 16:52:30 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,13 @@ int	v_inbound(t_vector u, int w, int h)
 	return (u.x >= 0 && u.x < w && u.y >= 0 && u.y < h);
 }
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+t_img	*my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
 	dst = img->addr + (y * img->len + x * (img->bpp / 8));
 	*(unsigned int *)dst = color;
+	return (img);
 }
 
 void	put_vector(t_img *img, t_vector u, int color)

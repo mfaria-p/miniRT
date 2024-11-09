@@ -6,12 +6,14 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/07 21:42:34 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:07:15 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
+
+# define CANVAS_PIXEL 500
 
 # include "mlx.h"
 # include "../libft/libft/libft.h"
@@ -75,6 +77,7 @@ typedef struct s_shape
 	double		scale;
 }	t_shape;
 
+// translation is origin
 typedef struct s_object
 {
 	t_shape			shape;
@@ -117,14 +120,33 @@ typedef struct s_hit
 typedef struct s_world
 {
 	t_vector		ray_origin;
-	t_list	*objects;
-	t_list	*lights;
+	t_list			*objects;
+	t_light_source	light;
 	//t_camera		camera;
 }	t_world;
 
+// default camera origin
+typedef struct s_camera
+{
+	double		scale;
+	double		hsize;
+	double		vsize;
+	double		fov;
+	double		pixel_size;
+	double		half_width;
+	double		half_height;
+	t_vector	origin;
+	struct
+	{
+		t_vector	axis;
+		double		angle;
+	}			rotation;
+	t_vector	axis;
+}	t_camera;
+
 /* ************************************************************************** */
 // light.c
-t_light_source	*light_create(t_vector xyz, t_vector rgb, double intensity);
+t_light_source	light_create(t_vector xyz, t_vector rgb, double intensity);
 t_vector	vector_reflect(t_vector in, t_vector normal);
 t_phong		lighting(t_material material, t_light_source light,t_vector point, t_vector eyev, t_vector normal);
 /* ************************************************************************** */
@@ -187,23 +209,15 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
-typedef struct s_projectile
-{
-	t_vector	position;
-	t_vector	velocity;
-}	t_proj;
-
-typedef struct s_environment
-{
-	t_vector	gravity;
-	t_vector	wind;
-}	t_env;
-
-t_proj		tick(t_env env, t_proj proj);
-t_vector	to_canvapos(t_vector u, int h);
-int			v_inbound(t_vector u, int w, int h);
-void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void		put_vector(t_img *img, t_vector u, int color);
-int			argb(t_uint8 a, t_uint8 r, t_uint8 g, t_uint8 b);
+/* ************************************************************************** */
+// camera.c
+t_camera	*camera_init(t_camera *camera);
+t_ray		ray_for_pixel(t_camera *camera, int x, int y);
+t_img		*render(t_img *img, t_camera *camera, t_world *world);
+t_camera	*camera_rescale(t_camera *camera, double new_scale);
+t_camera	*camera_coord_new(t_camera *camera, t_vector coord);
+t_camera	*camera_rot_new(t_camera *camera, t_vector axis, double angle);
+t_camera	*camera_translate(t_camera *camera, t_vector direction, double shift);
+t_camera	*camera_rotate(t_camera *camera, t_vector axis, double angle);
 
 #endif

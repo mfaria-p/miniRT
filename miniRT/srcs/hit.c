@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:41 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/07 21:45:05 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/09 13:30:39 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,33 +37,20 @@ t_hit	hit(t_intersection intersection, t_ray ray)
 t_vector	shade_hit(t_world *world, t_hit hit)
 {
 	t_material		material;
-	t_light_source	*light;
-	t_list			*node;
-	t_vector		c_acc;
-	t_phong			c;
+	t_light_source	light;
+	t_phong			phong;
+	t_vector		color;
 
 	material = hit.i.obj->material;
-	c_acc = (t_vector){0, 0, 0};
-	node = world->lights;
-	while (node)
-	{
-		light = node->content;
-		c = lighting(material, *light, hit.point, hit.eyev, hit.normal);
-		c.ambient.x = c.ambient.x * light->color.x;
-		c.ambient.y = c.ambient.y * light->color.y;
-		c.ambient.z = c.ambient.z * light->color.z;
-		c.diffuse.x = c.diffuse.x * light->color.x;
-		c.diffuse.y = c.diffuse.y * light->color.y;
-		c.diffuse.z = c.diffuse.z * light->color.z;
-		c.specular.x = c.specular.x * light->color.x;
-		c.specular.y = c.specular.y * light->color.y;
-		c.specular.z = c.specular.z * light->color.z;
-		c_acc.x += c.ambient.x + c.diffuse.x + c.diffuse.x;
-		c_acc.y += c.ambient.y + c.diffuse.y + c.diffuse.y;
-		c_acc.z += c.ambient.z + c.diffuse.z + c.diffuse.z;
-		node = node->next;
-	}
-	return (c_acc);
+	light = world->light;
+	phong = lighting(material, light, hit.point, hit.eyev, hit.normal);
+	color.x = phong.ambient.x + phong.diffuse.x + phong.specular.x;
+	color.y = phong.ambient.y + phong.diffuse.y + phong.specular.y;
+	color.z = phong.ambient.z + phong.diffuse.z + phong.specular.z;
+	color.x *= light.color.x;
+	color.y *= light.color.y;
+	color.z *= light.color.z;
+	return (color);
 }
 
 t_vector	color_at(t_world *world, t_ray ray)
