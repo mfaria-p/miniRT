@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:19:10 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/09 17:16:55 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:42:25 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@ int	main(void)
 
 	static t_camera	camera;
 	camera_init(&camera);
-	/*camera_rotate(&camera, (t_vector){0, 0, 0}, 0);*/
-	camera_translate(&camera, (t_vector){0, 0, 1}, .1);
-	camera_rotate(&camera, (t_vector){0, 0, 1}, M_PI / 4);
 	camera_rescale(&camera, 5);
 
 	ft_memset(&img, 0, sizeof(img)); mlx_ptr = mlx_init();
@@ -39,17 +36,19 @@ int	main(void)
 	world_init(&world);
 
 	t_light_source light;
-	light = light_create((t_vector){10, 0, -1}, (t_vector){.9, .8, .2}, 1);
+	light = light_init((t_vector){1, 0, -1}, (t_vector){1, 1, 1}, 1);
 	world.light = light;
 
 	t_object		*object;
-	object = object_sphere_create((t_vector){-.5, 0, 0}, (t_vector){1, 1, 1}, .8);
+	object = object_sphere_create((t_vector){-.5, 0, 0}, (t_vector){1, .2, .2}, .8);
 	object_coord_new(object, (t_vector){0, 0, 2});
 	object_translate(object, (t_vector){1, 0 ,0}, -.5);
 	world_object_add(&world, object);
 	object = object_cylinder_create((t_vector){0, -.25, 0}, (t_vector){0, .4, .5}, (t_vector){0, 1, 0}, .5, .5);
 	object_coord_new(object, (t_vector){0, 0, 2});
 	object_translate(object, (t_vector){1, 0 ,0}, .5);
+	world_object_add(&world, object);
+	object = object_plane_create((t_vector){0, 0, 10}, (t_vector){.3, .8, .7}, (t_vector){0, 0, 1});
 	world_object_add(&world, object);
 
 	render(&img, &camera, &world);

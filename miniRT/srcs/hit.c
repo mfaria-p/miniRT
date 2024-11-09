@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:41 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/09 13:30:39 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:32:51 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,37 @@ t_hit	hit(t_intersection intersection, t_ray ray)
 	return (hit);
 }
 
+static int	is_shadowed(t_vector p, t_vector n, t_world *world)
+{
+	t_ray			ray;
+	t_intersections	is;
+	int				shadow;
+
+	shadow = 0;
+	p = (t_vector){p.x + .01 * n.x, p.y + .01 * n.y, p.z + .01 * n.z};
+	ray.origin = p;
+	ray.direction = vector_subtract(world->light.origin, p);
+	ray.direction = vector_normalize(ray.direction);
+	intersections_init(&is);
+	ray_world_intersect(&is, ray, world);
+	if (is.hit)
+		shadow = 1;
+	free(is.is);
+	return (shadow);
+}
+
 t_vector	shade_hit(t_world *world, t_hit hit)
 {
 	t_material		material;
 	t_light_source	light;
 	t_phong			phong;
 	t_vector		color;
+	int				shadow;
 
 	material = hit.i.obj->material;
 	light = world->light;
-	phong = lighting(material, light, hit.point, hit.eyev, hit.normal);
+	shadow = is_shadowed(hit.point, hit.normal, world);
+	phong = lighting(material, light, hit.point, hit.eyev, hit.normal, shadow);
 	color.x = phong.ambient.x + phong.diffuse.x + phong.specular.x;
 	color.y = phong.ambient.y + phong.diffuse.y + phong.specular.y;
 	color.z = phong.ambient.z + phong.diffuse.z + phong.specular.z;
@@ -56,7 +77,7 @@ t_vector	shade_hit(t_world *world, t_hit hit)
 t_vector	color_at(t_world *world, t_ray ray)
 {
 	t_intersections	is;
-	t_vector			color;
+	t_vector		color;
 
 	color = (t_vector){0, 0, 0};
 	intersections_init(&is);

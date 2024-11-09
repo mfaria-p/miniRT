@@ -6,14 +6,14 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/09 17:07:15 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:42:41 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# define CANVAS_PIXEL 500
+# define CANVAS_PIXEL 1000
 
 # include "mlx.h"
 # include "../libft/libft/libft.h"
@@ -146,9 +146,9 @@ typedef struct s_camera
 
 /* ************************************************************************** */
 // light.c
-t_light_source	light_create(t_vector xyz, t_vector rgb, double intensity);
+t_light_source	light_init(t_vector xyz, t_vector rgb, double intensity);
 t_vector	vector_reflect(t_vector in, t_vector normal);
-t_phong		lighting(t_material material, t_light_source light,t_vector point, t_vector eyev, t_vector normal);
+t_phong		lighting(t_material material, t_light_source light,t_vector point, t_vector eyev, t_vector normal, int shadow);
 /* ************************************************************************** */
 // ray.c
 t_vector	ray_position(t_ray ray, double t);
