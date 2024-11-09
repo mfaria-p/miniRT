@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:31:34 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/09 16:52:30 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/09 20:27:35 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	main(void) { return (0); }
 /*	void		*mlx_win;*/
 /*	t_img		img;*/
 /**/
-/*	ft_memset(&img, 0, sizeof(img));*/
 /*	mlx_ptr = mlx_init();*/
 /*	// mlx_get_screen_size(mlx_ptr, &w, &h);*/
 /*	mlx_win = mlx_new_window(mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL, "Hello World!");*/

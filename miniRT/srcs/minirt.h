@@ -6,14 +6,14 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/09 17:42:41 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/09 20:40:58 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# define CANVAS_PIXEL 1000
+# define CANVAS_PIXEL 600
 
 # include "mlx.h"
 # include "../libft/libft/libft.h"
@@ -166,7 +166,6 @@ t_shape		shape_cone_create(void);
 t_shape		shape_plane_create(void);
 t_shape		*shape_scale(t_shape *shape, double scale);
 t_vector	normal_at(t_vector p, t_object object);
-
 
 /* ************************************************************************** */
 // object.c

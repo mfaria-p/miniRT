@@ -6,7 +6,7 @@
 /*   By: ecorona- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:16:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/01/09 10:52:50 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/09 20:39:44 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,8 @@ DESC:
 */
 void	ft_putchar_fd(char c, int fd)
 {
-	write(fd, &c, 1);
+	ssize_t	b;
+
+	b = write(fd, &c, 1);
+	(void)b;
 }

@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:19:10 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/09 17:42:25 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/09 20:41:02 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	main(void)
 
 	static t_camera	camera;
 	camera_init(&camera);
-	camera_rescale(&camera, 5);
+	camera_rescale(&camera, 1);
 
-	ft_memset(&img, 0, sizeof(img)); mlx_ptr = mlx_init();
+	mlx_ptr = mlx_init();
 	// mlx_get_screen_size(mlx_ptr, &w, &h);
 	mlx_win = mlx_new_window(mlx_ptr, camera.hsize, camera.vsize, "Hello World!");
 	img.img = mlx_new_image(mlx_ptr, camera.hsize, camera.vsize);
