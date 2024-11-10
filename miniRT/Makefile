@@ -56,9 +56,17 @@ clean:
 	make -C $(LIBFT_DIR) clean
 	make -C $(LIBMLX_DIR) clean
 
+cleanrt:
+	rm -rf $(OBJS) miniRT.o
+
 fclean: clean
 	rm -rf $(NAME) $(LIBFT) $(LIBMLX) $(OBJDIR) prof
 
+fcleanrt: cleanrt
+	rm -rf $(NAME) $(OBJDIR)
+
 re: fclean all
+
+rert: fcleanrt all
 
 .PHONY: all clean fclean re prof test

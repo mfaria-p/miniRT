@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:19:10 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/10 00:15:14 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/10 18:44:29 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 int	color_rgb(t_vector color);
 
+// mlx callback
+// to exit program
 int	quit(void *param)
 {
 	t_scene	*scene;
@@ -33,6 +35,8 @@ int	quit(void *param)
 	exit(EXIT_SUCCESS);
 }
 
+// mlx (loop) callback
+// render scene
 int	animate(void *param)
 {
 	t_scene		*scene;
@@ -42,13 +46,15 @@ int	animate(void *param)
 	img = scene->img;
 	scene->img->img = mlx_new_image(scene->mlx_ptr, scene->camera->hsize, scene->camera->vsize);
 	scene->img->addr = mlx_get_data_addr(scene->img->img, &scene->img->bpp, &scene->img->len, &scene->img->endian);
-	mlx_clear_window(scene->mlx_ptr, scene->mlx_win);
 	render(scene->img, scene->camera, scene->world);
+	mlx_clear_window(scene->mlx_ptr, scene->mlx_win);
 	mlx_put_image_to_window(scene->mlx_ptr, scene->mlx_win, scene->img->img, 0, 0);
 	mlx_destroy_image(scene->mlx_ptr, img->img);
 	return (0);
 }
 
+// mlx (loop) callback
+// move camera around
 int	scene_shift(void *param)
 {
 	t_scene		*scene;
@@ -64,18 +70,25 @@ int	scene_shift(void *param)
 	v = (t_vector){mouse_pos[0], mouse_pos[1], 0};
 	scene->camera->origin.x -= (v.x - scene->tmp.x) * MOVE_FACTOR;
 	scene->camera->origin.y += (v.y - scene->tmp.y) * MOVE_FACTOR;
-	mlx_clear_window(scene->mlx_ptr, scene->mlx_win);
 	render(scene->img, scene->camera, scene->world);
+	mlx_clear_window(scene->mlx_ptr, scene->mlx_win);
 	mlx_put_image_to_window(scene->mlx_ptr, scene->mlx_win, scene->img->img, 0, 0);
 	mlx_destroy_image(scene->mlx_ptr, img->img);
 	return (0);
 }
 
+// mlx (hook) callback
+// mouse press button hook
 int	mouse_press_hook(int button, int x, int y, void *param)
 {
 	t_scene	*scene;
+	// const int	mouse_left_click = 1;
+	// const int	mouse_right_click = 3;
+	// n tenho certeza (4,5):
+	// const int	mouse_wheel_down = 4;
+	// const int	mouse_wheel_up = 5;
+	// const int	mouse_wheel_click = 2;
 
-	printf("press");
 	scene = (t_scene *)param;
 	// if (button == 1)
 	// {
@@ -94,11 +107,12 @@ int	mouse_press_hook(int button, int x, int y, void *param)
 	return (0);
 }
 
+// mlx (hook) callback
+// mouse release button hook
 int	mouse_release_hook(int button, int x, int y, void *param)
 {
 	t_scene	*scene;
 
-	printf("release");
 	(void)x;
 	(void)y;
 	scene = (t_scene *)param;
@@ -117,33 +131,39 @@ int	main(void)
 	void		*mlx_win;
 	t_img		img;
 
+	// initialize camera
 	static t_camera	camera;
 	camera_init(&camera);
 	camera_rescale(&camera, 5);
 
+	// initialize mlx things
 	mlx_ptr = mlx_init();
 	// mlx_get_screen_size(mlx_ptr, &w, &h);
 	mlx_win = mlx_new_window(mlx_ptr, camera.hsize, camera.vsize, "Hello World!");
 	img.img = mlx_new_image(mlx_ptr, camera.hsize, camera.vsize);
 	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.len, &img.endian);
 
+	// initialize world
 	static t_world	world;
 	world_init(&world);
 
+	// initialize light example
 	t_light_source light;
 	light = light_init((t_vector){0, 0, -.3}, (t_vector){1, 1, 1}, 1);
 	world.light = light;
 
+	// initialize objects examples
 	t_object		*object;
-	object = object_sphere_create((t_vector){-.5, 0, 0}, (t_vector){1, .2, .2}, .8);
-	object_coord_new(object, (t_vector){0, 0, 2});
-	object_translate(object, (t_vector){1, 0 ,0}, -.5);
+	object = object_sphere_create((t_vector){0, 0, 2}, (t_vector){1, .2, .2}, .8);
+	// object_coord_new(object, (t_vector){0, 0, 2});
+	// object_translate(object, (t_vector){1, 0 ,0}, -.5);
 	world_object_add(&world, object);
 	object = object_cone_create((t_vector){.5, -.25, 2}, (t_vector){0, .4, .5}, (t_vector){0, 1, 0}, .5, .5);
 	world_object_add(&world, object);
 	object = object_plane_create((t_vector){0, 0, 10}, (t_vector){.3, .8, .7}, (t_vector){0, 0, 1});
 	world_object_add(&world, object);
 
+	// initialize scene
 	t_scene scene;
 	scene.camera = &camera;
 	scene.world = &world;
@@ -151,6 +171,7 @@ int	main(void)
 	scene.mlx_ptr = mlx_ptr;
 	scene.mlx_win = mlx_win;
 
+	// set mlx hooks
 	mlx_do_key_autorepeatoff(mlx_ptr);
 	// mlx_hook(mlx_win, DestroyNotify, StructureNotifyMask, quit, (void *)&scene);
 	mlx_hook(mlx_win, ButtonPress, ButtonPressMask, mouse_press_hook, (void *)&scene);
@@ -165,6 +186,7 @@ int	main(void)
 
 	// mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
 	// mlx_loop(mlx_ptr);
+	mlx_do_key_autorepeaton(mlx_ptr);
 	world_destroy(&world);
 	mlx_clear_window(mlx_ptr, mlx_win);
 	mlx_destroy_image(mlx_ptr, img.img);
