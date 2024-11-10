@@ -6,16 +6,17 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/09 20:40:58 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/10 00:13:30 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# define CANVAS_PIXEL 600
+# define CANVAS_PIXEL 500
 
 # include "mlx.h"
+# include "X11/X.h"
 # include "../libft/libft/libft.h"
 # include "laag.h"
 # include <math.h>
@@ -122,7 +123,6 @@ typedef struct s_world
 	t_vector		ray_origin;
 	t_list			*objects;
 	t_light_source	light;
-	//t_camera		camera;
 }	t_world;
 
 // default camera origin
@@ -143,6 +143,25 @@ typedef struct s_camera
 	}			rotation;
 	t_vector	axis;
 }	t_camera;
+
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		len;
+	int		endian;
+}	t_img;
+
+typedef struct s_scene
+{
+	t_camera	*camera;
+	t_world		*world;
+	t_img		*img;
+	void		*mlx_ptr;
+	void		*mlx_win;
+	t_vector	tmp;
+}	t_scene;
 
 /* ************************************************************************** */
 // light.c
@@ -198,15 +217,6 @@ t_intersections	*intersections_init(t_intersections *is);
 t_hit		hit(t_intersection i, t_ray ray);
 t_vector	shade_hit(t_world *world, t_hit hit);
 t_vector	color_at(t_world *world, t_ray ray);
-
-typedef struct s_img
-{
-	void	*img;
-	char	*addr;
-	int		bpp;
-	int		len;
-	int		endian;
-}	t_img;
 
 /* ************************************************************************** */
 // camera.c

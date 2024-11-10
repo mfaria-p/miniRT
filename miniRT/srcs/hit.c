@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:41 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/09 17:32:51 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/10 00:14:50 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	is_shadowed(t_vector p, t_vector n, t_world *world)
 	int				shadow;
 
 	shadow = 0;
-	p = (t_vector){p.x + .01 * n.x, p.y + .01 * n.y, p.z + .01 * n.z};
+	p = (t_vector){p.x + .2 * n.x, p.y + .2 * n.y, p.z + .2 * n.z};
 	ray.origin = p;
 	ray.direction = vector_subtract(world->light.origin, p);
 	ray.direction = vector_normalize(ray.direction);

@@ -8,7 +8,7 @@ OBJDIR = objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 CC = cc
-RTFLAGS = -Wall -Wextra -Werror -O3 -g -pg
+RTFLAGS = -Wall -Wextra -Werror -O3 -g #-pg
 
 LIBMLX_DIR = minilibx-linux
 LIBMLX = $(LIBMLX_DIR)/libmlx.a
