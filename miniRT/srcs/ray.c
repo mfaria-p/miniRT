@@ -6,14 +6,13 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/02 17:33:49 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/09 13:25:40 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "laag.h"
 #include "minirt.h"
 
-t_vector	ray_position(t_ray ray, float t)
+t_vector	ray_position(t_ray ray, double t)
 {
 	return (vector_add(ray.origin, vector_scalar_product(t, ray.direction)));
 }
@@ -57,24 +56,20 @@ t_roots	ray_circle_intersect(t_ray ray, t_object object, double z)
 t_roots	ray_plane_intersect(t_ray ray, t_object object, double z)
 {
 	double		t;
-	t_vector	p;
 
 	ray.origin = vector_subtract(ray.origin, object.translation);
 	ray.origin = vector_rotate(ray.origin, object.rotation.axis, -object.rotation.angle);
 	ray.direction = vector_rotate(ray.direction, object.rotation.axis, -object.rotation.angle);
 	t = (z - ray.origin.z) / ray.direction.z;
-	p = ray_position(ray, t);
 	return ((t_roots){1, t, t});
 }
 
 t_roots	ray_object_intersect(t_ray ray, t_object object)
 {
 	t_shape		shape;
-	double		a;
-	double		b;
-	double		c;
+	double		abc[3];
 	t_roots		xs;
-	/*t_vector	point;*/
+	t_vector	p;
 
 	shape = object.shape;
 	if (shape.type == PLANE)
@@ -82,26 +77,34 @@ t_roots	ray_object_intersect(t_ray ray, t_object object)
 	ray.origin = vector_subtract(ray.origin, object.translation);
 	ray.origin = vector_rotate(ray.origin, object.rotation.axis, -object.rotation.angle);
 	ray.direction = vector_rotate(ray.direction, object.rotation.axis, -object.rotation.angle);
-	a = shape.scale * vector_dot_product(shape.coefficients, (t_vector){ray.direction.x * ray.direction.x, ray.direction.y * ray.direction.y, ray.direction.z * ray.direction.z});
-	b = shape.scale * vector_dot_product(shape.coefficients, (t_vector){ray.origin.x * ray.direction.x, ray.origin.y * ray.direction.y, ray.origin.z * ray.direction.z});
-	b *= 2;
-	c = shape.scale * vector_dot_product(shape.coefficients, (t_vector){ray.origin.x * ray.origin.x, ray.origin.y * ray.origin.y, ray.origin.z * ray.origin.z});
-	c -= shape.constant;
-	xs = quadratic_roots(a, b, c);
-	/*if (shape.type == CONE || shape.type == CYLINDER) {*/
-	/*	xs[1] = ray_circle_intersect(ray, object, -((double)1 / shape.scale));*/
-	/*	if (xs[1].x1 < xs[0].x1 && xs[1].x1 < xs[0].x2)*/
-	/*		xs[0] = xs[1];*/
-	/*}*/
-	/*if (shape.type == CYLINDER) {*/
-	/*	xs[1] = ray_circle_intersect(ray, object, ((double)1 / shape.scale));*/
-	/*	if (xs[1].x1 < xs[0].x1 && xs[1].x1 < xs[0].x2)*/
-	/*		xs[0] = xs[1];*/
-	/*}*/
-	/*point = ray_position(ray, (xs.x1 <= xs.x2) * xs.x1 + (xs.x2 < xs.x1) * xs.x2);*/
-	/*if (point.z < (shape.bounds[0] * (1 / shape.scale)) || point.z > (shape.bounds[1] * (1 / shape.scale)))*/
-	/*	return ((t_roots){0, 0, 0});*/
+	abc[0] = vector_dot_product(shape.coefficients, (t_vector){ray.direction.x * ray.direction.x, ray.direction.y * ray.direction.y, ray.direction.z * ray.direction.z});
+	abc[1] = vector_dot_product(shape.coefficients, (t_vector){ray.origin.x * ray.direction.x, ray.origin.y * ray.direction.y, ray.origin.z * ray.direction.z});
+	abc[1] *= 2;
+	abc[2] = vector_dot_product(shape.coefficients, (t_vector){ray.origin.x * ray.origin.x, ray.origin.y * ray.origin.y, ray.origin.z * ray.origin.z});
+	abc[2] -= shape.constant;
+	xs = quadratic_roots(abc[0], abc[1], abc[2]);
+	p = ray_position(ray, xs.x1);
+	if (object.shape.height > 0 && (p.z > object.shape.height || p.z < 0))
+		xs.x1 = -1;
+	p = ray_position(ray, xs.x2);
+	if (object.shape.height > 0 && (p.z > object.shape.height || p.z < 0))
+		xs.x2 = -1;
 	return (xs);
+}
+
+t_intersections	*ray_world_intersect(t_intersections *is, t_ray ray, t_world *world)
+{
+	t_roots	xs;
+	t_list	*obj;
+
+	obj = world->objects;
+	while (obj)
+	{
+		xs = ray_object_intersect(ray, *(t_object *)obj->content);
+		is = intersections_roots_add(is, xs, obj->content);
+		obj = obj->next;
+	}
+	return (is);
 }
 
 // OUTDATED:

@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:52:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/02 13:56:10 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/05 21:04:10 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int	ray_object_intersect_01(void);
 int	ray_object_intersect_02(void);
 int	ray_object_intersect_03(void);
 int	ray_object_intersect_04(void);
+int	intersections_roots_add_00(void);
+int	intersections_roots_add_01(void);
 
 int	tests_run = 0;
 suite	tests_laag = {
@@ -117,6 +119,7 @@ suite	tests_ray = {
 					quadratic_roots_00, quadratic_roots_01, quadratic_roots_02, quadratic_roots_03, quadratic_roots_04,
 					ray_position_00, ray_position_01, ray_position_02,
 					ray_object_intersect_00, ray_object_intersect_01, ray_object_intersect_02, ray_object_intersect_03, ray_object_intersect_04,
+					intersections_roots_add_00, intersections_roots_add_01,
 					NULL
 				};
 
@@ -705,7 +708,7 @@ int	ray_position_02(void)
 int	ray_object_intersect_00(void)
 {
 	t_ray		ray = {{0, 0, -5}, {0, 0, 1}};
-	t_shape		shape = create_sphere();;
+	t_shape		shape = shape_sphere_create();;
 	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
@@ -717,7 +720,7 @@ int	ray_object_intersect_00(void)
 int	ray_object_intersect_01(void)
 {
 	t_ray		ray = {{0, 1, -5}, {0, 0, 1}};
-	t_shape		shape = create_sphere();;
+	t_shape		shape = shape_sphere_create();;
 	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
@@ -729,7 +732,7 @@ int	ray_object_intersect_01(void)
 int	ray_object_intersect_02(void)
 {
 	t_ray		ray = {{0, 2, -5}, {0, 0, 1}};
-	t_shape		shape = create_sphere();;
+	t_shape		shape = shape_sphere_create();;
 	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
@@ -741,7 +744,7 @@ int	ray_object_intersect_02(void)
 int	ray_object_intersect_03(void)
 {
 	t_ray		ray = {{0, 0, 0}, {0, 0, 1}};
-	t_shape		shape = create_sphere();;
+	t_shape		shape = shape_sphere_create();;
 	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
@@ -753,12 +756,42 @@ int	ray_object_intersect_03(void)
 int	ray_object_intersect_04(void)
 {
 	t_ray		ray = {{0, 0, 5}, {0, 0, 1}};
-	t_shape		shape = create_sphere();;
+	t_shape		shape = shape_sphere_create();;
 	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
 	t_roots		xs;
 
 	xs = ray_object_intersect(ray, object);
 	_ft_assert(xs.count == 2 && double_equals(xs.x1, -6) && double_equals(xs.x2, -4));
+	return (SUCCESS);
+}
+
+int	intersections_roots_add_00(void)
+{
+	t_ray		ray = {{0, 0, 5}, {0, 0, 1}};
+	t_shape		shape = shape_sphere_create();;
+	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
+	t_roots		xs;
+	t_intersections	is;
+
+	intersections_init(&is);
+	xs = ray_object_intersect(ray, object);
+	intersections_roots_add(&is, xs, &object);
+	_ft_assert(is.size == 2 && is.hit == NULL);
+	return (SUCCESS);
+}
+
+int	intersections_roots_add_01(void)
+{
+	t_ray		ray = {{0, 0, 0}, {0, 0, 1}};
+	t_shape		shape = shape_sphere_create();;
+	t_object	object = {shape, (t_material){(t_vector){0, 0, 0}, 0, 0, 0, 0}, (t_vector){0, 0, 0}, {(t_vector){0, 0, 0}, 0}};
+	t_roots		xs;
+	t_intersections	is;
+
+	intersections_init(&is);
+	xs = ray_object_intersect(ray, object);
+	intersections_roots_add(&is, xs, &object);
+	_ft_assert(is.size == 2 && is.hit && is.hit->t == 1);
 	return (SUCCESS);
 }
 

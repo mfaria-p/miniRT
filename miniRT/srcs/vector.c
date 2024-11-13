@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:32:51 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/30 15:03:37 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/06 19:16:50 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ t_vector	vector_rotate(t_vector u, t_vector ax, double rad)
 	t_quaternion	p;
 	t_quaternion	q;
 
-	aux = sinf(rad / 2);
+	aux = sin(rad / 2);
 	ax = vector_scalar_product(aux, vector_normalize(ax));
 	q = (t_quaternion){1 - (aux * aux), ax.x, ax.y, ax.z};
 	p = (t_quaternion){0, u.x, u.y, u.z};

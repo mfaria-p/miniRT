@@ -1,14 +1,14 @@
 NAME = miniRT
 
 SRCDIR = srcs
-SRCS = iu_main.c iu_error.c iu_scene_parser_utils.c iu_scene_parser.c iu_window.c
+SRCS = iu_main.c iu_error.c iu_scene_parser_utils.c iu_scene_parser.c iu_window.c vector.c quaternion.c matrix.c ray.c light.c shape.c object.c intersections.c world.c hit.c camera.c
 HDRS = laag.h minirt.h
 
 OBJDIR = objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 CC = cc
-RTFLAGS = -Wall -Wextra -Werror -g -pg
+RTFLAGS = -Wall -Wextra -Werror -O3 -g #-pg
 
 LIBMLX_DIR = minilibx-linux
 LIBMLX = $(LIBMLX_DIR)/libmlx.a
@@ -56,9 +56,17 @@ clean:
 	make -C $(LIBFT_DIR) clean
 	make -C $(LIBMLX_DIR) clean
 
+cleanrt:
+	rm -rf $(OBJS) miniRT.o
+
 fclean: clean
 	rm -rf $(NAME) $(LIBFT) $(LIBMLX) $(OBJDIR) prof
 
+fcleanrt: cleanrt
+	rm -rf $(NAME) $(OBJDIR)
+
 re: fclean all
+
+rert: fcleanrt all
 
 .PHONY: all clean fclean re prof test
