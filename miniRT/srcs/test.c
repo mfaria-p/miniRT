@@ -181,7 +181,7 @@ int	main(void)
 	mlx_loop_hook(mlx_ptr, animate, (void *)&scene);
 	mlx_loop(mlx_ptr);
 
-	// render(&img, &camera, &world);
+	render(&img, &camera, &world);
 
 
 	// mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);

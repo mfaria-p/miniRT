@@ -39,7 +39,7 @@ void skip_spaces(const char **str) {
     while (**str == ' ' || **str == '\t') (*str)++;
 }
 
-void parse_color(const char **str, t_color *color, t_scene *scene) 
+void parse_color(const char **str, t_color *color, t_scenehe *scene) 
 {
     color->r = parse_int(str);
     if (color->r < 0 || color->r > 255) 

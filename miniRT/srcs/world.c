@@ -16,6 +16,7 @@
 
 t_world	*world_init(t_world *world)
 {
+	world->ray_origin = (t_vector){0, 0, 0};
 	world->objects = NULL;
 	return (world);
 }

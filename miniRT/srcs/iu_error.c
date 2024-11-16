@@ -25,7 +25,7 @@ int ft_error(char *str, t_data *data, int e)
 } */
 
 //checkar com o edu s isto é uma cena
-void	is_invalid_file(t_scene *scene)
+void	is_invalid_file(t_scenehe *scene)
 {
 	if (!scene->ambient_count)
 		ft_error("Missing Ambient element", &scene->data, EXIT_FAILURE);

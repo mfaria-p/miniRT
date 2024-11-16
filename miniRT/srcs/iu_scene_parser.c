@@ -1,6 +1,6 @@
 #include "iu_scene.h"
 
-void parse_ambient(const char *line, t_scene *scene) {
+void parse_ambient(const char *line, t_scenehe *scene) {
     line++; // skip 'A'
     skip_spaces(&line);
     scene->ambient.ratio = parse_float(&line);
@@ -10,21 +10,28 @@ void parse_ambient(const char *line, t_scene *scene) {
     parse_color(&line, &scene->ambient.color, scene);
 }
 
-void parse_camera(const char *line, t_scene *scene) {
+void parse_camera(const char *line, t_scenehe *scene) {
+    printf("Parsing camera\n");
     line++; // skip 'C'
     skip_spaces(&line);
     scene->camera.x = parse_float(&line);
+    printf("Parsed camera x: %f\n", scene->camera.x);
     line++; // skip comma
     scene->camera.y = parse_float(&line);
+    printf("Parsed camera y: %f\n", scene->camera.y);
     line++; // skip comma
     scene->camera.z = parse_float(&line);
+    printf("Parsed camera z: %f\n", scene->camera.z);
 
     skip_spaces(&line);
     scene->camera.orient_x = parse_float(&line);
+    printf("Parsed camera orient_x: %f\n", scene->camera.orient_x);
     line++; // skip comma
     scene->camera.orient_y = parse_float(&line);
+    printf("Parsed camera orient_y: %f\n", scene->camera.orient_y);
     line++; // skip comma
     scene->camera.orient_z = parse_float(&line);
+    printf("Parsed camera orient_z: %f\n", scene->camera.orient_z);
 
     if (scene->camera.orient_x < -1.0 || scene->camera.orient_x > 1.0 ||
         scene->camera.orient_y < -1.0 || scene->camera.orient_y > 1.0 ||
@@ -33,11 +40,12 @@ void parse_camera(const char *line, t_scene *scene) {
 
     skip_spaces(&line);
     scene->camera.fov = parse_float(&line);
+    printf("Parsed camera fov: %f\n", scene->camera.fov);
     if (scene->camera.fov < 0 || scene->camera.fov > 180) 
         ft_error("Camera FOV out of range [0, 180]", &scene->data, EXIT_FAILURE);
 }
 
-void parse_light(const char *line, t_scene *scene) {
+void parse_light(const char *line, t_scenehe *scene) {
     line++; // skip 'L'
     skip_spaces(&line);
     scene->light.x = parse_float(&line);
@@ -55,7 +63,7 @@ void parse_light(const char *line, t_scene *scene) {
     parse_color(&line, &scene->light.color, scene);
 }
 
-void parse_sphere(const char *line, t_scene *scene) {
+void parse_sphere(const char *line, t_scenehe *scene) {
     t_sphere sphere;
     line += 2; // skip 'sp'
     skip_spaces(&line);
@@ -77,7 +85,7 @@ void parse_sphere(const char *line, t_scene *scene) {
     scene->spheres[scene->sphere_count++] = sphere;
 }
 
-void parse_plane(const char *line, t_scene *scene) {
+void parse_plane(const char *line, t_scenehe *scene) {
     t_plane plane;
 
     line += 2; // skip 'pl'
@@ -107,7 +115,7 @@ void parse_plane(const char *line, t_scene *scene) {
     scene->planes[scene->plane_count++] = plane;
 }
 
-void parse_cylinder(const char *line, t_scene *scene) {
+void parse_cylinder(const char *line, t_scenehe *scene) {
     t_cylinder cylinder;
     line += 2; // skip 'cy'
     skip_spaces(&line);
@@ -146,7 +154,7 @@ void parse_cylinder(const char *line, t_scene *scene) {
     scene->cylinders[scene->cylinder_count++] = cylinder;
 }
 
-void process_line(const char *line, t_scene *scene) {
+void process_line(const char *line, t_scenehe *scene) {
     size_t len = strlen(line);
     if (len > 0 && line[len - 1] == '\n') {
         len--; // Exclude the newline character
@@ -179,7 +187,7 @@ void process_line(const char *line, t_scene *scene) {
     free(clean_line); // Free the new buffer after processing
 }
 
-void parse_scene(const char *filename, t_scene *scene) {
+void parse_scene(const char *filename, t_scenehe *scene) {
     int fd = open(filename, O_RDONLY);
     if (fd < 0) {
         ft_error("Failed to open file", &scene->data, EXIT_FAILURE);
@@ -201,7 +209,7 @@ void parse_scene(const char *filename, t_scene *scene) {
     is_invalid_file(scene);
 }
 
-void check_ambient(const char *line, t_scene *scene) 
+void check_ambient(const char *line, t_scenehe *scene) 
 {
 	char		**params;
 
@@ -225,7 +233,7 @@ void check_ambient(const char *line, t_scene *scene)
     parse_ambient(line, scene);
 }
 
-void check_camera(const char *line, t_scene *scene) 
+void check_camera(const char *line, t_scenehe *scene) 
 {
 	char		**params;
 
@@ -250,7 +258,7 @@ void check_camera(const char *line, t_scene *scene)
     parse_camera(line, scene);
 }
 
-void check_light(const char *line, t_scene *scene) 
+void check_light(const char *line, t_scenehe *scene) 
 {
 	char		**params;
 
@@ -275,7 +283,7 @@ void check_light(const char *line, t_scene *scene)
     parse_light(line, scene);
 }
 
-void check_sphere(const char *line, t_scene *scene) 
+void check_sphere(const char *line, t_scenehe *scene) 
 {
 	char		**params;
 
@@ -295,7 +303,7 @@ void check_sphere(const char *line, t_scene *scene)
     parse_sphere(line, scene);
 }	
 
-void check_plane(const char *line, t_scene *scene) 
+void check_plane(const char *line, t_scenehe *scene) 
 {
 	char		**params;
 
@@ -312,7 +320,7 @@ void check_plane(const char *line, t_scene *scene)
     parse_plane(line, scene);
 }
 
-void check_cylinder(const char *line, t_scene *scene) 
+void check_cylinder(const char *line, t_scenehe *scene) 
 {
 	char		**params;
 
@@ -337,7 +345,7 @@ void check_cylinder(const char *line, t_scene *scene)
     parse_cylinder(line, scene);
 }
 
-void	check_vector(char ***str, t_scene *scene, int j)
+void	check_vector(char ***str, t_scenehe *scene, int j)
 {
 	int		i;
 	char	**nbrs;
@@ -365,7 +373,7 @@ void	check_vector(char ***str, t_scene *scene, int j)
 	free_array(nbrs);
 }
 
-void	check_colors(char ***str, t_scene *scene, int j)
+void	check_colors(char ***str, t_scenehe *scene, int j)
 {
     int		i;
 	char	**nbrs;

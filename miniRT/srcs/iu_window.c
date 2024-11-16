@@ -4,16 +4,13 @@ void open_window(t_data *data) {
     data->mlx_ptr = mlx_init();
     if (!data->mlx_ptr)
         ft_error("Initializing MiniLibX", data, EXIT_FAILURE);
-    data->win_ptr = mlx_new_window(data->mlx_ptr, 500, 500, "MUEHEHE");
+    data->win_ptr = mlx_new_window(data->mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL, "MUEHEHE");
     if (!data->win_ptr)
         ft_error("Creating window", data, EXIT_FAILURE);
     data->img_ptr = mlx_new_image(data->mlx_ptr, 500, 500);
     if (!data->img_ptr)
         ft_error("Creating image", data, EXIT_FAILURE);
     data->img_data = mlx_get_data_addr(data->img_ptr, &data->bpp, &data->size_line, &data->endian);
-    mlx_key_hook(data->win_ptr, key_hook, data);
-    mlx_hook(data->win_ptr, 17, 0, close_hook, data);
-    mlx_loop(data->mlx_ptr);
 }
 
 void close_window(t_data *data) {

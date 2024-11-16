@@ -2,8 +2,9 @@
 
 int main(int argc, char **argv) 
 {
+    static t_world	world;
     t_data data = {0};
-    t_scene scene = {0};
+    t_scenehe scenehe = {0};
 
     if (argc != 2)
         ft_error("Usage: ./miniRT <scene_description_file.rt>", &data, EXIT_FAILURE);
@@ -14,12 +15,18 @@ int main(int argc, char **argv)
         ft_error("Usage: ./miniRT <scene_description_file.rt>", &data, EXIT_FAILURE);
     }
     //ft_checkfile(argv[1], &data);
-    parse_scene(argv[1], &scene);
+    printf("Parsing scene\n");
+    parse_scene(argv[1], &scenehe);
+    printf("Opening window\n");
     open_window(&data);
-    ft_error(NULL, &data, EXIT_SUCCESS);
+    printf("Initializing world\n");
+	world_init(&world);
 
     // Render the scene using the parsed data
-    //render_scene(&data, &scene);
+    printf("Rendering scene\n");
+    render_scene(&data, &scenehe, &world);
+
+    ft_error(NULL, &data, EXIT_SUCCESS);
 }
 
 /* int main(void)

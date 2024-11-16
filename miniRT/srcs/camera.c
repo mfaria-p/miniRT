@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include <stdio.h>
 
 t_camera	*camera_init(t_camera *camera)
 {
@@ -138,30 +139,73 @@ int	color_argb(t_uint8 a, t_uint8 r, t_uint8 g, t_uint8 b)
 	return (a << 24 | r << 16 | g << 8 | b);
 }
 
+void print_camera(const t_camera *camera) {
+    if (!camera) {
+        printf("Camera is NULL\n");
+        return;
+    }
+
+    printf("Camera values:\n");
+    printf("  Scale: %f\n", camera->scale);
+    printf("  HSize: %f\n", camera->hsize);
+    printf("  VSize: %f\n", camera->vsize);
+    printf("  Pixel Size: %f\n", camera->pixel_size);
+    printf("  Half Width: %f\n", camera->half_width);
+    printf("  Half Height: %f\n", camera->half_height);
+    printf("  Rotation Axis: (%f, %f, %f)\n", camera->rotation.axis.x, camera->rotation.axis.y, camera->rotation.axis.z);
+    printf("  Rotation Angle: %f\n", camera->rotation.angle);
+    printf("  Origin: (%f, %f, %f)\n", camera->origin.x, camera->origin.y, camera->origin.z);
+    printf("  Axis: (%f, %f, %f)\n", camera->axis.x, camera->axis.y, camera->axis.z);
+    printf("  FOV: %f\n", camera->fov);
+}
+
+void print_img(const t_img *img) {
+    if (!img) {
+        printf("Image is NULL\n");
+        return;
+    }
+
+    printf("Image values:\n");
+    printf("  Image Pointer: %p\n", img->img);
+    printf("  Address: %p\n", img->addr);
+    printf("  Bits Per Pixel: %d\n", img->bpp);
+    printf("  Line Length: %d\n", img->len);
+    printf("  Endian: %d\n", img->endian);
+}
+
 t_img	*render(t_img *img, t_camera *camera, t_world *world)
 {
-	t_ray	ray;
+	printf("img: %p, camera: %p, world: %p\n", (void *)img, (void *)camera, (void *)world);
+	print_img(img);
+	print_camera(camera);
+	//ver tudo do world e td dentro da light
+	printf("world->objects: %p\n", (void *)world->objects);
+	printf("world->light: %p\n", (void *)&world->light);
+	//t_ray	ray; QUANDO TIRO ESTE RAY FUNCEMINA WHYYYYY
+	printf("boop");
 	int		x;
 	int		y;
 	int		xx;
 	int		yy;
-	int		color;
+	//int		color;
 
+	printf("boop");
 	y = 0;
+	printf("boop");
 	while (y < camera->vsize / camera->scale)
 	{
 		x = 0;
 		while (x < camera->hsize / camera->scale)
 		{
-			ray = ray_for_pixel(camera, x, y);
-			color = color_rgb(color_at(world, ray));
+			//ray = ray_for_pixel(camera, x, y);
+			//color = color_rgb(color_at(world, ray));
 			yy = y * camera->scale;
 			while (yy < y * camera->scale + camera->scale)
 			{
 				xx = x * camera->scale;
 				while (xx < x * camera->scale + camera->scale)
 				{
-					my_mlx_pixel_put(img, xx, yy, color);
+					//my_mlx_pixel_put(img, xx, yy, color);
 					xx++;
 				}
 				yy++;
