@@ -135,4 +135,15 @@ int	array_length(char *arr[]);
 //render scene
 void render_scene(t_data *data, t_scenehe *scene, t_world *world);
 
+//test
+void print_img(const t_img *img);
+void print_camera(const t_camera *camera);
+void print_world(const t_world *world);
+void print_light(const t_light_source *light);
+void print_object(const t_object *object);
+void print_vector(const t_vector *vector);
+void print_color(const t_vector *color);
+
+
+
 #endif

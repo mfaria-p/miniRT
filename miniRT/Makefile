@@ -24,7 +24,7 @@ INCLUDES = -I$(LIBFT_DIR) -I$(LIBMLX_DIR)
 all: $(NAME)
 
 $(NAME): $(addsuffix .o, $(NAME)) $(addprefix $(SRCDIR)/, $(SRCS)) $(addprefix $(SRCDIR)/, $(HDRS)) $(LIBFT) $(LIBMLX)
-	$(CC) -o $@ $(RTFLAGS) $< $(INCLUDES) $(LDFLAGS) $(LDLIBS)
+	$(CC) -g -o $@ $(RTFLAGS) $< $(INCLUDES) $(LDFLAGS) $(LDLIBS)
 
 $(addsuffix .o, $(NAME)): $(OBJS)
 	ld -r $^ -o $@
