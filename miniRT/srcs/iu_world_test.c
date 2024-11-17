@@ -1,4 +1,4 @@
-#include "minirt.h"
+#include "iu_scene.h"
 
 void print_vector(const t_vector *vec) {
     printf("  Vector: (%f, %f, %f)\n", vec->x, vec->y, vec->z);
