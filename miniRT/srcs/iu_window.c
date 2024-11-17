@@ -7,7 +7,7 @@ void open_window(t_data *data) {
     data->win_ptr = mlx_new_window(data->mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL, "MUEHEHE");
     if (!data->win_ptr)
         ft_error("Creating window", data, EXIT_FAILURE);
-    data->img_ptr = mlx_new_image(data->mlx_ptr, 500, 500);
+    data->img_ptr = mlx_new_image(data->mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL);
     if (!data->img_ptr)
         ft_error("Creating image", data, EXIT_FAILURE);
     data->img_data = mlx_get_data_addr(data->img_ptr, &data->bpp, &data->size_line, &data->endian);
