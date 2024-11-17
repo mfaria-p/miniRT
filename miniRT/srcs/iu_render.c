@@ -35,6 +35,8 @@ static t_camera init_camera2(t_scenehe *scene)
 static t_img img_init(t_data *data)
 {
     t_img img;
+    img.win = data->win_ptr;
+    img.mlx = data->mlx_ptr;
     img.img = data->img_ptr;
     img.addr = data->img_data;
     img.bpp = data->bpp;
@@ -44,7 +46,7 @@ static t_img img_init(t_data *data)
 }
     
 
-void render_scene(t_data *data, t_scenehe *scene, t_world *world)
+void render_scene(t_scenehe *scene, t_world *world)
 {
     t_light_source light;
     static t_camera camera;
@@ -59,6 +61,7 @@ void render_scene(t_data *data, t_scenehe *scene, t_world *world)
 	world->light = light;
     printf("Initializing camera\n");
     camera = init_camera2(scene);
+    world->camera = camera;
     
     printf("Adding spheres to the world\n");
     i = 0;
@@ -101,15 +104,9 @@ void render_scene(t_data *data, t_scenehe *scene, t_world *world)
         i++;
     }
     
-    // initialize scene
-	/* t_scene scene2;
-	scene2.camera = &camera;
-	scene2.world = world;
-    scene2.mlx_ptr = data->mlx_ptr;
-	scene2.mlx_win = data->win_ptr; */
     t_img img;
-    img = img_init(data);
-    /* scene2.img = &img; */
+    img = img_init(&scene->data);
+    world->img = &img;
 
     /* mlx_key_hook(data->win_ptr, key_hook, data);
     mlx_hook(data->win_ptr, 17, 0, close_hook, data);
@@ -129,5 +126,8 @@ void render_scene(t_data *data, t_scenehe *scene, t_world *world)
     printf("camera: %p\n", (void *)&camera);
     printf("world: %p\n", (void *)world);
     printf("Starting render function\n");
+
+    clean_data(&scene->data);
+    clean_scene(scene);
     render(&img, &camera, world);
 }

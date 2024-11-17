@@ -18,6 +18,9 @@ t_world	*world_init(t_world *world)
 {
 	world->ray_origin = (t_vector){0, 0, 0};
 	world->objects = NULL;
+	world->light = (t_light_source){(t_vector){0, 0, 0}, 0, (t_vector){0, 0, 0}};
+	world->img = NULL;
+	world->camera = (t_camera){0};
 	return (world);
 }
 

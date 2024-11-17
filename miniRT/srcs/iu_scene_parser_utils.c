@@ -43,15 +43,15 @@ void parse_color(const char **str, t_color *color, t_scenehe *scene)
 {
     color->r = parse_int(str);
     if (color->r < 0 || color->r > 255) 
-        ft_error("Color R out of range [0, 255]", &scene->data, EXIT_FAILURE);
+        ft_error("Color R out of range [0, 255]", scene, EXIT_FAILURE);
     (*str)++; // skip comma
     color->g = parse_int(str);
     if (color->g < 0 || color->g > 255)
-        ft_error("Color G out of range [0, 255]", &scene->data, EXIT_FAILURE);
+        ft_error("Color G out of range [0, 255]", scene, EXIT_FAILURE);
     (*str)++; // skip comma
     color->b = parse_int(str);
     if (color->b < 0 || color->b > 255)
-        ft_error("Color B out of range [0, 255]", &scene->data, EXIT_FAILURE);
+        ft_error("Color B out of range [0, 255]", scene, EXIT_FAILURE);
 }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)

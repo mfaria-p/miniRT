@@ -5,7 +5,7 @@ void parse_ambient(const char *line, t_scenehe *scene) {
     skip_spaces(&line);
     scene->ambient.ratio = parse_float(&line);
     if (scene->ambient.ratio < 0.0 || scene->ambient.ratio > 1.0) 
-    ft_error("Ambient lighting ratio out of range [0.0, 1.0]", &scene->data, EXIT_FAILURE);
+    ft_error("Ambient lighting ratio out of range [0.0, 1.0]", scene, EXIT_FAILURE);
     skip_spaces(&line);
     parse_color(&line, &scene->ambient.color, scene);
 }
@@ -36,13 +36,13 @@ void parse_camera(const char *line, t_scenehe *scene) {
     if (scene->camera.orient_x < -1.0 || scene->camera.orient_x > 1.0 ||
         scene->camera.orient_y < -1.0 || scene->camera.orient_y > 1.0 ||
         scene->camera.orient_z < -1.0 || scene->camera.orient_z > 1.0)
-        ft_error("Camera orientation values out of range [-1.0, 1.0]", &scene->data, EXIT_FAILURE);
+        ft_error("Camera orientation values out of range [-1.0, 1.0]", scene, EXIT_FAILURE);
 
     skip_spaces(&line);
     scene->camera.fov = parse_float(&line);
     printf("Parsed camera fov: %f\n", scene->camera.fov);
     if (scene->camera.fov < 0 || scene->camera.fov > 180) 
-        ft_error("Camera FOV out of range [0, 180]", &scene->data, EXIT_FAILURE);
+        ft_error("Camera FOV out of range [0, 180]", scene, EXIT_FAILURE);
 }
 
 void parse_light(const char *line, t_scenehe *scene) {
@@ -57,7 +57,7 @@ void parse_light(const char *line, t_scenehe *scene) {
     skip_spaces(&line);
     scene->light.brightness = parse_float(&line);
     if (scene->light.brightness < 0.0 || scene->light.brightness > 1.0) 
-        ft_error("Light brightness out of range [0.0, 1.0]", &scene->data, EXIT_FAILURE);
+        ft_error("Light brightness out of range [0.0, 1.0]", scene, EXIT_FAILURE);
 
     skip_spaces(&line);
     parse_color(&line, &scene->light.color, scene);
@@ -76,7 +76,7 @@ void parse_sphere(const char *line, t_scenehe *scene) {
     skip_spaces(&line);
     sphere.diameter = parse_float(&line);
     if (sphere.diameter <= 0.0) 
-        ft_error("Sphere diameter must be positive", &scene->data, EXIT_FAILURE);
+        ft_error("Sphere diameter must be positive", scene, EXIT_FAILURE);
 
     skip_spaces(&line);
     parse_color(&line, &sphere.color, scene);
@@ -106,7 +106,7 @@ void parse_plane(const char *line, t_scenehe *scene) {
     if (plane.orient_x < -1.0 || plane.orient_x > 1.0 ||
         plane.orient_y < -1.0 || plane.orient_y > 1.0 ||
         plane.orient_z < -1.0 || plane.orient_z > 1.0)
-        ft_error("Plane orientation values out of range [-1.0, 1.0]", &scene->data, EXIT_FAILURE);
+        ft_error("Plane orientation values out of range [-1.0, 1.0]", scene, EXIT_FAILURE);
 
     skip_spaces(&line);
     parse_color(&line, &plane.color, scene);
@@ -135,17 +135,17 @@ void parse_cylinder(const char *line, t_scenehe *scene) {
     if (cylinder.orient_x < -1.0 || cylinder.orient_x > 1.0 ||
         cylinder.orient_y < -1.0 || cylinder.orient_y > 1.0 ||
         cylinder.orient_z < -1.0 || cylinder.orient_z > 1.0)
-        ft_error("Cylinder orientation values out of range [-1.0, 1.0]", &scene->data, EXIT_FAILURE);
+        ft_error("Cylinder orientation values out of range [-1.0, 1.0]", scene, EXIT_FAILURE);
 
     skip_spaces(&line);
     cylinder.diameter = parse_float(&line);
     if (cylinder.diameter <= 0.0)
-        ft_error("Cylinder diameter must be positive", &scene->data, EXIT_FAILURE);
+        ft_error("Cylinder diameter must be positive", scene, EXIT_FAILURE);
 
     skip_spaces(&line);
     cylinder.height = parse_float(&line);
     if (cylinder.height <= 0.0) 
-        ft_error("Cylinder height must be positive", &scene->data, EXIT_FAILURE);
+        ft_error("Cylinder height must be positive", scene, EXIT_FAILURE);
 
     skip_spaces(&line);
     parse_color(&line, &cylinder.color, scene);
@@ -154,7 +154,7 @@ void parse_cylinder(const char *line, t_scenehe *scene) {
     scene->cylinders[scene->cylinder_count++] = cylinder;
 }
 
-void process_line(const char *line, t_scenehe *scene) {
+void process_line(char *line, t_scenehe *scene) {
     size_t len = strlen(line);
     if (len > 0 && line[len - 1] == '\n') {
         len--; // Exclude the newline character
@@ -163,10 +163,16 @@ void process_line(const char *line, t_scenehe *scene) {
     // Allocate a new buffer and copy the content up to the newline character
     char *clean_line = (char *)malloc(len + 1);
     if (!clean_line) {
-        ft_error("Memory allocation failed", &scene->data, EXIT_FAILURE);
+        ft_error("Memory allocation failed", scene, EXIT_FAILURE);
     }
-    memcpy(clean_line, line, len);
+    ft_memcpy(clean_line, scene->line, len);
+    if (scene->line)
+    {
+        free(scene->line); // Free the original buffer after copying
+        scene->line = NULL; // Set to NULL after freeing
+    }
     clean_line[len] = '\0'; // Null-terminate the new buffer
+    scene->line = clean_line;
 
     // Process the clean line
     if (clean_line[0] == 'A') {
@@ -182,30 +188,38 @@ void process_line(const char *line, t_scenehe *scene) {
     } else if (ft_strncmp(clean_line, "cy", 2) == 0) {
         check_cylinder(clean_line, scene);
     } else {
-        ft_error("Invalid element", &scene->data, EXIT_FAILURE);
+        ft_error("Invalid element", scene, EXIT_FAILURE);
     }
-    free(clean_line); // Free the new buffer after processing
+    if(scene->line)
+    {
+        free(scene->line); // Free the new buffer after processing
+        scene->line = NULL; // Set to NULL after freeing
+    }
 }
 
 void parse_scene(const char *filename, t_scenehe *scene) {
-    int fd = open(filename, O_RDONLY);
-    if (fd < 0) {
-        ft_error("Failed to open file", &scene->data, EXIT_FAILURE);
+    scene->data.fd = open(filename, O_RDONLY);
+    if (scene->data.fd < 0) {
+        ft_error("Failed to open file", scene, EXIT_FAILURE);
     }
 
     scene->ambient_count=0;
     scene->light_count=0;
     scene->camera_count=0;
-    char *line;
-    while ((line = get_next_line(fd)) != NULL) {
-        if (line[0] == '\n' ) {
-            free(line);
+    while ((scene->line = get_next_line(scene->data.fd)) != NULL) {
+        if (scene->line[0] == '\n') {
+            free(scene->line);
+            scene->line = NULL; // Set to NULL after freeing
             continue;
         }
-        process_line(line, scene);
-        free(line);  // Free each line after processing
+        process_line(scene->line, scene);
+        if (scene->line)
+        {
+            free(scene->line);
+            scene->line = NULL; // Set to NULL after freeing
+        }
     }
-    close(fd);  // Close the file descriptor after reading all lines
+    close(scene->data.fd);  // Close the file descriptor after reading all lines
     is_invalid_file(scene);
 }
 
@@ -216,17 +230,17 @@ void check_ambient(const char *line, t_scenehe *scene)
     scene->ambient_count++;
     if (scene->ambient_count > 1)
     {
-        ft_error("You cannot declare more than one Ambient", &scene->data, EXIT_FAILURE);
+        ft_error("You cannot declare more than one Ambient", scene, EXIT_FAILURE);
     }
 	params = ft_split(line, ' ');
     if (array_length(params) != 3)
     {
         free_array(params);
-		ft_error("Invalid number of parameters for ambient element", &scene->data, EXIT_FAILURE);
+		ft_error("Invalid number of parameters for ambient element", scene, EXIT_FAILURE);
     }
     if (!is_float(params[1])) {
         free_array(params);
-        ft_error("Ambient lighting ratio must be a float number", &scene->data, EXIT_FAILURE);
+        ft_error("Ambient lighting ratio must be a float number", scene, EXIT_FAILURE);
     }
     check_colors(&params, scene, 2);
     free_array(params);
@@ -240,19 +254,19 @@ void check_camera(const char *line, t_scenehe *scene)
     scene->camera_count++;
     if (scene->camera_count > 1)
     {
-        ft_error("You cannot declare more than one Camera", &scene->data, EXIT_FAILURE);
+        ft_error("You cannot declare more than one Camera", scene, EXIT_FAILURE);
     }
 	params = ft_split(line, ' ');
     if (array_length(params) != 4)
     {
         free_array(params);
-		ft_error("Invalid number of parameters for camera element", &scene->data, EXIT_FAILURE);
+		ft_error("Invalid number of parameters for camera element", scene, EXIT_FAILURE);
     }
     check_vector(&params, scene, 1);
     check_vector(&params, scene, 2);
     if (!is_float(params[3])) {
         free_array(params);
-        ft_error("Camera FOV must be a float number", &scene->data, EXIT_FAILURE);
+        ft_error("Camera FOV must be a float number", scene, EXIT_FAILURE);
     }
     free_array(params);
     parse_camera(line, scene);
@@ -265,18 +279,18 @@ void check_light(const char *line, t_scenehe *scene)
     scene->light_count++;
     if (scene->light_count > 1)
     {
-        ft_error("You cannot declare more than one Light", &scene->data, EXIT_FAILURE);
+        ft_error("You cannot declare more than one Light", scene, EXIT_FAILURE);
     }
 	params = ft_split(line, ' ');
     if (array_length(params) != 4)
     {
         free_array(params);
-		ft_error("Invalid number of parameters for Light element", &scene->data, EXIT_FAILURE);
+		ft_error("Invalid number of parameters for Light element", scene, EXIT_FAILURE);
     }
     check_vector(&params, scene, 1);
     if (!is_float(params[2])) {
         free_array(params);
-        ft_error("Light brightness ratio must be a float number", &scene->data, EXIT_FAILURE);
+        ft_error("Light brightness ratio must be a float number", scene, EXIT_FAILURE);
     }
     check_colors(&params, scene, 3);
     free_array(params);
@@ -291,12 +305,12 @@ void check_sphere(const char *line, t_scenehe *scene)
     if (array_length(params) != 4)
     {
         free_array(params);
-		ft_error("Invalid number of parameters for sphere element", &scene->data, EXIT_FAILURE);
+		ft_error("Invalid number of parameters for sphere element", scene, EXIT_FAILURE);
     }
     check_vector(&params, scene, 1);
     if (!is_float(params[2])) {
         free_array(params);
-        ft_error("Sphere Diameter must be a float number", &scene->data, EXIT_FAILURE);
+        ft_error("Sphere Diameter must be a float number", scene, EXIT_FAILURE);
     }
     check_colors(&params, scene, 3);
     free_array(params);
@@ -311,7 +325,7 @@ void check_plane(const char *line, t_scenehe *scene)
     if (array_length(params) != 4)
     {
         free_array(params);
-		ft_error("Invalid number of parameters for plane element", &scene->data, EXIT_FAILURE);
+		ft_error("Invalid number of parameters for plane element", scene, EXIT_FAILURE);
     }
     check_vector(&params, scene, 1);
     check_vector(&params, scene, 2);
@@ -328,17 +342,17 @@ void check_cylinder(const char *line, t_scenehe *scene)
     if (array_length(params) != 6)
     {
         free_array(params);
-		ft_error("Invalid number of parameters for cylinder element", &scene->data, EXIT_FAILURE);
+		ft_error("Invalid number of parameters for cylinder element", scene, EXIT_FAILURE);
     }
     check_vector(&params, scene, 1);
     check_vector(&params, scene, 2);
     if (!is_float(params[3])) {
         free_array(params);
-        ft_error("Cylinder Diameter must be a float number", &scene->data, EXIT_FAILURE);
+        ft_error("Cylinder Diameter must be a float number", scene, EXIT_FAILURE);
     }
     if (!is_float(params[4])) {
         free_array(params);
-        ft_error("Cylinder Height must be a float number", &scene->data, EXIT_FAILURE);
+        ft_error("Cylinder Height must be a float number", scene, EXIT_FAILURE);
     }
     check_colors(&params, scene, 5);
     free_array(params);
@@ -354,23 +368,29 @@ void	check_vector(char ***str, t_scenehe *scene, int j)
 	nbrs = ft_split((*str)[j], ',');
 	if (!nbrs) {
         free_array(*str);
-        ft_error("Memory allocation failed for nbrs", &scene->data, EXIT_FAILURE);
+        *str = NULL;
+        ft_error("Memory allocation failed for nbrs", scene, EXIT_FAILURE);
     }
     while (nbrs[i]) {
         if (!is_float(nbrs[i])) {
             free_array(*str);
+            *str = NULL;
             free_array(nbrs);
-            ft_error("All parameters must be numbers", &scene->data, EXIT_FAILURE);
+            nbrs = NULL;
+            ft_error("All parameters must be numbers", scene, EXIT_FAILURE);
         }
         i++;
     }
 	if (array_length(nbrs) != 3)
     {
         free_array(*str);
+        *str = NULL;
         free_array(nbrs);
-		ft_error("You must input x, y and z axis.", &scene->data, EXIT_FAILURE);
+        nbrs = NULL;
+		ft_error("You must input x, y and z axis.", scene, EXIT_FAILURE);
     }
 	free_array(nbrs);
+    nbrs = NULL;
 }
 
 void	check_colors(char ***str, t_scenehe *scene, int j)
@@ -384,14 +404,14 @@ void	check_colors(char ***str, t_scenehe *scene, int j)
         if (is_int(nbrs[i]) == 0) {
             free_array(*str);
             free_array(nbrs);
-            ft_error("RGB colors must be constituted of integers numbers only", &scene->data, EXIT_FAILURE);
+            ft_error("RGB colors must be constituted of integers numbers only", scene, EXIT_FAILURE);
         }
     }
 	if (array_length(nbrs) != 3)
     {
         free_array(*str);
         free_array(nbrs);
-		ft_error("You must input three integers numbers for RGB colors.", &scene->data, EXIT_FAILURE);
+		ft_error("You must input three integers numbers for RGB colors.", scene, EXIT_FAILURE);
     }
 	free_array(nbrs);
 }

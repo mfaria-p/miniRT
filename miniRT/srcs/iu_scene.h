@@ -1,4 +1,4 @@
-#ifndef IU_SCENE_H
+# ifndef IU_SCENE_H
 #define IU_SCENE_H
 
 #include <mlx.h>
@@ -20,8 +20,8 @@
 #define ESC_KEY 65307
 
 typedef struct s_data {
-    void *mlx_ptr; //ta na t_scene
-    void *win_ptr; //ta na t_scene
+    void *mlx_ptr; 
+    void *win_ptr; 
     void *img_ptr;
     char *img_data;
     int bpp;
@@ -75,6 +75,8 @@ typedef struct s_cylinder {
 
 typedef struct s_scenehe {
     t_data data;
+    char * line;
+    char **params;
     t_ambient ambient;
     t_camerahe camera;
     t_light light;
@@ -90,7 +92,7 @@ typedef struct s_scenehe {
 } t_scenehe;
 
 //window related functions
-void open_window(t_data *data);
+void open_window(t_scenehe *scene);
 void close_window(t_data *data);
 int key_hook(int keycode, t_data *data);
 int close_hook(t_data *data);
@@ -98,7 +100,9 @@ int close_hook(t_data *data);
 //error handling
 //void ft_checkfile(char * file, t_data *data);
 void	is_invalid_file(t_scenehe *scene);
-int ft_error(char *str, t_data *data, int e);
+int ft_error(char *str, t_scenehe *scene, int e);
+void clean_scene(t_scenehe *scene);
+void clean_data(t_data *data);
 
 //checks before parsing functions
 void check_ambient(const char *line, t_scenehe *scene);
@@ -111,7 +115,7 @@ void	check_vector(char ***str, t_scenehe *scene, int j);
 void	check_colors(char ***str, t_scenehe *scene, int j);
 
 //scene parsing functions
-void process_line(const char *line, t_scenehe *scene);
+void process_line(char *line, t_scenehe *scene);
 void parse_scene(const char *filename, t_scenehe *scene);
 void parse_ambient(const char *line, t_scenehe *scene);
 void parse_camera(const char *line, t_scenehe *scene);
@@ -133,7 +137,7 @@ void	free_array(char *arr[]);
 int	array_length(char *arr[]);
 
 //render scene
-void render_scene(t_data *data, t_scenehe *scene, t_world *world);
+void render_scene(t_scenehe *scene, t_world *world);
 
 //test
 void print_img(const t_img *img);

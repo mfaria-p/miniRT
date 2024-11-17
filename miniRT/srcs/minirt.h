@@ -118,13 +118,6 @@ typedef struct s_hit
 	int				is_inside;
 }	t_hit;
 
-typedef struct s_world
-{
-	t_vector		ray_origin;
-	t_list			*objects;
-	t_light_source	light;
-}	t_world;
-
 // default camera origin
 typedef struct s_camera
 {
@@ -148,10 +141,21 @@ typedef struct s_img
 {
 	void	*img;
 	char	*addr;
+	void *mlx; 
+    void *win;
 	int		bpp;
 	int		len;
 	int		endian;
 }	t_img;
+
+typedef struct s_world
+{
+	t_vector		ray_origin;
+	t_list			*objects;
+	t_light_source	light;
+	t_img *img;
+	t_camera camera;
+}	t_world;
 
 typedef struct s_scene
 {

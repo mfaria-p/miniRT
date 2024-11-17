@@ -1,16 +1,16 @@
 #include "iu_scene.h"
 
-void open_window(t_data *data) {
-    data->mlx_ptr = mlx_init();
-    if (!data->mlx_ptr)
-        ft_error("Initializing MiniLibX", data, EXIT_FAILURE);
-    data->win_ptr = mlx_new_window(data->mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL, "MUEHEHE");
-    if (!data->win_ptr)
-        ft_error("Creating window", data, EXIT_FAILURE);
-    data->img_ptr = mlx_new_image(data->mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL);
-    if (!data->img_ptr)
-        ft_error("Creating image", data, EXIT_FAILURE);
-    data->img_data = mlx_get_data_addr(data->img_ptr, &data->bpp, &data->size_line, &data->endian);
+void open_window(t_scenehe *scene) {
+    scene->data.mlx_ptr = mlx_init();
+    if (!scene->data.mlx_ptr)
+        ft_error("Initializing MiniLibX", scene, EXIT_FAILURE);
+    scene->data.win_ptr = mlx_new_window(scene->data.mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL, "MUEHEHE");
+    if (!scene->data.win_ptr)
+        ft_error("Creating window", scene, EXIT_FAILURE);
+    scene->data.img_ptr = mlx_new_image(scene->data.mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL);
+    if (!scene->data.img_ptr)
+        ft_error("Creating image", scene, EXIT_FAILURE);
+    scene->data.img_data = mlx_get_data_addr(&scene->data.img_ptr, &scene->data.bpp, &scene->data.size_line, &scene->data.endian);
 }
 
 void close_window(t_data *data) {
