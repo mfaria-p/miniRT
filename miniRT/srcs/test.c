@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:19:10 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/10 18:44:29 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:23:18 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ int	main(void)
 	// mlx_key_hook(mlx_win, key_hook, (void *)scene);
 	scene.tmp = (t_vector){0, 0, 0};
 	mlx_loop_hook(mlx_ptr, animate, (void *)&scene);
+	mlx_do_key_autorepeaton(mlx_ptr);
 	mlx_loop(mlx_ptr);
 
 	render(&img, &camera, &world);
@@ -186,7 +187,6 @@ int	main(void)
 
 	// mlx_put_image_to_window(mlx_ptr, mlx_win, img.img, 0, 0);
 	// mlx_loop(mlx_ptr);
-	mlx_do_key_autorepeaton(mlx_ptr);
 	world_destroy(&world);
 	mlx_clear_window(mlx_ptr, mlx_win);
 	mlx_destroy_image(mlx_ptr, img.img);
