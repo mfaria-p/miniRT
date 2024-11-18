@@ -1,4 +1,4 @@
-#include "iu_scene.h"
+#include "minirt.h"
 
 void init_scene(t_scenehe *scene) {
     scene->data.mlx_ptr = NULL;

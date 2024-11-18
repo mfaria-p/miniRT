@@ -1,10 +1,12 @@
-#include "iu_scene.h"
+#include "minirt.h"
 
 void clean_data(t_data *data) {
 	if (!data) return;
 
     if (data->img_ptr)
+	{
         mlx_destroy_image(data->mlx_ptr, data->img_ptr);
+	}
 
     if (data->win_ptr)
         mlx_destroy_window(data->mlx_ptr, data->win_ptr);

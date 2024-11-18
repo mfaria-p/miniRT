@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
 #include <stdio.h>
-#include "iu_scene.h"
+#include "minirt.h"
 
 t_camera	*camera_init(t_camera *camera)
 {

@@ -1,4 +1,4 @@
-#include "iu_scene.h"
+#include "minirt.h"
 
 int parse_int(const char **str) {
     int num = 0, sign = 1;
