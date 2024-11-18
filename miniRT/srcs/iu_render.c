@@ -16,8 +16,8 @@ static t_camera init_camera2(t_scenehe *scene)
     camera.vsize = CANVAS_PIXEL;
     camera.fov = scene->camera.fov * (M_PI / 180.0); // Convert FOV to radians
     camera.origin = (t_vector){scene->camera.x, scene->camera.y, scene->camera.z};
-    camera.rotation.axis = (t_vector){0, 0, 0}; // Set to appropriate rotation axis if needed
-    camera.rotation.angle = 0; // Set to appropriate rotation angle if needed
+	camera.rotation.axis = vector_cross_product(camera.axis, (t_vector){0, 1, 0});
+	camera.rotation.angle = acos(vector_cosine(camera.axis, (t_vector){0, 1, 0}));
 
     half_view = tan(camera.fov / 2);
     aspect = (double)camera.hsize / camera.vsize;
