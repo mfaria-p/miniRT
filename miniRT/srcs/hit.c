@@ -6,11 +6,11 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:41 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/10 00:14:50 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/18 21:56:41 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "iu_scene.h"
+#include "minirt.h"
 
 t_hit	hit(t_intersection intersection, t_ray ray)
 {
