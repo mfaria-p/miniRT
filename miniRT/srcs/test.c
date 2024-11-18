@@ -177,7 +177,7 @@ int	main(void)
 	mlx_hook(mlx_win, ButtonPress, ButtonPressMask, mouse_press_hook, (void *)&scene);
 	mlx_hook(mlx_win, ButtonRelease, ButtonReleaseMask, mouse_release_hook, (void *)&scene);
 	// mlx_key_hook(mlx_win, key_hook, (void *)scene);
-	scene.tmp = (t_vector){0, 0, 0};
+	//scene.tmp = (t_vector){0, 0, 0};
 	mlx_loop_hook(mlx_ptr, animate, (void *)&scene);
 	mlx_do_key_autorepeaton(mlx_ptr);
 	mlx_loop(mlx_ptr);

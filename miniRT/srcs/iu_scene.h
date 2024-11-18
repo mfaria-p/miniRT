@@ -7,7 +7,6 @@
 #include <string.h>
 #include <fcntl.h>
 #include <math.h>
-#include "minirt.h"
 #include "../libft/libft/ft_printf.h"
 #include "../libft/libft/get_next_line.h"
 #include "../libft/libft/libft.h"
@@ -136,18 +135,12 @@ int	is_int(char *str);
 void	free_array(char *arr[]);
 int	array_length(char *arr[]);
 
-//render scene
-void render_scene(t_scenehe *scene, t_world *world);
-
-//test
-void print_img(const t_img *img);
-void print_camera(const t_camera *camera);
-void print_world(const t_world *world);
-void print_light(const t_light_source *light);
-void print_object(const t_object *object);
-void print_vector(const t_vector *vector);
-void print_color(const t_vector *color);
-
+//hooks
+int	quit(void *param);
+int	mouse_press_hook(int button, int x, int y, void *param);
+int scene_rotate(void *param);
+int	mouse_release_hook(int button, int x, int y, void *param);
+int	animate(void *param);
 
 
 #endif

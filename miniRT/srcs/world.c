@@ -21,6 +21,8 @@ t_world	*world_init(t_world *world)
 	world->light = (t_light_source){(t_vector){0, 0, 0}, 0, (t_vector){0, 0, 0}};
 	world->img = NULL;
 	world->camera = (t_camera){0};
+	world->scene = NULL;
+	world->tmp = (t_vector){0, 0, 0};
 	return (world);
 }
 
@@ -47,4 +49,6 @@ void	world_destroy(t_world *world)
 		free(world->objects);
 		world->objects = tmp;
 	}
+	clean_scene(world->scene);
+	clean_data(&world->scene->data);
 }

@@ -14,11 +14,14 @@
 # define MINIRT_H
 
 # define CANVAS_PIXEL 600
+#define MOVE_FACTOR .001
+#define ROT_FACTOR .001
 
 # include "mlx.h"
 # include "X11/X.h"
 # include "../libft/libft/libft.h"
 # include "laag.h"
+# include "iu_scene.h"
 # include <math.h>
 
 // color vector have values between 0 and 1
@@ -155,6 +158,8 @@ typedef struct s_world
 	t_light_source	light;
 	t_img *img;
 	t_camera camera;
+	t_scenehe *scene;
+	t_vector tmp;
 }	t_world;
 
 typedef struct s_scene
@@ -236,5 +241,17 @@ t_camera	*camera_coord_new(t_camera *camera, t_vector coord);
 t_camera	*camera_rot_new(t_camera *camera, t_vector axis, double angle);
 t_camera	*camera_translate(t_camera *camera, t_vector direction, double shift);
 t_camera	*camera_rotate(t_camera *camera, t_vector axis, double angle);
+
+//render scene
+void render_scene(t_scenehe *scene, t_world *world);
+
+//test
+void print_img(const t_img *img);
+void print_camera(const t_camera *camera);
+void print_world(const t_world *world);
+void print_light(const t_light_source *light);
+void print_object(const t_object *object);
+void print_vector(const t_vector *vector);
+void print_color(const t_vector *color);
 
 #endif

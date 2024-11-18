@@ -1,4 +1,4 @@
-#include "iu_scene.h"
+#include "minirt.h"
 
 void parse_ambient(const char *line, t_scenehe *scene) {
     line++; // skip 'A'

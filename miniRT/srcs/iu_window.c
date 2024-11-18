@@ -1,4 +1,4 @@
-#include "iu_scene.h"
+#include "minirt.h"
 
 void open_window(t_scenehe *scene) {
     scene->data.mlx_ptr = mlx_init();
