@@ -10,7 +10,7 @@ void open_window(t_scenehe *scene) {
     scene->data.img_ptr = mlx_new_image(scene->data.mlx_ptr, CANVAS_PIXEL, CANVAS_PIXEL);
     if (!scene->data.img_ptr)
         ft_error("Creating image", scene, EXIT_FAILURE);
-    scene->data.img_data = mlx_get_data_addr(&scene->data.img_ptr, &scene->data.bpp, &scene->data.size_line, &scene->data.endian);
+    scene->data.img_data = mlx_get_data_addr(scene->data.img_ptr, &scene->data.bpp, &scene->data.size_line, &scene->data.endian);
 }
 
 void close_window(t_data *data) {

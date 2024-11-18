@@ -20,6 +20,7 @@ void print_object(const t_object *object) {
     print_vector(&object->translation);
     print_color(&object->material.color);
     printf("  Shape Type: %d\n", object->shape.type);
+    printf("  Height: %f\n", object->shape.constant);
     printf("  Height: %f\n", object->shape.height);
 }
 

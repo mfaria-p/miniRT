@@ -75,6 +75,7 @@ void parse_sphere(const char *line, t_scenehe *scene) {
 
     skip_spaces(&line);
     sphere.diameter = parse_float(&line);
+	printf("%f\n",sphere.diameter);
     if (sphere.diameter <= 0.0) 
         ft_error("Sphere diameter must be positive", scene, EXIT_FAILURE);
 

@@ -127,7 +127,9 @@ void render_scene(t_scenehe *scene, t_world *world)
     printf("world: %p\n", (void *)world);
     printf("Starting render function\n");
 
-    clean_data(&scene->data);
-    clean_scene(scene);
+    // clean_data(&scene->data);
+    // clean_scene(scene);
     render(&img, &camera, world);
+	mlx_put_image_to_window(img.mlx, img.win, img.img, 0, 0);
+	mlx_loop(world->img->mlx);
 }
