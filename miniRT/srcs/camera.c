@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:42:15 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/18 00:04:12 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/18 22:29:04 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ t_camera	*camera_translate(t_camera *camera, t_vector direction, double shift)
 t_camera	*camera_rotate(t_camera *camera, t_vector axis, double angle)
 {
 	camera->axis = vector_rotate(camera->axis, axis, angle);
-	camera->rotation.axis = vector_cross_product(camera->axis, (t_vector){0, 1, 0});
-	camera->rotation.angle = acos(vector_cosine(camera->axis, (t_vector){0, 1, 0}));
+	camera->rotation.axis = vector_cross_product(camera->axis, (t_vector){0, 0, 1});
+	camera->rotation.angle = acos(vector_cosine(camera->axis, (t_vector){0, 0, 1}));
 	return (camera);
 }
 

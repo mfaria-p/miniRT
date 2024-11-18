@@ -16,8 +16,8 @@ static t_camera init_camera2(t_scenehe *scene)
     camera.vsize = CANVAS_PIXEL;
     camera.fov = scene->camera.fov * (M_PI / 180.0); // Convert FOV to radians
     camera.origin = (t_vector){scene->camera.x, scene->camera.y, scene->camera.z};
-	camera.rotation.axis = vector_cross_product(camera.axis, (t_vector){0, 1, 0});
-	camera.rotation.angle = acos(vector_cosine(camera.axis, (t_vector){0, 1, 0}));
+	camera.rotation.axis = vector_cross_product(camera.axis, (t_vector){0, 0, 1});
+	camera.rotation.angle = acos(vector_cosine(camera.axis, (t_vector){0, 0, 1}));
 
     half_view = tan(camera.fov / 2);
     aspect = (double)camera.hsize / camera.vsize;
@@ -91,8 +91,8 @@ int scene_rotate(void *param)
     (void)img;
     mlx_mouse_get_pos(world->img->mlx, world->img->win, mouse_pos, mouse_pos + 1);
     v = (t_vector){mouse_pos[0], mouse_pos[1], 0};
-    camera_rotate(&world->camera,  (t_vector){(mouse_pos[1] - world->tmp.y) * -1, \
-		mouse_pos[0] - world->tmp.x, 0}, \
+    camera_rotate(&world->camera,  (t_vector){(world->tmp.y - mouse_pos[1]), \
+		world->tmp.x - mouse_pos[0], 0}, \
 		-vector_distance(world->tmp, v) * ROT_FACTOR);
     render(world->img, &world->camera, world);
     mlx_clear_window(world->img->mlx, world->img->win);
@@ -106,10 +106,12 @@ int	mouse_press_hook(int button, int x, int y, void *param)
 {
     t_world	*world;
 
+	(void)x;
+	(void)y;
     world = (t_world *)param;
     if (button == 1) // Left click
     {
-        world->tmp = (t_vector){x, y, 0};
+        world->tmp = (t_vector){world->camera.hsize/2, world->camera.vsize/2, 0};
         mlx_loop_hook(world->img->mlx, scene_rotate, param);
     }
     /* else if (button == 3) // Right click
