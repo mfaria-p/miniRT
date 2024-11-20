@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "iu_scene.h"
+#include "minirt.h"
 
 t_hit	hit(t_intersection intersection, t_ray ray)
 {
