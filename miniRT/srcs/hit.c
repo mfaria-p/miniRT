@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:41 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/18 21:56:41 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/20 13:59:41 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ t_vector	shade_hit(t_world *world, t_hit hit)
 	light = world->light;
 	shadow = is_shadowed(hit.point, hit.normal, world);
 	phong = lighting(material, light, hit.point, hit.eyev, hit.normal, shadow);
+	phong.ambient = world->ambient;
+	phong.ambient = vector_scalar_product(hit.i.obj->material.ambient, phong.ambient);
 	color.x = phong.ambient.x + phong.diffuse.x + phong.specular.x;
 	color.y = phong.ambient.y + phong.diffuse.y + phong.specular.y;
 	color.z = phong.ambient.z + phong.diffuse.z + phong.specular.z;

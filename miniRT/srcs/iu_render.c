@@ -189,6 +189,8 @@ void render_scene(t_scenehe *scene, t_world *world)
     static t_camera camera;
     t_object	*object;
     int i;
+	printf("Initializing ambient light");
+	world->ambient = vector_scalar_product(scene->ambient.ratio, (t_vector){scene->ambient.color.r / 255.0, scene->ambient.color.g / 255.0, scene->ambient.color.b / 255.0});
     printf("Initializing light source\n");
 	light = light_init(
         (t_vector){scene->light.x, scene->light.y, scene->light.z},

@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/10 18:33:40 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/20 13:54:15 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ typedef struct s_world
 {
 	t_vector		ray_origin;
 	t_list			*objects;
+	t_vector		ambient;
 	t_light_source	light;
 	t_img *img;
 	t_camera camera;
