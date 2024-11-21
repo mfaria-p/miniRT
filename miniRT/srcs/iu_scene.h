@@ -26,6 +26,10 @@
 # define XK_D 0x0064
 # define XK_SPACE 0x0020
 # define XK_SHIFT 0xffe1
+# define XK_Up 0xff52
+# define XK_Down 0xff54
+# define XK_Left 0xff51
+# define XK_Right 0xff53
 
 typedef struct s_data {
     void *mlx_ptr; 

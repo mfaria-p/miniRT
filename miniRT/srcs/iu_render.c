@@ -29,6 +29,7 @@ static t_camera init_camera2(t_scenehe *scene)
         camera.half_height = half_view;
     }
     camera.pixel_size = (camera.half_width * camera.scale * 2) / camera.hsize;
+    //initialize left and up
     return (camera);
 }
 
@@ -81,15 +82,30 @@ int scene_rotate(void *param)
 
 int	mouse_press_hook(int button, int x, int y, void *param)
 {
-    t_world	*world;
+    volatile t_world	*world;
+    int mouse_pos[2];
+    (void)x;
+    (void)y;
 
-	(void)x;
-	(void)y;
-    world = (t_world *)param;
+    world = (volatile t_world *)param;
 	if (button == 1)
     {
         world->direction_rot = (t_vector){world->camera.hsize/2, world->camera.vsize/2, 0};
         mlx_loop_hook(world->img->mlx, scene_rotate, param);
+    }
+    else if (button == 3) // Left click
+    {
+        mlx_mouse_get_pos(world->img->mlx, world->img->win, mouse_pos, mouse_pos + 1);
+        world->selected_object = object_select(world, mouse_pos[0], mouse_pos[1]);
+         if (world->selected_object)
+        {
+            printf("Object selected at (%d, %d)\n", mouse_pos[0], mouse_pos[1]);
+        }
+        else
+        {
+            printf("No object selected at (%d, %d)\n", mouse_pos[0], mouse_pos[1]);
+        }
+        mlx_loop_hook(world->img->mlx, animate, param);
     }
     /* else if (button == 3) // Right click
     {
@@ -193,6 +209,22 @@ int	key_press_hook(int keycode, void *param)
         world->direction_move = vector_cross_product(tmp, (t_vector)world->direction_move);
         mlx_loop_hook(world->img->mlx, scene_translate, param);
 	}
+    if (world->selected_object && world->selected_object->shape.type == SPHERE)
+    {
+        if (keycode == XK_Up)
+        {
+            printf("Scaling up\n");
+            world->selected_object->shape.scale += 0.1;
+        }
+        if (keycode == XK_Down)
+        {
+            printf("Scaling down\n");
+            world->selected_object->shape.scale -= 0.1;
+            if (world->selected_object->shape.scale < 0.1)
+                world->selected_object->shape.scale = 0.1;
+        }
+        mlx_loop_hook(world->img->mlx, animate, param);
+    }
     
     return (0);
 }
@@ -203,7 +235,7 @@ int	key_release_hook(int keycode, void *param)
     (void)  world;
 
 	world = (volatile t_world *)param;
-    if (keycode == XK_W || keycode == XK_S || keycode == XK_A || keycode == XK_D || keycode == XK_SPACE || keycode == XK_SHIFT)
+    if (keycode == XK_W || keycode == XK_S || keycode == XK_A || keycode == XK_D || keycode == XK_SPACE || keycode == XK_SHIFT || keycode == XK_Up || keycode == XK_Down)
         mlx_loop_hook(world->img->mlx, animate, param);
     
     return (0);

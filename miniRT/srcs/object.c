@@ -144,7 +144,7 @@ t_object	*object_scale(t_object *obj, double scale)
 	return (obj);
 }
 
-t_object	*object_select(t_world *world, int x, int y)
+t_object	*object_select(volatile t_world *world, int x, int y)
 {
 	t_ray			ray;
 	t_intersections	is;

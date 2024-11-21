@@ -136,6 +136,8 @@ typedef struct s_camera
 	t_vector	origin;
 	t_vector	axis;
 	double		fov;
+	//up 
+	//down
 }	t_camera;
 
 typedef struct s_img
@@ -160,6 +162,7 @@ typedef struct s_world
 	t_scenehe		*scene;
 	t_vector		direction_rot;
 	t_vector		direction_move;
+	t_object        *selected_object;
 }	t_world;
 
 typedef struct s_scene
@@ -210,6 +213,7 @@ t_object	*object_coef_new(t_object *obj, t_vector new_coef);
 t_object	*object_translate(t_object *obj, t_vector direction, double shift);
 t_object	*object_rotate(t_object *obj, t_vector axis, double angle);
 t_object	*object_scale(t_object *obj, double scale);
+t_object	*object_select(volatile t_world *world, int x, int y);
 
 /* ************************************************************************** */
 // world.c
