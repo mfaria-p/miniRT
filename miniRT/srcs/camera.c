@@ -65,9 +65,9 @@ t_camera	*camera_rot_new(t_camera *camera, t_vector axis, double angle)
 
 t_camera	*camera_translate(t_camera *camera, t_vector direction, double shift)
 {
-	camera->origin.x = camera->origin.x + shift * direction.x;
-	camera->origin.y = camera->origin.y + shift * direction.y;
-	camera->origin.z = camera->origin.z + shift * direction.z;
+	camera->origin.x = camera->origin.x - shift * direction.x;
+	camera->origin.y = camera->origin.y - shift * direction.y;
+	camera->origin.z = camera->origin.z - shift * direction.z;
 	return (camera);
 }
 

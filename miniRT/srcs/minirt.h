@@ -14,8 +14,6 @@
 # define MINIRT_H
 
 # define CANVAS_PIXEL 600
-#define MOVE_FACTOR .001
-#define ROT_FACTOR .001
 
 # include "mlx.h"
 # include "X11/X.h"
@@ -160,7 +158,8 @@ typedef struct s_world
 	t_img			*img;
 	t_camera		camera;
 	t_scenehe		*scene;
-	t_vector		tmp;
+	t_vector		direction_rot;
+	t_vector		direction_move;
 }	t_world;
 
 typedef struct s_scene

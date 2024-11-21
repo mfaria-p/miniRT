@@ -16,7 +16,12 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-#define ESC_KEY 65307
+#define MOVE_FACTOR .1
+#define ROT_FACTOR .001
+
+# define XK_ESCAPE 0xff1b
+# define XK_W 0x0077
+# define XK_S 0x0073
 
 typedef struct s_data {
     void *mlx_ptr; 
@@ -92,10 +97,6 @@ typedef struct s_scenehe {
 
 //window related functions
 void open_window(t_scenehe *scene);
-void close_window(t_data *data);
-int key_hook(int keycode, t_data *data);
-int close_hook(t_data *data);
-
 //error handling
 //void ft_checkfile(char * file, t_data *data);
 void	is_invalid_file(t_scenehe *scene);
@@ -141,6 +142,7 @@ int	mouse_press_hook(int button, int x, int y, void *param);
 int scene_rotate(void *param);
 int	mouse_release_hook(int button, int x, int y, void *param);
 int	animate(void *param);
+int	key_hook(int keycode, void *param);
 
 
 #endif

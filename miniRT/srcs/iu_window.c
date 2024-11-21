@@ -12,22 +12,3 @@ void open_window(t_scenehe *scene) {
         ft_error("Creating image", scene, EXIT_FAILURE);
     scene->data.img_data = mlx_get_data_addr(scene->data.img_ptr, &scene->data.bpp, &scene->data.size_line, &scene->data.endian);
 }
-
-void close_window(t_data *data) {
-    if (data->win_ptr)
-        mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-    if (data->img_ptr)
-        mlx_destroy_image(data->mlx_ptr, data->img_ptr);
-    exit(0);
-}
-
-int key_hook(int keycode, t_data *data) {
-    if (keycode == ESC_KEY)
-        close_window(data);
-    return (0);
-}
-
-int close_hook(t_data *data) {
-    close_window(data);
-    return (0);
-}
