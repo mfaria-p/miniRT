@@ -142,7 +142,9 @@ int	mouse_press_hook(int button, int x, int y, void *param);
 int scene_rotate(void *param);
 int	mouse_release_hook(int button, int x, int y, void *param);
 int	animate(void *param);
-int	key_hook(int keycode, void *param);
+int	key_release_hook(int keycode, void *param);
+int	key_press_hook(int keycode, void *param);
+int mouse_wheel_hook(int button, int x, int y, void *param);
 
 
 #endif

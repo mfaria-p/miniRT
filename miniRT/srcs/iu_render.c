@@ -204,6 +204,31 @@ int	key_release_hook(int keycode, void *param)
     return (0);
 }
 
+int mouse_wheel_hook(int button, int x, int y, void *param)
+{
+    t_world *world;
+
+    (void)x;
+    (void)y;
+    world = (t_world *)param;
+    if (button == 4) // Mouse wheel up
+    {
+        world->camera.fov -= 5;
+        if (world->camera.fov < 10)
+            world->camera.fov = 10;
+    }
+    else if (button == 5) // Mouse wheel down
+    {
+        world->camera.fov += 5;
+        if (world->camera.fov > 170)
+            world->camera.fov = 170;
+    }
+    render(world->img, &world->camera, world);
+    mlx_clear_window(world->img->mlx, world->img->win);
+    mlx_put_image_to_window(world->img->mlx, world->img->win, world->img->img, 0, 0);
+    return (0);
+}
+
 /* int	mouse_press_hook(int button, int x, int y, void *param)
 {
 	t_scene	*scene;
@@ -322,6 +347,7 @@ void render_scene(t_scenehe *scene, volatile t_world *world)
     mlx_hook(world->img->win, ButtonRelease, ButtonReleaseMask, mouse_release_hook, (void *)world);
     mlx_hook(world->img->win, KeyPress, KeyPressMask, key_press_hook, (void *)world);
     mlx_hook(world->img->win, KeyRelease, KeyReleaseMask, key_release_hook, (void *)world);
+    mlx_hook(world->img->win, ButtonPress, ButtonPressMask, mouse_wheel_hook, (void *)world);
     render(&img, &camera, world);
 	mlx_put_image_to_window(img.mlx, img.win, img.img, 0, 0);
     mlx_do_key_autorepeaton(world->img->mlx);
