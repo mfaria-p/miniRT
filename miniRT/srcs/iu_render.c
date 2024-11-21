@@ -153,6 +153,7 @@ int scene_translate(void *param)
 int	key_press_hook(int keycode, void *param)
 {
 	volatile t_world	*world;
+	t_vector			tmp;
     (void)  world;
 
 	world = (volatile t_world *)param;
@@ -170,14 +171,28 @@ int	key_press_hook(int keycode, void *param)
     }
     if (keycode == XK_A)
     {
-        world->direction_move = vector_cross_product((t_vector){0, 1, 0}, (t_vector)world->camera.axis);
+        world->direction_move = vector_cross_product((t_vector)world->camera.axis, (t_vector){0, 1, 0});
         mlx_loop_hook(world->img->mlx, scene_translate, param);
     }
     if (keycode == XK_D)
     {
-        world->direction_move = vector_cross_product((t_vector)world->camera.axis, (t_vector){0, 1, 0});
+        world->direction_move = vector_cross_product((t_vector){0, 1, 0}, (t_vector)world->camera.axis);
         mlx_loop_hook(world->img->mlx, scene_translate, param);
     }
+	if (keycode == XK_SPACE)
+	{
+        tmp = (t_vector)world->camera.axis;
+        world->direction_move = vector_cross_product((t_vector)world->camera.axis, (t_vector){0, 1, 0});
+        world->direction_move = vector_cross_product((t_vector)world->direction_move, tmp);
+        mlx_loop_hook(world->img->mlx, scene_translate, param);
+	}
+	if (keycode == XK_SHIFT)
+	{
+        tmp = (t_vector)world->camera.axis;
+        world->direction_move = vector_cross_product((t_vector)world->camera.axis, (t_vector){0, 1, 0});
+        world->direction_move = vector_cross_product(tmp, (t_vector)world->direction_move);
+        mlx_loop_hook(world->img->mlx, scene_translate, param);
+	}
     
     return (0);
 }
@@ -188,7 +203,7 @@ int	key_release_hook(int keycode, void *param)
     (void)  world;
 
 	world = (volatile t_world *)param;
-    if (keycode == XK_W || keycode == XK_S || keycode == XK_A || keycode == XK_D)
+    if (keycode == XK_W || keycode == XK_S || keycode == XK_A || keycode == XK_D || keycode == XK_SPACE || keycode == XK_SHIFT)
         mlx_loop_hook(world->img->mlx, animate, param);
     
     return (0);
