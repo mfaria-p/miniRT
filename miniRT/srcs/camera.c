@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:42:15 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/21 13:42:33 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/21 15:46:35 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ t_camera	*camera_rot_new(t_camera *camera, t_vector axis, double angle)
 
 t_camera	*camera_translate(t_camera *camera, t_vector direction, double shift)
 {
-	camera->origin.x = camera->origin.x - shift * direction.x;
-	camera->origin.y = camera->origin.y - shift * direction.y;
-	camera->origin.z = camera->origin.z - shift * direction.z;
+	camera->origin.x = camera->origin.x + shift * direction.x;
+	camera->origin.y = camera->origin.y + shift * direction.y;
+	camera->origin.z = camera->origin.z + shift * direction.z;
 	return (camera);
 }
 
@@ -93,8 +93,8 @@ t_ray	ray_for_pixel(t_camera *camera, int x, int y)
 	world_x = -camera->half_width + x_offset;
 	world_y = camera->half_width - y_offset;
 	pixel = (t_vector){world_x, world_y, 1};
-	pixel = vector_subtract(pixel, camera->origin);
-	pixel = vector_rotate(pixel, camera->rotation.axis, -camera->rotation.angle);
+	pixel = vector_rotate(pixel, camera->rotation.axis, camera->rotation.angle);
+	pixel = vector_add(pixel, camera->origin);
 	ray.origin = camera->origin;
 	ray.direction = vector_normalize(vector_subtract(pixel, ray.origin));
 	return (ray);
