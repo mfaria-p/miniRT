@@ -22,6 +22,8 @@
 # define XK_ESCAPE 0xff1b
 # define XK_W 0x0077
 # define XK_S 0x0073
+# define XK_A 0x0061
+# define XK_D 0x0064
 
 typedef struct s_data {
     void *mlx_ptr; 
@@ -144,7 +146,6 @@ int	mouse_release_hook(int button, int x, int y, void *param);
 int	animate(void *param);
 int	key_release_hook(int keycode, void *param);
 int	key_press_hook(int keycode, void *param);
-int mouse_wheel_hook(int button, int x, int y, void *param);
 
 
 #endif

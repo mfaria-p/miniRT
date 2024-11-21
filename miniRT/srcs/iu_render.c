@@ -168,6 +168,16 @@ int	key_press_hook(int keycode, void *param)
         world->direction_move = vector_scalar_product(-1, (t_vector)world->camera.axis);
         mlx_loop_hook(world->img->mlx, scene_translate, param);
     }
+    if (keycode == XK_A)
+    {
+        world->direction_move = vector_cross_product((t_vector){0, 1, 0}, (t_vector)world->camera.axis);
+        mlx_loop_hook(world->img->mlx, scene_translate, param);
+    }
+    if (keycode == XK_D)
+    {
+        world->direction_move = vector_cross_product((t_vector)world->camera.axis, (t_vector){0, 1, 0});
+        mlx_loop_hook(world->img->mlx, scene_translate, param);
+    }
     
     return (0);
 }
@@ -178,7 +188,7 @@ int	key_release_hook(int keycode, void *param)
     (void)  world;
 
 	world = (volatile t_world *)param;
-    if (keycode == XK_W || keycode == XK_S)
+    if (keycode == XK_W || keycode == XK_S || keycode == XK_A || keycode == XK_D)
         mlx_loop_hook(world->img->mlx, animate, param);
     
     return (0);
