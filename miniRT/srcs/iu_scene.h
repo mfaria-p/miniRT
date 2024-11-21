@@ -74,7 +74,7 @@ typedef struct s_cylinder {
 
 typedef struct s_scenehe {
     t_data data;
-    char * line;
+    char *line;
     char **params;
     t_ambient ambient;
     t_camerahe camera;

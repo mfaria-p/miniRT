@@ -23,7 +23,8 @@ void clean_data(t_data *data) {
 
 // Clean up `t_scenehe` resources, including dynamically allocated arrays
 void clean_scene(t_scenehe *scene) {
-    if (!scene) return;
+    if (!scene)
+		return;
 
     if (scene->line) {
         free(scene->line);

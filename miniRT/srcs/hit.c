@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:41 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/20 13:59:41 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/21 13:45:20 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_hit	hit(t_intersection intersection, t_ray ray)
 	return (hit);
 }
 
-static int	is_shadowed(t_vector p, t_vector n, t_world *world)
+static int	is_shadowed(t_vector p, t_vector n, volatile t_world *world)
 {
 	t_ray			ray;
 	t_intersections	is;
@@ -53,7 +53,7 @@ static int	is_shadowed(t_vector p, t_vector n, t_world *world)
 	return (shadow);
 }
 
-t_vector	shade_hit(t_world *world, t_hit hit)
+t_vector	shade_hit(volatile t_world *world, t_hit hit)
 {
 	t_material		material;
 	t_light_source	light;
@@ -76,7 +76,7 @@ t_vector	shade_hit(t_world *world, t_hit hit)
 	return (color);
 }
 
-t_vector	color_at(t_world *world, t_ray ray)
+t_vector	color_at(volatile t_world *world, t_ray ray)
 {
 	t_intersections	is;
 	t_vector		color;

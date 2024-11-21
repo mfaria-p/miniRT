@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:42:15 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/18 22:29:04 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/21 13:42:33 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int	color_argb(t_uint8 a, t_uint8 r, t_uint8 g, t_uint8 b)
 	return (a << 24 | r << 16 | g << 8 | b);
 }
 
-t_img	*render(t_img *img, t_camera *camera, t_world *world)
+t_img	*render(t_img *img, t_camera *camera, volatile t_world *world)
 {
 	printf("Checking img->addr: %p\n", (void *)img->addr);
 	if (!img->addr) {

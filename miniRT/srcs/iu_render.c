@@ -47,10 +47,9 @@ static t_img img_init(t_data *data)
     
 int	quit(void *param)
 {
-	t_world	*world;
+	volatile t_world	*world;
 
 	world = (t_world *)param;
-    (void) world;
     mlx_do_key_autorepeaton(world->img->mlx);
 	mlx_loop_end(world->img->mlx);
 	world_destroy(world);
@@ -183,7 +182,7 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 	return (0);
 } */
 
-void render_scene(t_scenehe *scene, t_world *world)
+void render_scene(t_scenehe *scene, volatile t_world *world)
 {
     t_light_source light;
     static t_camera camera;
@@ -275,6 +274,6 @@ void render_scene(t_scenehe *scene, t_world *world)
 	mlx_put_image_to_window(img.mlx, img.win, img.img, 0, 0);
     mlx_do_key_autorepeaton(world->img->mlx);
 	mlx_loop(world->img->mlx);
-    quit(world);
+    quit((void *)world);
     exit(EXIT_SUCCESS);
 }
