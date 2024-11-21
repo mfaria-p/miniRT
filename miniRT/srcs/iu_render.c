@@ -11,6 +11,8 @@ static t_camera init_camera2(t_scenehe *scene)
     double half_view;
     double aspect;
     camera.axis = (t_vector){scene->camera.orient_x, scene->camera.orient_y, scene->camera.orient_z};
+    camera.left = vector_cross_product(camera.axis, (t_vector){0, 1, 0});
+    camera.up = vector_cross_product(camera.left, camera.axis);
     camera.scale = 3;
     camera.hsize = CANVAS_PIXEL;
     camera.vsize = CANVAS_PIXEL;
@@ -169,44 +171,42 @@ int scene_translate(void *param)
 int	key_press_hook(int keycode, void *param)
 {
 	volatile t_world	*world;
-	t_vector			tmp;
-    (void)  world;
+	t_camera			camera;
 
 	world = (volatile t_world *)param;
+	camera = (t_camera)world->camera;
 	if (keycode == XK_ESCAPE)
 		quit(param);
     if (keycode == XK_W)
     {
-        world->direction_move = (t_vector)world->camera.axis;
+        world->direction_move = camera.axis;
         mlx_loop_hook(world->img->mlx, scene_translate, param);
     }
     if (keycode == XK_S)
     {
-        world->direction_move = vector_scalar_product(-1, (t_vector)world->camera.axis);
+        world->direction_move = vector_scalar_product(-1, camera.axis);
         mlx_loop_hook(world->img->mlx, scene_translate, param);
     }
     if (keycode == XK_A)
     {
-        world->direction_move = vector_cross_product((t_vector)world->camera.axis, (t_vector){0, 1, 0});
+		world->direction_move = vector_rotate(camera.left, camera.rotation.axis, camera.rotation.angle);
         mlx_loop_hook(world->img->mlx, scene_translate, param);
     }
     if (keycode == XK_D)
     {
-        world->direction_move = vector_cross_product((t_vector){0, 1, 0}, (t_vector)world->camera.axis);
+		world->direction_move = vector_rotate(camera.left, camera.rotation.axis, camera.rotation.angle);
+        world->direction_move = vector_scalar_product(-1, world->direction_move);
         mlx_loop_hook(world->img->mlx, scene_translate, param);
     }
 	if (keycode == XK_SPACE)
 	{
-        tmp = (t_vector)world->camera.axis;
-        world->direction_move = vector_cross_product((t_vector)world->camera.axis, (t_vector){0, 1, 0});
-        world->direction_move = vector_cross_product((t_vector)world->direction_move, tmp);
+		world->direction_move = vector_rotate(camera.up, camera.rotation.axis, camera.rotation.angle);
         mlx_loop_hook(world->img->mlx, scene_translate, param);
 	}
 	if (keycode == XK_SHIFT)
 	{
-        tmp = (t_vector)world->camera.axis;
-        world->direction_move = vector_cross_product((t_vector)world->camera.axis, (t_vector){0, 1, 0});
-        world->direction_move = vector_cross_product(tmp, (t_vector)world->direction_move);
+		world->direction_move = vector_rotate(camera.up, camera.rotation.axis, camera.rotation.angle);
+        world->direction_move = vector_scalar_product(-1, world->direction_move);
         mlx_loop_hook(world->img->mlx, scene_translate, param);
 	}
     if (world->selected_object && world->selected_object->shape.type == SPHERE)

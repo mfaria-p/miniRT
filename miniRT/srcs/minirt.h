@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/21 13:46:55 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:18:50 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ typedef struct s_camera
 	}			rotation;
 	t_vector	origin;
 	t_vector	axis;
+	t_vector	left;
+	t_vector	up;
 	double		fov;
 	//up 
 	//down
