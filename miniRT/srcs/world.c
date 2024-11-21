@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:48:27 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/21 13:44:04 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:56:05 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ volatile t_world	*world_init(volatile t_world *world)
 	world->img = NULL;
 	world->camera = (t_camera){0};
 	world->scene = NULL;
-	world->tmp = (t_vector){0, 0, 0};
+	world->direction_rot = (t_vector){0, 0, 0};
+	world->direction_move = (t_vector){0, 0, 0};
 	return (world);
 }
 
