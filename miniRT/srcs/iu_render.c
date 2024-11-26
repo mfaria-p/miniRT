@@ -64,6 +64,7 @@ int scene_rotate(void *param)
     t_world *world;
     void *img;
     t_vector v;
+	t_vector	axis;
     int mouse_pos[2];
 
     world = (t_world *)param;
@@ -71,9 +72,9 @@ int scene_rotate(void *param)
     (void)img;
     mlx_mouse_get_pos(world->img->mlx, world->img->win, mouse_pos, mouse_pos + 1);
     v = (t_vector){mouse_pos[0], mouse_pos[1], 0};
-    camera_rotate(&world->camera,  (t_vector){(-world->direction_rot.y + mouse_pos[1]), \
-		-world->direction_rot.x + mouse_pos[0], 0}, \
-		-vector_distance(world->direction_rot, v) * ROT_FACTOR);
+	axis = (t_vector){-world->direction_rot.y + mouse_pos[1], -world->direction_rot.x + mouse_pos[0], 0};
+	axis = vector_rotate(axis, world->camera.rotation.axis, world->camera.rotation.angle);
+    camera_rotate(&world->camera, axis, -vector_distance(world->direction_rot, v) * ROT_FACTOR);
     render(world->img, &world->camera, world);
     mlx_clear_window(world->img->mlx, world->img->win);
     mlx_put_image_to_window(world->img->mlx, world->img->win, world->img->img, 0, 0);
