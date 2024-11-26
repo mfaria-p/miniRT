@@ -5,7 +5,8 @@ void print_vector(const t_vector *vec) {
 }
 
 void print_color(const t_vector *color) {
-    printf("  Color: (R: %f, G: %f, B: %f)\n", color->x, color->y, color->z);
+	(void)color;
+    /*printf("  Color: (R: %f, G: %f, B: %f)\n", color->x, color->y, color->z);*/
 }
 
 void print_light(const t_light_source *light) {
@@ -58,14 +59,14 @@ void print_img(const t_img *img) {
     printf("  Endian: %d\n", img->endian);
 }
 
-void print_world(const t_world *world) {
+void print_world(const volatile t_world *world) {
     if (!world) {
         printf("World is NULL\n");
         return;
     }
 
     printf("World Properties:\n");
-    print_vector(&world->ray_origin);
+    print_vector((t_vector *)&world->ray_origin);
 
     printf("Objects:\n");
     t_list *current = world->objects;
@@ -74,5 +75,5 @@ void print_world(const t_world *world) {
         current = current->next;
     }
 
-    print_light(&world->light);
+    print_light((t_light_source *)&world->light);
 }

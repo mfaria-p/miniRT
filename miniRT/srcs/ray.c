@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/09 13:25:40 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/21 13:45:49 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_roots	ray_object_intersect(t_ray ray, t_object object)
 	return (xs);
 }
 
-t_intersections	*ray_world_intersect(t_intersections *is, t_ray ray, t_world *world)
+t_intersections	*ray_world_intersect(t_intersections *is, t_ray ray, volatile t_world *world)
 {
 	t_roots	xs;
 	t_list	*obj;

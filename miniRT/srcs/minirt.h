@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/10 18:33:40 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/22 22:06:39 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MINIRT_H
 
 # define CANVAS_PIXEL 600
-#define MOVE_FACTOR .001
-#define ROT_FACTOR .001
 
 # include "mlx.h"
 # include "X11/X.h"
@@ -137,6 +135,8 @@ typedef struct s_camera
 	}			rotation;
 	t_vector	origin;
 	t_vector	axis;
+	t_vector	left;
+	t_vector	up;
 	double		fov;
 }	t_camera;
 
@@ -155,11 +155,14 @@ typedef struct s_world
 {
 	t_vector		ray_origin;
 	t_list			*objects;
+	t_vector		ambient;
 	t_light_source	light;
-	t_img *img;
-	t_camera camera;
-	t_scenehe *scene;
-	t_vector tmp;
+	t_img			*img;
+	t_camera		camera;
+	t_scenehe		*scene;
+	t_vector		direction_rot;
+	t_vector		direction_move;
+	volatile t_object        *selected_object;
 }	t_world;
 
 typedef struct s_scene
@@ -185,7 +188,7 @@ t_roots		quadratic_roots(double a, double b, double c);
 t_roots		ray_object_intersect(t_ray ray, t_object object);
 t_roots		ray_circle_intersect(t_ray ray, t_object object, double z);
 t_roots		ray_plane_intersect(t_ray ray, t_object object, double z);
-t_intersections	*ray_world_intersect(t_intersections *is, t_ray ray, t_world *world);
+t_intersections	*ray_world_intersect(t_intersections *is, t_ray ray, volatile t_world *world);
 
 /* ************************************************************************** */
 // shape.c
@@ -210,14 +213,14 @@ t_object	*object_coef_new(t_object *obj, t_vector new_coef);
 t_object	*object_translate(t_object *obj, t_vector direction, double shift);
 t_object	*object_rotate(t_object *obj, t_vector axis, double angle);
 t_object	*object_scale(t_object *obj, double scale);
+t_object	*object_select(volatile t_world *world, int x, int y);
 
 /* ************************************************************************** */
 // world.c
 // interface:
-t_world		*world_object_add(t_world *world, t_object *object);
-t_world		*world_light_add(t_world *world, t_light_source *light);
-void		world_destroy(t_world *world);
-t_world		*world_init(t_world *world);
+volatile t_world		*world_object_add(volatile t_world *world, t_object *object);
+void		world_destroy(volatile t_world *world);
+volatile t_world		*world_init(volatile t_world *world);
 
 /* ************************************************************************** */
 // intersections.c
@@ -227,13 +230,13 @@ t_intersections	*intersections_init(t_intersections *is);
 /* ************************************************************************** */
 // hit.c
 t_hit		hit(t_intersection i, t_ray ray);
-t_vector	shade_hit(t_world *world, t_hit hit);
-t_vector	color_at(t_world *world, t_ray ray);
+t_vector	shade_hit(volatile t_world *world, t_hit hit);
+t_vector	color_at(volatile t_world *world, t_ray ray);
 
 /* ************************************************************************** */
 // camera.c
 t_ray		ray_for_pixel(t_camera *camera, int x, int y);
-t_img		*render(t_img *img, t_camera *camera, t_world *world);
+t_img		*render(t_img *img, t_camera *camera, volatile t_world *world);
 // interface:
 t_camera	*camera_init(t_camera *camera);
 t_camera	*camera_rescale(t_camera *camera, double new_scale);
@@ -243,12 +246,12 @@ t_camera	*camera_translate(t_camera *camera, t_vector direction, double shift);
 t_camera	*camera_rotate(t_camera *camera, t_vector axis, double angle);
 
 //render scene
-void render_scene(t_scenehe *scene, t_world *world);
+void render_scene(t_scenehe *scene, volatile t_world *world);
 
 //test
 void print_img(const t_img *img);
 void print_camera(const t_camera *camera);
-void print_world(const t_world *world);
+void print_world(const volatile t_world *world);
 void print_light(const t_light_source *light);
 void print_object(const t_object *object);
 void print_vector(const t_vector *vector);

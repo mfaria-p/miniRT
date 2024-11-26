@@ -11,13 +11,15 @@ static t_camera init_camera2(t_scenehe *scene)
     double half_view;
     double aspect;
     camera.axis = (t_vector){scene->camera.orient_x, scene->camera.orient_y, scene->camera.orient_z};
+    camera.left = vector_cross_product(camera.axis, (t_vector){0, 1, 0});
+    camera.up = vector_cross_product(camera.left, camera.axis);
     camera.scale = 3;
     camera.hsize = CANVAS_PIXEL;
     camera.vsize = CANVAS_PIXEL;
     camera.fov = scene->camera.fov * (M_PI / 180.0); // Convert FOV to radians
     camera.origin = (t_vector){scene->camera.x, scene->camera.y, scene->camera.z};
-    camera.rotation.axis = (t_vector){0, 0, 0}; // Set to appropriate rotation axis if needed
-    camera.rotation.angle = 0; // Set to appropriate rotation angle if needed
+	camera.rotation.axis = vector_cross_product(camera.axis, (t_vector){0, 0, 1});
+	camera.rotation.angle = acos(vector_cosine(camera.axis, (t_vector){0, 0, 1}));
 
     half_view = tan(camera.fov / 2);
     aspect = (double)camera.hsize / camera.vsize;
@@ -29,6 +31,7 @@ static t_camera init_camera2(t_scenehe *scene)
         camera.half_height = half_view;
     }
     camera.pixel_size = (camera.half_width * camera.scale * 2) / camera.hsize;
+    //initialize left and up
     return (camera);
 }
 
@@ -47,43 +50,21 @@ static t_img img_init(t_data *data)
     
 int	quit(void *param)
 {
-	t_world	*world;
+	volatile t_world	*world;
 
 	world = (t_world *)param;
-    (void) world;
     mlx_do_key_autorepeaton(world->img->mlx);
 	mlx_loop_end(world->img->mlx);
 	world_destroy(world);
 	exit(EXIT_SUCCESS);
 }
 
-/* int	scene_shift(void *param)
-{
-	t_scene		*scene;
-	t_img		*img;
-	t_vector	v;
-	int			mouse_pos[2];
-
-	scene = (t_scene *)param;
-	img = scene->img;
-	scene->img->img = mlx_new_image(scene->mlx_ptr, scene->camera->hsize, scene->camera->vsize);
-	scene->img->addr = mlx_get_data_addr(scene->img->img, &scene->img->bpp, &scene->img->len, &scene->img->endian);
-	mlx_mouse_get_pos(scene->mlx_ptr, scene->mlx_win, mouse_pos, mouse_pos + 1);
-	v = (t_vector){mouse_pos[0], mouse_pos[1], 0};
-	scene->camera->origin.x -= (v.x - scene->tmp.x) * MOVE_FACTOR;
-	scene->camera->origin.y += (v.y - scene->tmp.y) * MOVE_FACTOR;
-	render(scene->img, scene->camera, scene->world);
-	mlx_clear_window(scene->mlx_ptr, scene->mlx_win);
-	mlx_put_image_to_window(scene->mlx_ptr, scene->mlx_win, scene->img->img, 0, 0);
-	mlx_destroy_image(scene->mlx_ptr, img->img);
-	return (0);
-} */
-
 int scene_rotate(void *param)
 {
     t_world *world;
     void *img;
     t_vector v;
+	t_vector	axis;
     int mouse_pos[2];
 
     world = (t_world *)param;
@@ -91,9 +72,9 @@ int scene_rotate(void *param)
     (void)img;
     mlx_mouse_get_pos(world->img->mlx, world->img->win, mouse_pos, mouse_pos + 1);
     v = (t_vector){mouse_pos[0], mouse_pos[1], 0};
-    camera_rotate(&world->camera,  (t_vector){(mouse_pos[1] - world->tmp.y) * -1, \
-		mouse_pos[0] - world->tmp.x, 0}, \
-		-vector_distance(world->tmp, v) * ROT_FACTOR);
+	axis = (t_vector){-world->direction_rot.y + mouse_pos[1], -world->direction_rot.x + mouse_pos[0], 0};
+	axis = vector_rotate(axis, world->camera.rotation.axis, world->camera.rotation.angle);
+    camera_rotate(&world->camera, axis, -vector_distance(world->direction_rot, v) * ROT_FACTOR);
     render(world->img, &world->camera, world);
     mlx_clear_window(world->img->mlx, world->img->win);
     mlx_put_image_to_window(world->img->mlx, world->img->win, world->img->img, 0, 0);
@@ -104,13 +85,30 @@ int scene_rotate(void *param)
 
 int	mouse_press_hook(int button, int x, int y, void *param)
 {
-    t_world	*world;
+    volatile t_world	*world;
+    int mouse_pos[2];
+    (void)x;
+    (void)y;
 
-    world = (t_world *)param;
-    if (button == 1) // Left click
+    world = (volatile t_world *)param;
+	if (button == 1)
     {
-        world->tmp = (t_vector){x, y, 0};
+        world->direction_rot = (t_vector){world->camera.hsize/2, world->camera.vsize/2, 0};
         mlx_loop_hook(world->img->mlx, scene_rotate, param);
+    }
+    else if (button == 3) // Left click
+    {
+        mlx_mouse_get_pos(world->img->mlx, world->img->win, mouse_pos, mouse_pos + 1);
+        world->selected_object = object_select(world, mouse_pos[0], mouse_pos[1]);
+         if (world->selected_object)
+        {
+            printf("Object selected at (%d, %d)\n", mouse_pos[0], mouse_pos[1]);
+        }
+        else
+        {
+            printf("No object selected at (%d, %d)\n", mouse_pos[0], mouse_pos[1]);
+        }
+        mlx_loop_hook(world->img->mlx, animate, param);
     }
     /* else if (button == 3) // Right click
     {
@@ -141,52 +139,118 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 {
 	t_world	*world;
 
+	(void)button;
 	(void)x;
 	(void)y;
 	world = (t_world *)param;
 	// if (button == 1 || button == 3)
-	if (button == 1)
-	{
-		// scene->tmp = (t_vector){x, y, 0};
-		mlx_loop_hook(world->img->mlx, animate, param);
-	}
+	/*if (button == 1)*/
+	/*{*/
+	/*	// scene->tmp = (t_vector){x, y, 0};*/
+	/*	mlx_loop_hook(world->img->mlx, animate, param);*/
+	/*}*/
+	mlx_loop_hook(world->img->mlx, animate, param);
 	return (0);
 }
 
-/* int	mouse_press_hook(int button, int x, int y, void *param)
+int scene_translate(void *param)
 {
-	t_scene	*scene;
-	// const int	mouse_left_click = 1;
-	// const int	mouse_right_click = 3;
-	// n tenho certeza (4,5):
-	// const int	mouse_wheel_down = 4;
-	// const int	mouse_wheel_up = 5;
-	// const int	mouse_wheel_click = 2;
+    t_world *world;
+    void *img;
 
-	scene = (t_scene *)param;
-	// if (button == 1)
-	// {
-	// 	scene->origin = (t_vector){x, y, 0};
-	// 	mlx_loop_hook(win->mlx_ptr, scene_rot, param);
-	// }
-	if (button == 1)
+    world = (t_world *)param;
+    img = world->img->img;
+    (void)img;
+    camera_translate((t_camera *) &world->camera, world->direction_move, MOVE_FACTOR);
+    render(world->img, &world->camera, world);
+    mlx_clear_window(world->img->mlx, world->img->win);
+    mlx_put_image_to_window(world->img->mlx, world->img->win, world->img->img, 0, 0);
+    //mlx_destroy_image(world->img->mlx, img);
+    return (0);
+}
+
+int	key_press_hook(int keycode, void *param)
+{
+	volatile t_world	*world;
+	t_camera			camera;
+
+	world = (volatile t_world *)param;
+	camera = (t_camera)world->camera;
+	if (keycode == XK_ESCAPE)
+		quit(param);
+    if (keycode == XK_W)
+    {
+        world->direction_move = camera.axis;
+        mlx_loop_hook(world->img->mlx, scene_translate, param);
+    }
+    if (keycode == XK_S)
+    {
+        world->direction_move = vector_scalar_product(-1, camera.axis);
+        mlx_loop_hook(world->img->mlx, scene_translate, param);
+    }
+    if (keycode == XK_A)
+    {
+		world->direction_move = vector_rotate(camera.left, camera.rotation.axis, camera.rotation.angle);
+        mlx_loop_hook(world->img->mlx, scene_translate, param);
+    }
+    if (keycode == XK_D)
+    {
+		world->direction_move = vector_rotate(camera.left, camera.rotation.axis, camera.rotation.angle);
+        world->direction_move = vector_scalar_product(-1, world->direction_move);
+        mlx_loop_hook(world->img->mlx, scene_translate, param);
+    }
+	if (keycode == XK_SPACE)
 	{
-		scene->tmp = (t_vector){x, y, 0};
-		mlx_loop_hook(scene->mlx_ptr, scene_shift, param);
+		world->direction_move = vector_rotate(camera.up, camera.rotation.axis, camera.rotation.angle);
+        mlx_loop_hook(world->img->mlx, scene_translate, param);
 	}
-	// else if (button == 4 && scene->perspective)
-	// 	scene->cam->origin.z -= scene->cam->zoom_factor;
-	// else if (button == 5 && scene->perspective)
-	// 	scene->cam->origin.z += scene->cam->zoom_factor;
-	return (0);
-} */
+	if (keycode == XK_SHIFT)
+	{
+		world->direction_move = vector_rotate(camera.up, camera.rotation.axis, camera.rotation.angle);
+        world->direction_move = vector_scalar_product(-1, world->direction_move);
+        mlx_loop_hook(world->img->mlx, scene_translate, param);
+	}
+    if (world->selected_object && world->selected_object->shape.type == SPHERE)
+    {
+        if (keycode == XK_Up)
+        {
+            printf("Scaling up\n");
+            world->selected_object->shape.scale += 0.1;
+        }
+        if (keycode == XK_Down)
+        {
+            printf("Scaling down\n");
+            world->selected_object->shape.scale -= 0.1;
+            if (world->selected_object->shape.scale < 0.1)
+                world->selected_object->shape.scale = 0.1;
+        }
+        mlx_loop_hook(world->img->mlx, animate, param);
+    }
+    
+    return (0);
+}
 
-void render_scene(t_scenehe *scene, t_world *world)
+int	key_release_hook(int keycode, void *param)
+{
+	volatile t_world	*world;
+    (void)  world;
+
+	world = (volatile t_world *)param;
+    if (keycode == XK_W || keycode == XK_S || keycode == XK_A || keycode == XK_D || keycode == XK_SPACE || keycode == XK_SHIFT || keycode == XK_Up || keycode == XK_Down)
+        mlx_loop_hook(world->img->mlx, animate, param);
+    
+    return (0);
+}
+
+
+void render_scene(t_scenehe *scene, volatile t_world *world)
 {
     t_light_source light;
     static t_camera camera;
     t_object	*object;
     int i;
+	printf("Initializing ambient light");
+	world->ambient = vector_scalar_product(scene->ambient.ratio, (t_vector){scene->ambient.color.r / 255.0, scene->ambient.color.g / 255.0, scene->ambient.color.b / 255.0});
     printf("Initializing light source\n");
 	light = light_init(
         (t_vector){scene->light.x, scene->light.y, scene->light.z},
@@ -267,10 +331,12 @@ void render_scene(t_scenehe *scene, t_world *world)
     mlx_hook(world->img->win, DestroyNotify, StructureNotifyMask, quit, (void *)world);
     mlx_hook(world->img->win, ButtonPress, ButtonPressMask, mouse_press_hook, (void *)world);
     mlx_hook(world->img->win, ButtonRelease, ButtonReleaseMask, mouse_release_hook, (void *)world);
+    mlx_hook(world->img->win, KeyPress, KeyPressMask, key_press_hook, (void *)world);
+    mlx_hook(world->img->win, KeyRelease, KeyReleaseMask, key_release_hook, (void *)world);
     render(&img, &camera, world);
 	mlx_put_image_to_window(img.mlx, img.win, img.img, 0, 0);
     mlx_do_key_autorepeaton(world->img->mlx);
 	mlx_loop(world->img->mlx);
-    quit(world);
+    quit((void *)world);
     exit(EXIT_SUCCESS);
 }

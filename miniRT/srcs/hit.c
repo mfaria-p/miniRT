@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:41 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/10 00:14:50 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/22 22:11:41 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_hit	hit(t_intersection intersection, t_ray ray)
 	return (hit);
 }
 
-static int	is_shadowed(t_vector p, t_vector n, t_world *world)
+static int	is_shadowed(t_vector p, t_vector n, volatile t_world *world)
 {
 	t_ray			ray;
 	t_intersections	is;
@@ -53,7 +53,7 @@ static int	is_shadowed(t_vector p, t_vector n, t_world *world)
 	return (shadow);
 }
 
-t_vector	shade_hit(t_world *world, t_hit hit)
+t_vector	shade_hit(volatile t_world *world, t_hit hit)
 {
 	t_material		material;
 	t_light_source	light;
@@ -65,16 +65,18 @@ t_vector	shade_hit(t_world *world, t_hit hit)
 	light = world->light;
 	shadow = is_shadowed(hit.point, hit.normal, world);
 	phong = lighting(material, light, hit.point, hit.eyev, hit.normal, shadow);
-	color.x = phong.ambient.x + phong.diffuse.x + phong.specular.x;
-	color.y = phong.ambient.y + phong.diffuse.y + phong.specular.y;
-	color.z = phong.ambient.z + phong.diffuse.z + phong.specular.z;
+	phong.ambient = world->ambient;
+	phong.ambient = vector_scalar_product(material.ambient, phong.ambient);
+	color.x = material.color.x * phong.ambient.x + phong.diffuse.x + phong.specular.x;
+	color.y = material.color.y * phong.ambient.y + phong.diffuse.y + phong.specular.y;
+	color.z = material.color.z * phong.ambient.z + phong.diffuse.z + phong.specular.z;
 	color.x *= light.color.x;
 	color.y *= light.color.y;
 	color.z *= light.color.z;
 	return (color);
 }
 
-t_vector	color_at(t_world *world, t_ray ray)
+t_vector	color_at(volatile t_world *world, t_ray ray)
 {
 	t_intersections	is;
 	t_vector		color;

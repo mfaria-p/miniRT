@@ -28,7 +28,7 @@ void init_scene(t_scenehe *scene) {
 
 int main(int argc, char **argv) 
 {
-    static t_world	world;
+    static volatile t_world	world;
     t_scenehe scenehe;
 
     init_scene(&scenehe);

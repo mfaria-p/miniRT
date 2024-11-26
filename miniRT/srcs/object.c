@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 18:59:01 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/18 15:20:43 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/19 09:27:43 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,4 +142,25 @@ t_object	*object_scale(t_object *obj, double scale)
 	else  if(obj->shape.type == SPHERE || obj->shape.type == CYLINDER)
 		obj->shape.constant *= scale;
 	return (obj);
+}
+
+t_object	*object_select(volatile t_world *world, int x, int y)
+{
+	t_ray			ray;
+	t_intersections	is;
+	t_object		*selected;
+	t_vector	point;
+
+	selected = NULL;
+	ray.origin = world->camera.origin;
+	point = vector_add(ray.origin, world->camera.axis);
+	point = vector_add(point, vector_scalar_product(x*world->camera.pixel_size, world->camera.left));
+	point = vector_add(point, vector_scalar_product(y*world->camera.pixel_size, world->camera.up));
+	ray.direction = vector_subtract(point, ray.origin);
+	intersections_init(&is);
+	ray_world_intersect(&is, ray, world);
+	if (is.hit)
+		selected = is.hit->obj;
+	free(is.is);
+	return (selected);
 }

@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:42:15 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/18 00:04:12 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/22 22:32:07 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ t_camera	*camera_translate(t_camera *camera, t_vector direction, double shift)
 t_camera	*camera_rotate(t_camera *camera, t_vector axis, double angle)
 {
 	camera->axis = vector_rotate(camera->axis, axis, angle);
-	camera->rotation.axis = vector_cross_product(camera->axis, (t_vector){0, 1, 0});
-	camera->rotation.angle = acos(vector_cosine(camera->axis, (t_vector){0, 1, 0}));
+	camera->rotation.axis = vector_cross_product(camera->axis, (t_vector){0, 0, 1});
+	camera->rotation.angle = acos(vector_cosine(camera->axis, (t_vector){0, 0, 1}));
 	return (camera);
 }
 
@@ -93,8 +93,8 @@ t_ray	ray_for_pixel(t_camera *camera, int x, int y)
 	world_x = -camera->half_width + x_offset;
 	world_y = camera->half_width - y_offset;
 	pixel = (t_vector){world_x, world_y, 1};
-	pixel = vector_subtract(pixel, camera->origin);
-	pixel = vector_rotate(pixel, camera->rotation.axis, -camera->rotation.angle);
+	pixel = vector_rotate(pixel, camera->rotation.axis, camera->rotation.angle);
+	pixel = vector_add(pixel, camera->origin);
 	ray.origin = camera->origin;
 	ray.direction = vector_normalize(vector_subtract(pixel, ray.origin));
 	return (ray);
@@ -139,7 +139,7 @@ int	color_argb(t_uint8 a, t_uint8 r, t_uint8 g, t_uint8 b)
 	return (a << 24 | r << 16 | g << 8 | b);
 }
 
-t_img	*render(t_img *img, t_camera *camera, t_world *world)
+t_img	*render(t_img *img, t_camera *camera, volatile t_world *world)
 {
 	printf("Checking img->addr: %p\n", (void *)img->addr);
 	if (!img->addr) {

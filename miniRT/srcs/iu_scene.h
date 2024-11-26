@@ -16,7 +16,20 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-#define ESC_KEY 65307
+#define MOVE_FACTOR .1
+#define ROT_FACTOR .001
+
+# define XK_ESCAPE 0xff1b
+# define XK_W 0x0077
+# define XK_S 0x0073
+# define XK_A 0x0061
+# define XK_D 0x0064
+# define XK_SPACE 0x0020
+# define XK_SHIFT 0xffe1
+# define XK_Up 0xff52
+# define XK_Down 0xff54
+# define XK_Left 0xff51
+# define XK_Right 0xff53
 
 typedef struct s_data {
     void *mlx_ptr; 
@@ -74,7 +87,7 @@ typedef struct s_cylinder {
 
 typedef struct s_scenehe {
     t_data data;
-    char * line;
+    char *line;
     char **params;
     t_ambient ambient;
     t_camerahe camera;
@@ -92,10 +105,6 @@ typedef struct s_scenehe {
 
 //window related functions
 void open_window(t_scenehe *scene);
-void close_window(t_data *data);
-int key_hook(int keycode, t_data *data);
-int close_hook(t_data *data);
-
 //error handling
 //void ft_checkfile(char * file, t_data *data);
 void	is_invalid_file(t_scenehe *scene);
@@ -141,6 +150,8 @@ int	mouse_press_hook(int button, int x, int y, void *param);
 int scene_rotate(void *param);
 int	mouse_release_hook(int button, int x, int y, void *param);
 int	animate(void *param);
+int	key_release_hook(int keycode, void *param);
+int	key_press_hook(int keycode, void *param);
 
 
 #endif
