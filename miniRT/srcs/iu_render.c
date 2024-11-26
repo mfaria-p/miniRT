@@ -86,7 +86,6 @@ int scene_rotate(void *param)
 int	mouse_press_hook(int button, int x, int y, void *param)
 {
     volatile t_world	*world;
-    int mouse_pos[2];
     (void)x;
     (void)y;
 
@@ -96,18 +95,9 @@ int	mouse_press_hook(int button, int x, int y, void *param)
         world->direction_rot = (t_vector){world->camera.hsize/2, world->camera.vsize/2, 0};
         mlx_loop_hook(world->img->mlx, scene_rotate, param);
     }
-    else if (button == 3) // Left click
+	else if (button == 3) // Left click
     {
-        mlx_mouse_get_pos(world->img->mlx, world->img->win, mouse_pos, mouse_pos + 1);
-        world->selected_object = object_select(world, mouse_pos[0], mouse_pos[1]);
-         if (world->selected_object)
-        {
-            printf("Object selected at (%d, %d)\n", mouse_pos[0], mouse_pos[1]);
-        }
-        else
-        {
-            printf("No object selected at (%d, %d)\n", mouse_pos[0], mouse_pos[1]);
-        }
+        world->selected_object = object_select(world, x, y);
         mlx_loop_hook(world->img->mlx, animate, param);
     }
     /* else if (button == 3) // Right click
@@ -173,9 +163,11 @@ int	key_press_hook(int keycode, void *param)
 {
 	volatile t_world	*world;
 	t_camera			camera;
+	t_object			*object;
 
 	world = (volatile t_world *)param;
 	camera = (t_camera)world->camera;
+	object = (t_object *)world->selected_object;
 	if (keycode == XK_ESCAPE)
 		quit(param);
     if (keycode == XK_W)
@@ -210,19 +202,18 @@ int	key_press_hook(int keycode, void *param)
         world->direction_move = vector_scalar_product(-1, world->direction_move);
         mlx_loop_hook(world->img->mlx, scene_translate, param);
 	}
-    if (world->selected_object && world->selected_object->shape.type == SPHERE)
+    if (object != NULL)
     {
         if (keycode == XK_Up)
         {
             printf("Scaling up\n");
-            world->selected_object->shape.scale += 0.1;
+            object_scale(object, 1.2);
         }
         if (keycode == XK_Down)
         {
             printf("Scaling down\n");
-            world->selected_object->shape.scale -= 0.1;
-            if (world->selected_object->shape.scale < 0.1)
-                world->selected_object->shape.scale = 0.1;
+            if (object->shape.scale > 0.1)
+				object_scale(object, 0.833);
         }
         mlx_loop_hook(world->img->mlx, animate, param);
     }

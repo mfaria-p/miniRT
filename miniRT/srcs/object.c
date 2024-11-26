@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 18:59:01 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/19 09:27:43 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/26 15:48:03 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,9 @@ t_object	*object_select(volatile t_world *world, int x, int y)
 	selected = NULL;
 	ray.origin = world->camera.origin;
 	point = vector_add(ray.origin, world->camera.axis);
-	point = vector_add(point, vector_scalar_product(x*world->camera.pixel_size, world->camera.left));
-	point = vector_add(point, vector_scalar_product(y*world->camera.pixel_size, world->camera.up));
-	ray.direction = vector_subtract(point, ray.origin);
+	point = vector_add(point, vector_scalar_product((x - world->camera.hsize / 2) * world->camera.pixel_size, world->camera.left));
+	point = vector_add(point, vector_scalar_product((y - world->camera.vsize / 2) * world->camera.pixel_size, world->camera.up));
+	ray.direction = vector_normalize(vector_subtract(point, ray.origin));
 	intersections_init(&is);
 	ray_world_intersect(&is, ray, world);
 	if (is.hit)

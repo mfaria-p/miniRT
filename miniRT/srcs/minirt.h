@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/22 22:06:39 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/11/26 15:51:20 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ typedef struct s_world
 	t_scenehe		*scene;
 	t_vector		direction_rot;
 	t_vector		direction_move;
-	volatile t_object        *selected_object;
+	t_object        *selected_object;
 }	t_world;
 
 typedef struct s_scene
