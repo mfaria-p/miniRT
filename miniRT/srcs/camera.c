@@ -75,6 +75,7 @@ t_camera	*camera_rotate(t_camera *camera, t_vector axis, double angle)
 {
 	camera->axis = vector_rotate(camera->axis, axis, angle);
 	camera->rotation.axis = vector_cross_product(camera->axis, (t_vector){0, 0, 1});
+	camera->rotation.axis = vector_normalize(camera->rotation.axis);
 	camera->rotation.angle = acos(vector_cosine(camera->axis, (t_vector){0, 0, 1}));
 	return (camera);
 }

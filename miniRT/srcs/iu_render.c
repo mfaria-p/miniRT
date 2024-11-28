@@ -215,7 +215,6 @@ int	key_press_hook(int keycode, void *param)
             if (object->shape.scale > 0.1)
 				object_scale(object, 0.833);
         }
-        mlx_loop_hook(world->img->mlx, animate, param);
     }
     
     return (0);

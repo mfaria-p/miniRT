@@ -153,10 +153,10 @@ t_object	*object_select(volatile t_world *world, int x, int y)
 
 	selected = NULL;
 	ray.origin = world->camera.origin;
-	point = vector_add(ray.origin, world->camera.axis);
-	point = vector_add(point, vector_scalar_product((x - world->camera.hsize / 2) * world->camera.pixel_size, world->camera.left));
-	point = vector_add(point, vector_scalar_product((y - world->camera.vsize / 2) * world->camera.pixel_size, world->camera.up));
-	ray.direction = vector_normalize(vector_subtract(point, ray.origin));
+	point = vector_normalize(world->camera.axis);
+	point = vector_add(point, vector_scalar_product((x - world->camera.hsize / 2) * world->camera.pixel_size / world->camera.scale, vector_normalize(vector_rotate(vector_scalar_product(-1, world->camera.left), world->camera.rotation.axis, world->camera.rotation.angle))));
+	point = vector_add(point, vector_scalar_product((y - world->camera.vsize / 2) * world->camera.pixel_size / world->camera.scale, vector_normalize(vector_rotate(vector_scalar_product(-1, world->camera.up), world->camera.rotation.axis, world->camera.rotation.angle))));
+	ray.direction = vector_normalize(point);
 	intersections_init(&is);
 	ray_world_intersect(&is, ray, world);
 	if (is.hit)
