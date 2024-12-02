@@ -100,11 +100,6 @@ int	mouse_press_hook(int button, int x, int y, void *param)
         world->selected_object = object_select(world, x, y);
         mlx_loop_hook(world->img->mlx, animate, param);
     }
-    /* else if (button == 3) // Right click
-    {
-        scene->tmp = (t_vector){x, y, 0};
-        mlx_loop_hook(scene->mlx_ptr, scene_rotate_right, param);
-    } */
     return (0);
 }
 

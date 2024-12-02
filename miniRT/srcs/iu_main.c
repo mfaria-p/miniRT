@@ -41,7 +41,6 @@ int main(int argc, char **argv)
     if (filename_len < extension_len || !ft_strnstr(argv[1] + filename_len - extension_len, ".rt", extension_len)) {
         ft_error("Usage: ./miniRT <scene_description_file.rt>", &scenehe, EXIT_FAILURE);
     }
-    //ft_checkfile(argv[1], &data);
     printf("Parsing scene\n");
     parse_scene(argv[1], &scenehe);
     printf("Opening window\n");
