@@ -1,7 +1,7 @@
 NAME = miniRT
 
 SRCDIR = srcs
-SRCS = iu_main.c iu_world_test.c iu_error.c iu_render.c iu_scene_parser_utils.c iu_scene_checker.c iu_scene_parser.c iu_window.c vector.c quaternion.c matrix.c ray.c light.c shape.c object.c intersections.c world.c hit.c camera.c
+SRCS = iu_main.c iu_world_test.c iu_error.c iu_render.c iu_scene_parser_utils.c iu_scene_parser_utils2.c iu_scene_checker.c iu_scene_checker2.c iu_scene_parser.c iu_scene_parser2.c iu_window.c vector.c quaternion.c matrix.c ray.c light.c shape.c object.c intersections.c world.c hit.c camera.c
 HDRS = laag.h minirt.h
 
 OBJDIR = objs
