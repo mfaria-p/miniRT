@@ -6,41 +6,13 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:42:15 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/03 16:35:42 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/03 17:16:00 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "minirt.h"
-
-t_camera	*camera_init(t_camera *camera)
-{
-	double	half_view;
-	double	aspect;
-
-	camera->axis = (t_vector){0, 1, 0};
-	camera->scale = 2;
-	camera->hsize = CANVAS_PIXEL;
-	camera->vsize = CANVAS_PIXEL;
-	camera->fov = M_PI / 2;
-	camera->origin = (t_vector){0, 0, 0};
-	camera->rotation.axis = (t_vector){0, 0, 0};
-	camera->rotation.angle = 0;
-	half_view = tan(camera->fov / 2);
-	aspect = (double)camera->hsize / camera->vsize;
-	if (camera->hsize > camera->vsize)
-	{
-		camera->half_width = half_view;
-		camera->half_height = (half_view / aspect);
-	}
-	else
-	{
-		camera->half_width = (half_view * aspect);
-		camera->half_height = half_view;
-	}
-	camera->pixel_size = (camera->half_width * camera->scale * 2) / camera->hsize;
-	return (camera);
-}
+#include <math.h>
 
 t_camera	*camera_rescale(t_camera *camera, double new_scale)
 {
@@ -142,22 +114,6 @@ int	color_argb(t_uint8 a, t_uint8 r, t_uint8 g, t_uint8 b)
 
 t_img	*render(t_img *img, t_camera *camera, volatile t_world *world)
 {
-	printf("Checking img->addr: %p\n", (void *)img->addr);
-	if (!img->addr) {
-		fprintf(stderr, "Error: img->addr is NULL\n");
-		return NULL;
-	}
-
-	printf("Checking camera->scale: %f\n", camera->scale);
-	if (camera->scale <= 0) {
-		fprintf(stderr, "Error: camera->scale is invalid\n");
-		return NULL;
-	}
-	printf("img: %p, camera: %p, world: %p\n", (void *)img, (void *)camera, (void *)world);
-	print_img(img);
-	print_camera(camera);
-	print_world(world);
-
 	int		x;
 	int		y;
 	int		xx;

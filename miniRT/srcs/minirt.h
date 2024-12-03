@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/03 15:36:36 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/03 17:23:24 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ t_vector	color_at(volatile t_world *world, t_ray ray);
 t_ray		ray_for_pixel(t_camera *camera, int x, int y);
 t_img		*render(t_img *img, t_camera *camera, volatile t_world *world);
 // interface:
-t_camera	*camera_init(t_camera *camera);
+t_camera	init_camera2(t_scenehe *scene);
 t_camera	*camera_rescale(t_camera *camera, double new_scale);
 t_camera	*camera_coord_new(t_camera *camera, t_vector coord);
 t_camera	*camera_rot_new(t_camera *camera, t_vector axis, double angle);
@@ -250,13 +250,6 @@ t_camera	*camera_rotate(t_camera *camera, t_vector axis, double angle);
 //render scene
 void render_scene(t_scenehe *scene, volatile t_world *world);
 
-//test
-void print_img(const t_img *img);
-void print_camera(const t_camera *camera);
-void print_world(const volatile t_world *world);
-void print_light(const t_light_source *light);
-void print_object(const t_object *object);
-void print_vector(const t_vector *vector);
-void print_color(const t_vector *color);
-
+t_img	img_init(t_data *data);
+void init_scene(t_scenehe *scene);
 #endif
