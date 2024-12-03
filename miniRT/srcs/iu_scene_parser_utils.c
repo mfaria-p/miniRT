@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 01:16:59 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/03 16:45:12 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/03 17:54:23 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,11 @@ int	parse_int(const char **str)
 	return (num * sign);
 }
 
-float	parse_float(const char **str)
+float	parse_float(const char **str, int sign, float result)
 {
-	float	result;
 	float	factor;
-	int		sign;
 
-	result = 0.0;
 	factor = 1.0;
-	sign = 1;
 	if (**str == '-')
 	{
 		sign = -1;

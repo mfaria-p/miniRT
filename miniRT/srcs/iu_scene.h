@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:34:37 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/03 17:38:26 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/03 17:48:09 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void			parse_cylinder(const char *line, t_scenehe *scene);
 
 // scene parsing utility functions
 int				parse_int(const char **str);
-float			parse_float(const char **str);
+float			parse_float(const char **str, int sign, float result);
 void			skip_spaces(const char **str);
 void			parse_color(const char **str, t_color *color, t_scenehe *scene);
 void			*ft_realloc(void *ptr, size_t size);

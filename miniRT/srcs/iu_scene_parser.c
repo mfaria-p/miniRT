@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 16:12:33 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/02 23:32:53 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/03 17:49:20 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void	parse_sphere(const char *line, t_scenehe *scene)
 
 	line += 2;
 	skip_spaces(&line);
-	sphere.x = parse_float(&line);
+	sphere.x = parse_float(&line, 1, 0.0);
 	line++;
-	sphere.y = parse_float(&line);
+	sphere.y = parse_float(&line, 1, 0.0);
 	line++;
-	sphere.z = parse_float(&line);
+	sphere.z = parse_float(&line, 1, 0.0);
 	skip_spaces(&line);
-	sphere.diameter = parse_float(&line);
+	sphere.diameter = parse_float(&line, 1, 0.0);
 	printf("%f\n", sphere.diameter);
 	if (sphere.diameter <= 0.0)
 		ft_error("Sphere diameter must be positive", scene, EXIT_FAILURE);
@@ -41,17 +41,17 @@ void	parse_plane(const char *line, t_scenehe *scene)
 
 	line += 2;
 	skip_spaces(&line);
-	plane.x = parse_float(&line);
+	plane.x = parse_float(&line, 1, 0.0);
 	line++;
-	plane.y = parse_float(&line);
+	plane.y = parse_float(&line, 1, 0.0);
 	line++;
-	plane.z = parse_float(&line);
+	plane.z = parse_float(&line, 1, 0.0);
 	skip_spaces(&line);
-	plane.orient_x = parse_float(&line);
+	plane.orient_x = parse_float(&line, 1, 0.0);
 	line++;
-	plane.orient_y = parse_float(&line);
+	plane.orient_y = parse_float(&line, 1, 0.0);
 	line++;
-	plane.orient_z = parse_float(&line);
+	plane.orient_z = parse_float(&line, 1, 0.0);
 	if (plane.orient_x < -1.0 || plane.orient_x > 1.0 || plane.orient_y < -1.0
 		|| plane.orient_y > 1.0 || plane.orient_z < -1.0
 		|| plane.orient_z > 1.0)
@@ -70,28 +70,28 @@ void	parse_cylinder(const char *line, t_scenehe *scene)
 
 	line += 2;
 	skip_spaces(&line);
-	cylinder.x = parse_float(&line);
+	cylinder.x = parse_float(&line, 1, 0.0);
 	line++;
-	cylinder.y = parse_float(&line);
+	cylinder.y = parse_float(&line, 1, 0.0);
 	line++;
-	cylinder.z = parse_float(&line);
+	cylinder.z = parse_float(&line, 1, 0.0);
 	skip_spaces(&line);
-	cylinder.orient_x = parse_float(&line);
+	cylinder.orient_x = parse_float(&line, 1, 0.0);
 	line++;
-	cylinder.orient_y = parse_float(&line);
+	cylinder.orient_y = parse_float(&line, 1, 0.0);
 	line++;
-	cylinder.orient_z = parse_float(&line);
+	cylinder.orient_z = parse_float(&line, 1, 0.0);
 	if (cylinder.orient_x < -1.0 || cylinder.orient_x > 1.0
 		|| cylinder.orient_y < -1.0 || cylinder.orient_y > 1.0
 		|| cylinder.orient_z < -1.0 || cylinder.orient_z > 1.0)
 		ft_error("Cylinder orientation values out of range [-1.0, 1.0]", scene,
 			EXIT_FAILURE);
 	skip_spaces(&line);
-	cylinder.diameter = parse_float(&line);
+	cylinder.diameter = parse_float(&line, 1, 0.0);
 	if (cylinder.diameter <= 0.0)
 		ft_error("Cylinder diameter must be positive", scene, EXIT_FAILURE);
 	skip_spaces(&line);
-	cylinder.height = parse_float(&line);
+	cylinder.height = parse_float(&line, 1, 0.0);
 	if (cylinder.height <= 0.0)
 		ft_error("Cylinder height must be positive", scene, EXIT_FAILURE);
 	skip_spaces(&line);
