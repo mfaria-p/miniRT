@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/26 15:51:20 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/12/03 15:36:36 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ typedef struct s_world
 	t_vector		direction_rot;
 	t_vector		direction_move;
 	t_object        *selected_object;
+	int				selected_light;
 }	t_world;
 
 typedef struct s_scene
@@ -179,6 +180,7 @@ typedef struct s_scene
 // light.c
 t_vector	vector_reflect(t_vector in, t_vector normal);
 t_phong		lighting(t_material material, t_light_source light,t_vector point, t_vector eyev, t_vector normal, int shadow);
+t_light_source	*light_translate(t_light_source *light, t_vector direction, double shift);
 // interface:
 t_light_source	light_init(t_vector xyz, t_vector rgb, double intensity);
 /* ************************************************************************** */

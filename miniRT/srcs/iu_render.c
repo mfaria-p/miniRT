@@ -74,7 +74,10 @@ int scene_rotate(void *param)
     v = (t_vector){mouse_pos[0], mouse_pos[1], 0};
 	axis = (t_vector){-world->direction_rot.y + mouse_pos[1], -world->direction_rot.x + mouse_pos[0], 0};
 	axis = vector_rotate(axis, world->camera.rotation.axis, world->camera.rotation.angle);
-    camera_rotate(&world->camera, axis, -vector_distance(world->direction_rot, v) * ROT_FACTOR);
+    if (world->selected_object == NULL)
+        camera_rotate(&world->camera, axis, -vector_distance(world->direction_rot, v) * ROT_FACTOR);
+    else if (world->selected_object->shape.type != SPHERE)
+        object_rotate(world->selected_object, axis, -vector_distance(world->direction_rot, v) * ROT_FACTOR);
     render(world->img, &world->camera, world);
     mlx_clear_window(world->img->mlx, world->img->win);
     mlx_put_image_to_window(world->img->mlx, world->img->win, world->img->img, 0, 0);
@@ -97,6 +100,7 @@ int	mouse_press_hook(int button, int x, int y, void *param)
     }
 	else if (button == 3) // Left click
     {
+        world->selected_light= 0;
         world->selected_object = object_select(world, x, y);
         mlx_loop_hook(world->img->mlx, animate, param);
     }
@@ -146,7 +150,12 @@ int scene_translate(void *param)
     world = (t_world *)param;
     img = world->img->img;
     (void)img;
-    camera_translate((t_camera *) &world->camera, world->direction_move, MOVE_FACTOR);
+    if (world->selected_light)
+        light_translate(&world->light, world->direction_move, MOVE_FACTOR);
+    else if (world->selected_object == NULL)
+        camera_translate((t_camera *) &world->camera, world->direction_move, MOVE_FACTOR);
+    else
+        object_translate(world->selected_object, world->direction_move, MOVE_FACTOR);
     render(world->img, &world->camera, world);
     mlx_clear_window(world->img->mlx, world->img->win);
     mlx_put_image_to_window(world->img->mlx, world->img->win, world->img->img, 0, 0);
@@ -199,19 +208,33 @@ int	key_press_hook(int keycode, void *param)
 	}
     if (object != NULL)
     {
-        if (keycode == XK_Up)
+        if (keycode == XK_UP)
         {
             printf("Scaling up\n");
             object_scale(object, 1.2);
         }
-        if (keycode == XK_Down)
+        if (keycode == XK_DOWN)
         {
             printf("Scaling down\n");
             if (object->shape.scale > 0.1)
 				object_scale(object, 0.833);
         }
     }
-    
+    if (keycode == XK_C)
+    {
+        world->selected_light = 0;
+        world->selected_object = NULL;
+    }
+    if (keycode == XK_L)
+    {
+        printf("Selecting light\n");
+        world->selected_light = 1;
+    }
+    if (keycode == XK_R)
+    {
+        world->camera.scale = 3 - (((int)world->camera.scale + 2) % 3);
+        
+    }
     return (0);
 }
 
@@ -221,7 +244,7 @@ int	key_release_hook(int keycode, void *param)
     (void)  world;
 
 	world = (volatile t_world *)param;
-    if (keycode == XK_W || keycode == XK_S || keycode == XK_A || keycode == XK_D || keycode == XK_SPACE || keycode == XK_SHIFT || keycode == XK_Up || keycode == XK_Down)
+    if (keycode == XK_W || keycode == XK_S || keycode == XK_A || keycode == XK_D || keycode == XK_SPACE || keycode == XK_SHIFT || keycode == XK_UP || keycode == XK_DOWN || keycode == XK_R)
         mlx_loop_hook(world->img->mlx, animate, param);
     
     return (0);

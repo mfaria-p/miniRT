@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   world.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:48:27 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/21 14:56:05 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/12/03 15:32:08 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ volatile t_world	*world_init(volatile t_world *world)
 	world->direction_rot = (t_vector){0, 0, 0};
 	world->direction_move = (t_vector){0, 0, 0};
 	world->selected_object = NULL;
+	world->selected_light = 0;
 	return (world);
 }
 

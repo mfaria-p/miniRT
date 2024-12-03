@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:03:16 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/20 13:55:14 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/12/03 15:35:38 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,12 @@ t_phong	lighting(t_material material, t_light_source light, t_vector point, t_ve
 		}
 	}
 	return ((t_phong){ambient, diffuse, specular});
+}
+
+t_light_source	*light_translate(t_light_source *light, t_vector direction, double shift)
+{
+	direction = vector_normalize(direction);
+	direction = vector_scalar_product(shift, direction);
+	light->origin = vector_add(light->origin, direction);
+	return (light);
 }

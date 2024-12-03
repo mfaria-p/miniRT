@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:42:15 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/11/22 22:32:07 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:35:42 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,11 @@ t_ray	ray_for_pixel(t_camera *camera, int x, int y)
 	t_vector	pixel;
 	t_ray		ray;
 
-	x_offset = ((double)x + .5) * camera->pixel_size;
-	y_offset = ((double)y + .5) * camera->pixel_size;
-	world_x = -camera->half_width + x_offset;
-	world_y = camera->half_width - y_offset;
-	pixel = (t_vector){world_x, world_y, 1};
+	x_offset = ((double)x - camera->hsize / (2 * camera->scale) + (camera->scale / 2.0)) * camera->pixel_size;
+	y_offset = ((double)y - camera->vsize / (2 * camera->scale) + (camera->scale / 2.0)) * camera->pixel_size;
+	world_x = x_offset;
+	world_y = -y_offset;
+	pixel = (t_vector){world_x, world_y, 3 - (((int)camera->scale + 2) % 3)};
 	pixel = vector_rotate(pixel, camera->rotation.axis, camera->rotation.angle);
 	pixel = vector_add(pixel, camera->origin);
 	ray.origin = camera->origin;
