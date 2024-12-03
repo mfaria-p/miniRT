@@ -23,7 +23,7 @@ void	check_sphere(const char *line, t_scenehe *scene)
 		ft_error("Invalid number of parameters for sphere element", scene,
 			EXIT_FAILURE);
 	}
-	check_vector(&params, scene, 1);
+	check_vec(&params, scene, 1);
 	if (!is_float(params[2]))
 	{
 		free_array(params);
@@ -45,8 +45,8 @@ void	check_plane(const char *line, t_scenehe *scene)
 		ft_error("Invalid number of parameters for plane element", scene,
 			EXIT_FAILURE);
 	}
-	check_vector(&params, scene, 1);
-	check_vector(&params, scene, 2);
+	check_vec(&params, scene, 1);
+	check_vec(&params, scene, 2);
 	check_colors(&params, scene, 3);
 	free_array(params);
 	parse_plane(line, scene);
@@ -63,8 +63,8 @@ void	check_cylinder(const char *line, t_scenehe *scene)
 		ft_error("Invalid number of parameters for cylinder element", scene,
 			EXIT_FAILURE);
 	}
-	check_vector(&params, scene, 1);
-	check_vector(&params, scene, 2);
+	check_vec(&params, scene, 1);
+	check_vec(&params, scene, 2);
 	if (!is_float(params[3]))
 	{
 		free_array(params);
@@ -81,7 +81,7 @@ void	check_cylinder(const char *line, t_scenehe *scene)
 	parse_cylinder(line, scene);
 }
 
-void	check_vector(char ***str, t_scenehe *scene, int j)
+void	check_vec(char ***str, t_scenehe *scene, int j)
 {
 	int		i;
 	char	**nbrs;

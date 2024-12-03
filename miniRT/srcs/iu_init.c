@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:05:34 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/03 17:30:14 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:05:23 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,40 +26,40 @@ t_img	img_init(t_data *data)
 	return (img);
 }
 
-t_camera	init_camera2(t_scenehe *scene)
+t_cam	cam_init(t_scenehe *scene)
 {
-	t_camera	camera;
-	double		half_view;
-	double		aspect;
+	t_cam	cam;
+	double	half_view;
+	double	aspect;
 
-	camera.axis = (t_vector){scene->camera.orient_x, scene->camera.orient_y,
-		scene->camera.orient_z};
-	camera.left = vector_cross_product(camera.axis, (t_vector){0, 1, 0});
-	camera.up = vector_cross_product(camera.left, camera.axis);
-	camera.scale = 3;
-	camera.hsize = CANVAS_PIXEL;
-	camera.vsize = CANVAS_PIXEL;
-	camera.fov = scene->camera.fov * (M_PI / 180.0);
-	camera.origin = (t_vector){scene->camera.x, scene->camera.y,
-		scene->camera.z};
-	camera.rotation.axis = vector_cross_product(camera.axis, (t_vector){0, 0,
+	cam.axis = (t_vec){scene->cam.orient_x, scene->cam.orient_y,
+		scene->cam.orient_z};
+	cam.left = vec_cross_prod(cam.axis, (t_vec){0, 1, 0});
+	cam.up = vec_cross_prod(cam.left, cam.axis);
+	cam.scale = 3;
+	cam.hsize = CANVAS_PIXEL;
+	cam.vsize = CANVAS_PIXEL;
+	cam.fov = scene->cam.fov * (M_PI / 180.0);
+	cam.origin = (t_vec){scene->cam.x, scene->cam.y,
+		scene->cam.z};
+	cam.rotation.axis = vec_cross_prod(cam.axis, (t_vec){0, 0,
 			1});
-	camera.rotation.angle = acos(vector_cosine(camera.axis, (t_vector){0, 0,
+	cam.rotation.angle = acos(vec_cosine(cam.axis, (t_vec){0, 0,
 				1}));
-	half_view = tan(camera.fov / 2);
-	aspect = (double)camera.hsize / camera.vsize;
-	if (camera.hsize > camera.vsize)
+	half_view = tan(cam.fov / 2);
+	aspect = (double)cam.hsize / cam.vsize;
+	if (cam.hsize > cam.vsize)
 	{
-		camera.half_width = half_view;
-		camera.half_height = half_view / aspect;
+		cam.half_width = half_view;
+		cam.half_height = half_view / aspect;
 	}
 	else
 	{
-		camera.half_width = half_view * aspect;
-		camera.half_height = half_view;
+		cam.half_width = half_view * aspect;
+		cam.half_height = half_view;
 	}
-	camera.pixel_size = (camera.half_width * camera.scale * 2) / camera.hsize;
-	return (camera);
+	cam.pixel_size = (cam.half_width * cam.scale * 2) / cam.hsize;
+	return (cam);
 }
 
 void	init_scene(t_scenehe *scene)
@@ -74,9 +74,9 @@ void	init_scene(t_scenehe *scene)
 	scene->data.size_line = 0;
 	scene->data.endian = 0;
 	scene->data.fd = 0;
-	scene->ambient.ratio = 0.0;
-	scene->ambient.color = (t_color){0, 0, 0};
-	scene->camera = (t_camerahe){0};
+	scene->amb.ratio = 0.0;
+	scene->amb.color = (t_color){0, 0, 0};
+	scene->cam = (t_camhe){0};
 	scene->light = (t_light){0};
 	scene->spheres = NULL;
 	scene->sphere_count = 0;
@@ -84,7 +84,7 @@ void	init_scene(t_scenehe *scene)
 	scene->plane_count = 0;
 	scene->cylinders = NULL;
 	scene->cylinder_count = 0;
-	scene->camera_count = 0;
+	scene->cam_count = 0;
 	scene->light_count = 0;
-	scene->ambient_count = 0;
+	scene->amb_count = 0;
 }

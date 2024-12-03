@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:34:10 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/03 17:34:11 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:04:31 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	main(int argc, char **argv)
 {
-	static volatile t_world	world;
-	t_scenehe				scenehe;
-	size_t					filename_len;
-	size_t					extension_len;
+	static t_world	world;
+	t_scenehe		scenehe;
+	size_t			filename_len;
+	size_t			extension_len;
 
 	init_scene(&scenehe);
 	if (argc != 2)

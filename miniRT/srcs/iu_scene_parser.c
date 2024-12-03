@@ -121,9 +121,9 @@ void	process_line(char *line, t_scenehe *scene)
 	clean_line[len] = '\0';
 	scene->line = clean_line;
 	if (clean_line[0] == 'A')
-		check_ambient(clean_line, scene);
+		check_amb(clean_line, scene);
 	else if (clean_line[0] == 'C')
-		check_camera(clean_line, scene);
+		check_cam(clean_line, scene);
 	else if (clean_line[0] == 'L')
 		check_light(clean_line, scene);
 	else if (ft_strncmp(clean_line, "sp", 2) == 0)

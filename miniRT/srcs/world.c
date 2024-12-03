@@ -14,43 +14,43 @@
 
 // world as static var in main?
 
-volatile t_world	*world_init(volatile t_world *world)
+t_world	*world_init(t_world *world)
 {
-	world->ray_origin = (t_vector){0, 0, 0};
-	world->objects = NULL;
-	world->light = (t_light_source){(t_vector){0, 0, 0}, 0, (t_vector){0, 0, 0}};
+	world->ray_origin = (t_vec){0, 0, 0};
+	world->objs = NULL;
+	world->light = (t_spotlight){(t_vec){0, 0, 0}, 0, (t_vec){0, 0, 0}};
 	world->img = NULL;
-	world->camera = (t_camera){0};
+	world->cam = (t_cam){0};
 	world->scene = NULL;
-	world->direction_rot = (t_vector){0, 0, 0};
-	world->direction_move = (t_vector){0, 0, 0};
-	world->selected_object = NULL;
+	world->dir_rot = (t_vec){0, 0, 0};
+	world->dir_move = (t_vec){0, 0, 0};
+	world->selected_obj = NULL;
 	world->selected_light = 0;
 	return (world);
 }
 
-volatile t_world	*world_object_add(volatile t_world *world, t_object *object)
+t_world	*world_obj_add(t_world *world, t_obj *obj)
 {
-	t_list	*new_object;
+	t_list	*new_obj;
 
-	new_object = malloc(sizeof(t_list));
-	new_object->content = object;
-	new_object->next = world->objects;
-	world->objects = new_object;
+	new_obj = malloc(sizeof(t_list));
+	new_obj->content = obj;
+	new_obj->next = world->objs;
+	world->objs = new_obj;
 	return (world);
 }
 
-void	world_destroy(volatile t_world *world)
+void	world_destroy(t_world *world)
 {
 	void	*tmp;
 
-	while (world->objects)
+	while (world->objs)
 	{
-		tmp = world->objects->next;
-		if (world->objects->content)
-			free(world->objects->content);
-		free(world->objects);
-		world->objects = tmp;
+		tmp = world->objs->next;
+		if (world->objs->content)
+			free(world->objs->content);
+		free(world->objs);
+		world->objs = tmp;
 	}
 	clean_scene(world->scene);
 	clean_data(&world->scene->data);

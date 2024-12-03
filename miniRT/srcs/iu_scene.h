@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:34:37 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/03 17:48:09 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:05:50 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ typedef struct s_color
 	int			b;
 }				t_color;
 
-typedef struct s_ambient
+typedef struct s_amb
 {
 	float		ratio;
 	t_color		color;
-}				t_ambient;
+}				t_amb;
 
-typedef struct s_camerahe
+typedef struct s_camhe
 {
 	float		x;
 	float		y;
@@ -78,7 +78,7 @@ typedef struct s_camerahe
 	float		orient_y;
 	float		orient_z;
 	float		fov;
-}				t_camerahe;
+}				t_camhe;
 
 typedef struct s_light
 {
@@ -127,8 +127,8 @@ typedef struct s_scenehe
 	t_data		data;
 	char		*line;
 	char		**params;
-	t_ambient	ambient;
-	t_camerahe	camera;
+	t_amb		amb;
+	t_camhe		cam;
 	t_light		light;
 	t_sphere	*spheres;
 	int			sphere_count;
@@ -136,9 +136,9 @@ typedef struct s_scenehe
 	int			plane_count;
 	t_cylinder	*cylinders;
 	int			cylinder_count;
-	int			camera_count;
+	int			cam_count;
 	int			light_count;
-	int			ambient_count;
+	int			amb_count;
 }				t_scenehe;
 
 // window related functions
@@ -151,20 +151,20 @@ void			clean_scene(t_scenehe *scene);
 void			clean_data(t_data *data);
 
 // checks before parsing functions
-void			check_ambient(const char *line, t_scenehe *scene);
-void			check_camera(const char *line, t_scenehe *scene);
+void			check_amb(const char *line, t_scenehe *scene);
+void			check_cam(const char *line, t_scenehe *scene);
 void			check_light(const char *line, t_scenehe *scene);
 void			check_sphere(const char *line, t_scenehe *scene);
 void			check_plane(const char *line, t_scenehe *scene);
 void			check_cylinder(const char *line, t_scenehe *scene);
-void			check_vector(char ***str, t_scenehe *scene, int j);
+void			check_vec(char ***str, t_scenehe *scene, int j);
 void			check_colors(char ***str, t_scenehe *scene, int j);
 
 // scene parsing functions
 void			process_line(char *line, t_scenehe *scene);
 void			parse_scene(const char *filename, t_scenehe *scene);
-void			parse_ambient(const char *line, t_scenehe *scene);
-void			parse_camera(const char *line, t_scenehe *scene);
+void			parse_amb(const char *line, t_scenehe *scene);
+void			parse_cam(const char *line, t_scenehe *scene);
 void			parse_light(const char *line, t_scenehe *scene);
 void			parse_sphere(const char *line, t_scenehe *scene);
 void			parse_plane(const char *line, t_scenehe *scene);

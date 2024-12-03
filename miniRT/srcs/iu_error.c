@@ -65,9 +65,9 @@ void	clean_scene(t_scenehe *scene)
 	scene->sphere_count = 0;
 	scene->plane_count = 0;
 	scene->cylinder_count = 0;
-	scene->camera_count = 0;
+	scene->cam_count = 0;
 	scene->light_count = 0;
-	scene->ambient_count = 0;
+	scene->amb_count = 0;
 }
 
 int	ft_error(char *str, t_scenehe *scene, int e)
@@ -82,9 +82,9 @@ int	ft_error(char *str, t_scenehe *scene, int e)
 
 void	is_invalid_file(t_scenehe *scene)
 {
-	if (!scene->ambient_count)
+	if (!scene->amb_count)
 		ft_error("Missing Ambient element", scene, EXIT_FAILURE);
-	if (!scene->camera_count)
+	if (!scene->cam_count)
 		ft_error("Missing Camera element", scene, EXIT_FAILURE);
 	if (!scene->light_count)
 		ft_error("Missing Light element", scene, EXIT_FAILURE);

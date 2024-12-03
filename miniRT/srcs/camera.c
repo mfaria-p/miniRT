@@ -6,74 +6,33 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:42:15 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/03 17:16:00 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:31:16 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "minirt.h"
-#include <math.h>
 
-t_camera	*camera_rescale(t_camera *camera, double new_scale)
+t_ray	ray_for_pixel(t_cam *cam, int x, int y)
 {
-	camera->pixel_size /= camera->scale;
-	camera->scale = new_scale;
-	camera->pixel_size *= camera->scale;
-	return (camera);
-}
+	double	x_offset;
+	double	y_offset;
+	double	world_xy[2];
+	t_vec	pixel;
+	t_ray	ray;
 
-t_camera	*camera_coord_new(t_camera *camera, t_vector coord)
-{
-	camera->origin = coord;
-	return (camera);
-}
-
-t_camera	*camera_rot_new(t_camera *camera, t_vector axis, double angle)
-{
-	camera->rotation.axis = axis;
-	camera->rotation.angle = angle;
-	return (camera);
-}
-
-t_camera	*camera_translate(t_camera *camera, t_vector direction, double shift)
-{
-	camera->origin.x = camera->origin.x + shift * direction.x;
-	camera->origin.y = camera->origin.y + shift * direction.y;
-	camera->origin.z = camera->origin.z + shift * direction.z;
-	return (camera);
-}
-
-t_camera	*camera_rotate(t_camera *camera, t_vector axis, double angle)
-{
-	camera->axis = vector_rotate(camera->axis, axis, angle);
-	camera->rotation.axis = vector_cross_product(camera->axis, (t_vector){0, 0, 1});
-	camera->rotation.axis = vector_normalize(camera->rotation.axis);
-	camera->rotation.angle = acos(vector_cosine(camera->axis, (t_vector){0, 0, 1}));
-	return (camera);
-}
-
-t_ray	ray_for_pixel(t_camera *camera, int x, int y)
-{
-	double		x_offset;
-	double		y_offset;
-	double		world_x;
-	double		world_y;
-	t_vector	pixel;
-	t_ray		ray;
-
-	x_offset = ((double)x - camera->hsize / (2 * camera->scale) + (camera->scale / 2.0)) * camera->pixel_size;
-	y_offset = ((double)y - camera->vsize / (2 * camera->scale) + (camera->scale / 2.0)) * camera->pixel_size;
-	world_x = x_offset;
-	world_y = -y_offset;
-	pixel = (t_vector){world_x, world_y, 3 - (((int)camera->scale + 2) % 3)};
-	pixel = vector_rotate(pixel, camera->rotation.axis, camera->rotation.angle);
-	pixel = vector_add(pixel, camera->origin);
-	ray.origin = camera->origin;
-	ray.direction = vector_normalize(vector_subtract(pixel, ray.origin));
+	x_offset = ((double)x - cam->hsize / (2 * cam->scale) + (cam->scale / 2.0));
+	y_offset = ((double)y - cam->vsize / (2 * cam->scale) + (cam->scale / 2.0));
+	world_xy[0] = x_offset * cam->pixel_size;
+	world_xy[1] = -y_offset * cam->pixel_size;
+	pixel = (t_vec){world_xy[0], world_xy[1], 3 - (((int)cam->scale + 2) % 3)};
+	pixel = vec_rotate(pixel, cam->rotation.axis, cam->rotation.angle);
+	pixel = vec_add(pixel, cam->origin);
+	ray.origin = cam->origin;
+	ray.dir = vec_normalize(vec_subtract(pixel, ray.origin));
 	return (ray);
 }
 
-t_img	*my_mlx_pixel_put(t_img *img, int x, int y, int color)
+static t_img	*my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
@@ -82,7 +41,7 @@ t_img	*my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	return (img);
 }
 
-int	color_rgb(t_vector color)
+static int	color_rgb(t_vec color)
 {
 	int	r;
 	int	g;
@@ -107,41 +66,36 @@ int	color_rgb(t_vector color)
 	return (0xFF << 24 | r << 16 | g << 8 | b);
 }
 
-int	color_argb(t_uint8 a, t_uint8 r, t_uint8 g, t_uint8 b)
+t_img	*render(t_img *img, t_cam *cam, t_world *world)
 {
-	return (a << 24 | r << 16 | g << 8 | b);
-}
-
-t_img	*render(t_img *img, t_camera *camera, volatile t_world *world)
-{
-	int		x;
-	int		y;
+	int		xy[2];
 	int		xx;
 	int		yy;
 	int		color;
+	t_ray	ray;
 
-	y = 0;
-	while (y < camera->vsize / camera->scale)
+	xy[1] = 0;
+	while (xy[1] < cam->vsize / cam->scale)
 	{
-		x = 0;
-		while (x < camera->hsize / camera->scale)
+		xy[0] = 0;
+		while (xy[0] < cam->hsize / cam->scale)
 		{
-			t_ray ray = ray_for_pixel(camera, x, y);
+			ray = ray_for_pixel(cam, xy[0], xy[1]);
 			color = color_rgb(color_at(world, ray));
-			yy = y * camera->scale;
-			while (yy < y * camera->scale + camera->scale)
+			yy = xy[1] * cam->scale;
+			while (yy < xy[1] * cam->scale + cam->scale)
 			{
-				xx = x * camera->scale;
-				while (xx < x * camera->scale + camera->scale)
+				xx = xy[0] * cam->scale;
+				while (xx < xy[0] * cam->scale + cam->scale)
 				{
 					my_mlx_pixel_put(img, xx, yy, color);
 					xx++;
 				}
 				yy++;
 			}
-			x++;
+			(xy[0])++;
 		}
-		y++;
+		(xy[1])++;
 	}
 	return (img);
 }

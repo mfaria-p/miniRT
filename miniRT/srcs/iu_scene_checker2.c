@@ -12,12 +12,12 @@
 
 #include "minirt.h"
 
-void	check_ambient(const char *line, t_scenehe *scene)
+void	check_amb(const char *line, t_scenehe *scene)
 {
 	char	**params;
 
-	scene->ambient_count++;
-	if (scene->ambient_count > 1)
+	scene->amb_count++;
+	if (scene->amb_count > 1)
 	{
 		ft_error("You cannot declare more than one Ambient", scene,
 			EXIT_FAILURE);
@@ -26,7 +26,7 @@ void	check_ambient(const char *line, t_scenehe *scene)
 	if (array_length(params) != 3)
 	{
 		free_array(params);
-		ft_error("Invalid number of parameters for ambient element", scene,
+		ft_error("Invalid number of parameters for amb element", scene,
 			EXIT_FAILURE);
 	}
 	if (!is_float(params[1]))
@@ -37,15 +37,15 @@ void	check_ambient(const char *line, t_scenehe *scene)
 	}
 	check_colors(&params, scene, 2);
 	free_array(params);
-	parse_ambient(line, scene);
+	parse_amb(line, scene);
 }
 
-void	check_camera(const char *line, t_scenehe *scene)
+void	check_cam(const char *line, t_scenehe *scene)
 {
 	char	**params;
 
-	scene->camera_count++;
-	if (scene->camera_count > 1)
+	scene->cam_count++;
+	if (scene->cam_count > 1)
 	{
 		ft_error("You cannot declare more than one Camera", scene,
 			EXIT_FAILURE);
@@ -54,18 +54,18 @@ void	check_camera(const char *line, t_scenehe *scene)
 	if (array_length(params) != 4)
 	{
 		free_array(params);
-		ft_error("Invalid number of parameters for camera element", scene,
+		ft_error("Invalid number of parameters for cam element", scene,
 			EXIT_FAILURE);
 	}
-	check_vector(&params, scene, 1);
-	check_vector(&params, scene, 2);
+	check_vec(&params, scene, 1);
+	check_vec(&params, scene, 2);
 	if (!is_float(params[3]))
 	{
 		free_array(params);
 		ft_error("Camera FOV must be a float number", scene, EXIT_FAILURE);
 	}
 	free_array(params);
-	parse_camera(line, scene);
+	parse_cam(line, scene);
 }
 
 void	check_light(const char *line, t_scenehe *scene)
@@ -84,7 +84,7 @@ void	check_light(const char *line, t_scenehe *scene)
 		ft_error("Invalid number of parameters for Light element", scene,
 			EXIT_FAILURE);
 	}
-	check_vector(&params, scene, 1);
+	check_vec(&params, scene, 1);
 	if (!is_float(params[2]))
 	{
 		free_array(params);

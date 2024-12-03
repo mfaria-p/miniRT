@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/10/17 15:38:06 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/12/03 19:42:47 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,66 +24,67 @@
 
 typedef unsigned char	t_uint8;
 
-typedef struct s_vector
+typedef struct s_vec
 {
 	double	x;
 	double	y;
 	double	z;
-}	t_vector;
+}	t_vec;
 
-typedef struct s_matrix
+typedef struct s_mat
 {
-	double	matrix[MATRIX_LINE_SIZE][MATRIX_LINE_SIZE];
-}	t_matrix;
+	double	mat[MATRIX_LINE_SIZE][MATRIX_LINE_SIZE];
+}	t_mat;
 
-typedef struct s_quaternion
+typedef struct s_quat
 {
 	double	w;
 	double	i;
 	double	j;
 	double	k;
-}	t_quaternion;
+}	t_quat;
 
 /* ************************************************************************** */
-// vector.c
-int				double_equals(double x, double y);
-int				vector_equals(t_vector u, t_vector v);
-t_vector		vector_scalar_product(double n, t_vector u);
-t_vector		vector_add(t_vector u, t_vector v);
-t_vector		vector_subtract(t_vector u, t_vector v);
-double			vector_dot_product(t_vector u, t_vector v);
-double			vector_magnitude(t_vector u);
-double			vector_distance(t_vector u, t_vector v);
-t_vector		vector_normalize(t_vector u);
-t_vector		vector_cross_product(t_vector u, t_vector v);
-double			vector_cosine(t_vector u, t_vector v);
-double			vector_scalar_projection(t_vector u, t_vector v);
-t_vector		vector_projection(t_vector u, t_vector v);
-t_vector		vector_plane_projection(t_vector u, t_vector n);
-t_vector		vector_rotate(t_vector u, t_vector ax, double rad);
+// vec.c
+int		double_equals(double x, double y);
+int		vec_equals(t_vec u, t_vec v);
+t_vec	vec_elem_prod(t_vec v, t_vec u);
+t_vec	vec_scalar_prod(double n, t_vec u);
+t_vec	vec_add(t_vec u, t_vec v);
+t_vec	vec_subtract(t_vec u, t_vec v);
+double	vec_dot_prod(t_vec u, t_vec v);
+double	vec_magnitude(t_vec u);
+double	vec_distance(t_vec u, t_vec v);
+t_vec	vec_normalize(t_vec u);
+t_vec	vec_cross_prod(t_vec u, t_vec v);
+double	vec_cosine(t_vec u, t_vec v);
+double	vec_scalar_projection(t_vec u, t_vec v);
+t_vec	vec_projection(t_vec u, t_vec v);
+t_vec	vec_plane_projection(t_vec u, t_vec n);
+t_vec	vec_rotate(t_vec u, t_vec ax, double rad);
 
 /* ************************************************************************** */
-// quaternion.c
-double			quaternion_smagnitude(t_quaternion q);
-t_quaternion	quaternion_conjugate(t_quaternion q);
-t_quaternion	quaternion_scalar_product(double a, t_quaternion q);
-t_quaternion	quaternion_inverse(t_quaternion q);
-t_quaternion	quaternion_product(t_quaternion q, t_quaternion p);
+// quat.c
+double	quat_smagnitude(t_quat q);
+t_quat	quat_conjugate(t_quat q);
+t_quat	quat_scalar_prod(double a, t_quat q);
+t_quat	quat_inverse(t_quat q);
+t_quat	quat_prod(t_quat q, t_quat p);
 
 /* ************************************************************************** */
-// matrix.c
-t_matrix		matrix_identity(void);
-int				matrix_equals(t_matrix a, t_matrix b);
-t_matrix		matrix_add(t_matrix a, t_matrix b);
-t_matrix		matrix_subtract(t_matrix a, t_matrix b);
-t_matrix		matrix_scalar_product(double a, t_matrix m);
-t_matrix		matrix_product(t_matrix a, t_matrix b);
-t_vector		matrix_vector_product(t_matrix a, t_vector u);
-t_matrix		matrix_transpose(t_matrix a);
-double			matrix_determinant(t_matrix a);
-t_matrix		matrix_cofactor(t_matrix a);
-t_matrix		matrix_minor(t_matrix a);
-t_matrix		matrix_adjoint(t_matrix a);
-t_matrix		matrix_inverse(t_matrix a);
+// mat.c
+t_mat	mat_identity(void);
+int		mat_equals(t_mat a, t_mat b);
+t_mat	mat_add(t_mat a, t_mat b);
+t_mat	mat_subtract(t_mat a, t_mat b);
+t_mat	mat_scalar_prod(double a, t_mat m);
+t_mat	mat_prod(t_mat a, t_mat b);
+t_vec	mat_vec_prod(t_mat a, t_vec u);
+t_mat	mat_transpose(t_mat a);
+double	mat_determinant(t_mat a);
+t_mat	mat_cofactor(t_mat a);
+t_mat	mat_minor(t_mat a);
+t_mat	mat_adjoint(t_mat a);
+t_mat	mat_inverse(t_mat a);
 
 #endif
