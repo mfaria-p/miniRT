@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/03 20:29:37 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/12/04 15:08:49 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,8 +176,8 @@ typedef struct s_scene
 
 /* ************************************************************************** */
 // light.c
-t_vec		vec_reflect(t_vec in, t_vec normal);
-t_phong		lighting(t_material material, t_spotlight light, t_vec point, t_vec eyev, t_vec normal, int shadow);
+t_vec		vec_reflect(t_vec in, t_vec n);
+t_phong		lighting(t_material mat, t_spotlight light, t_hit hit, int shadow);
 t_spotlight	*light_translate(t_spotlight *light, t_vec dir, double shift);
 // interface:
 t_spotlight	light_init(t_vec xyz, t_vec rgb, double intensity);
@@ -236,6 +236,7 @@ t_vec		color_at(t_world *world, t_ray ray);
 // camera.c
 t_ray		ray_for_pixel(t_cam *cam, int x, int y);
 t_img		*render(t_img *img, t_cam *cam, t_world *world);
+t_vec		color_blend(t_vec c1, t_vec c2);
 
 /* ************************************************************************** */
 // camera_interface.c

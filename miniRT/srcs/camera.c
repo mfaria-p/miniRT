@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:42:15 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/03 20:31:16 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/12/04 15:08:17 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@ static int	color_rgb(t_vec color)
 		b = 0;
 	return (r << 16 | g << 8 | b);
 	return (0xFF << 24 | r << 16 | g << 8 | b);
+}
+
+t_vec	color_blend(t_vec c1, t_vec c2)
+{
+	return ((t_vec){c1.x * c2.x, c1.y * c2.y, c1.z * c2.z});
 }
 
 t_img	*render(t_img *img, t_cam *cam, t_world *world)
