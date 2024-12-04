@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 23:27:58 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/03 14:55:03 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/03 22:21:52 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,11 @@ void	check_light(const char *line, t_scenehe *scene)
 	check_colors(&params, scene, 3);
 	free_array(params);
 	parse_light(line, scene);
+}
+
+void	free_arrays(char ***str, char **nbrs)
+{
+	free_array(*str);
+	*str = NULL;
+	free_array(nbrs);
 }

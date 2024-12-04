@@ -6,21 +6,25 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:01:10 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/03 17:26:19 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:16:42 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	quit(void *param)
+void	handle_scaling(int keycode, t_object *object)
 {
-	volatile t_world	*world;
-
-	world = (t_world *)param;
-	mlx_do_key_autorepeaton(world->img->mlx);
-	mlx_loop_end(world->img->mlx);
-	world_destroy(world);
-	exit(EXIT_SUCCESS);
+	if (keycode == XK_UP)
+	{
+		printf("Scaling up\n");
+		object_scale(object, 1.2);
+	}
+	else if (keycode == XK_DOWN)
+	{
+		printf("Scaling down\n");
+		if (object->shape.scale > 0.1)
+			object_scale(object, 0.833);
+	}
 }
 
 int	scene_rotate(void *param)
@@ -103,20 +107,16 @@ void	render_scene(t_scenehe *scene, volatile t_world *world)
 	t_cylinder		*cylinder;
 	t_img			img;
 
-	printf("Initializing ambient light");
 	world->ambient = vector_scalar_product(scene->ambient.ratio,
 			(t_vector){scene->ambient.color.r / 255.0, scene->ambient.color.g
 			/ 255.0, scene->ambient.color.b / 255.0});
-	printf("Initializing light source\n");
 	light = light_init((t_vector){scene->light.x, scene->light.y,
 			scene->light.z}, (t_vector){scene->light.color.r / 255.0,
 			scene->light.color.g / 255.0, scene->light.color.b / 255.0},
 			scene->light.brightness);
 	world->light = light;
-	printf("Initializing camera\n");
 	camera = init_camera2(scene);
 	world->camera = camera;
-	printf("Adding spheres to the world\n");
 	i = 0;
 	while (i < scene->sphere_count)
 	{
@@ -127,7 +127,6 @@ void	render_scene(t_scenehe *scene, volatile t_world *world)
 		world_object_add(world, object);
 		i++;
 	}
-	printf("Adding planes to the world\n");
 	i = 0;
 	while (i < scene->plane_count)
 	{
@@ -139,7 +138,6 @@ void	render_scene(t_scenehe *scene, volatile t_world *world)
 		world_object_add(world, object);
 		i++;
 	}
-	printf("Adding cylinders to the world\n");
 	i = 0;
 	while (i < scene->cylinder_count)
 	{
@@ -154,12 +152,6 @@ void	render_scene(t_scenehe *scene, volatile t_world *world)
 	}
 	img = img_init(&scene->data);
 	world->img = &img;
-	printf("Rendering scene with %d spheres, %d planes, %d cylinders\n",
-		scene->sphere_count, scene->plane_count, scene->cylinder_count);
-	printf("scene2.img: %p\n", (void *)&img);
-	printf("camera: %p\n", (void *)&camera);
-	printf("world: %p\n", (void *)world);
-	printf("Starting render function\n");
 	world->scene = scene;
 	mlx_do_key_autorepeatoff(world->img->mlx);
 	mlx_hook(world->img->win, DestroyNotify, StructureNotifyMask, quit,
