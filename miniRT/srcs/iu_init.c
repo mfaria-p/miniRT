@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:05:34 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/03 20:05:23 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/12/04 19:27:26 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ t_img	img_init(t_data *data)
 t_cam	cam_init(t_scenehe *scene)
 {
 	t_cam	cam;
-	double	half_view;
-	double	aspect;
 
 	cam.axis = (t_vec){scene->cam.orient_x, scene->cam.orient_y,
 		scene->cam.orient_z};
@@ -40,23 +38,18 @@ t_cam	cam_init(t_scenehe *scene)
 	cam.hsize = CANVAS_PIXEL;
 	cam.vsize = CANVAS_PIXEL;
 	cam.fov = scene->cam.fov * (M_PI / 180.0);
-	cam.origin = (t_vec){scene->cam.x, scene->cam.y,
-		scene->cam.z};
-	cam.rotation.axis = vec_cross_prod(cam.axis, (t_vec){0, 0,
-			1});
-	cam.rotation.angle = acos(vec_cosine(cam.axis, (t_vec){0, 0,
-				1}));
-	half_view = tan(cam.fov / 2);
-	aspect = (double)cam.hsize / cam.vsize;
+	cam.origin = (t_vec){scene->cam.x, scene->cam.y, scene->cam.z};
+	cam.rotation.axis = vec_cross_prod(cam.axis, (t_vec){0, 0, 1});
+	cam.rotation.angle = acos(vec_cosine(cam.axis, (t_vec){0, 0, 1}));
 	if (cam.hsize > cam.vsize)
 	{
-		cam.half_width = half_view;
-		cam.half_height = half_view / aspect;
+		cam.half_width = tan(cam.fov / 2);
+		cam.half_height = tan(cam.fov / 2) / ((double)cam.hsize / cam.vsize);
 	}
 	else
 	{
-		cam.half_width = half_view * aspect;
-		cam.half_height = half_view;
+		cam.half_width = tan(cam.fov / 2) * ((double)cam.hsize / cam.vsize);
+		cam.half_height = tan(cam.fov / 2);
 	}
 	cam.pixel_size = (cam.half_width * cam.scale * 2) / cam.hsize;
 	return (cam);

@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/04 15:08:49 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/12/04 19:30:47 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,5 +252,10 @@ void		render_scene(t_scenehe *scene, t_world *world);
 
 t_img		img_init(t_data *data);
 void		init_scene(t_scenehe *scene);
+
+t_img	img_init(t_data *data);
+void init_scene(t_scenehe *scene);
+void            handle_scaling(int keycode, t_obj *object);
+void            handle_movement(int keycode, t_world *world, t_cam camera);
 
 #endif

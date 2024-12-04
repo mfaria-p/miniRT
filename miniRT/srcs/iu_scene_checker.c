@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 18:48:11 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/03 16:51:40 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/03 22:20:30 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,31 +91,23 @@ void	check_vec(char ***str, t_scenehe *scene, int j)
 	if (!nbrs)
 	{
 		free_array(*str);
-		*str = NULL;
 		ft_error("Memory allocation failed for nbrs", scene, EXIT_FAILURE);
 	}
 	while (nbrs[i])
 	{
 		if (!is_float(nbrs[i]))
 		{
-			free_array(*str);
-			*str = NULL;
-			free_array(nbrs);
-			nbrs = NULL;
+			free_arrays(str, nbrs);
 			ft_error("All parameters must be numbers", scene, EXIT_FAILURE);
 		}
 		i++;
 	}
 	if (array_length(nbrs) != 3)
 	{
-		free_array(*str);
-		*str = NULL;
-		free_array(nbrs);
-		nbrs = NULL;
+		free_arrays(str, nbrs);
 		ft_error("You must input x, y and z axis.", scene, EXIT_FAILURE);
 	}
 	free_array(nbrs);
-	nbrs = NULL;
 }
 
 void	check_colors(char ***str, t_scenehe *scene, int j)

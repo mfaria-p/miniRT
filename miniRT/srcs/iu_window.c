@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:53:16 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/03 16:53:17 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:53:09 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,15 @@ void	open_window(t_scenehe *scene)
 		ft_error("Creating image", scene, EXIT_FAILURE);
 	scene->data.img_data = mlx_get_data_addr(scene->data.img_ptr,
 			&scene->data.bpp, &scene->data.size_line, &scene->data.endian);
+}
+
+int	quit(void *param)
+{
+	volatile t_world	*world;
+
+	world = (t_world *)param;
+	mlx_do_key_autorepeaton(world->img->mlx);
+	mlx_loop_end(world->img->mlx);
+	world_destroy(world);
+	exit(EXIT_SUCCESS);
 }

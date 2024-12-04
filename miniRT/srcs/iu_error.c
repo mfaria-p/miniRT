@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:29:50 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/03 17:29:51 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:32:22 by mfaria-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,36 +32,26 @@ void	clean_data(t_data *data)
 	data->img_ptr = NULL;
 }
 
+void	free_and_nullify(void **ptr)
+{
+	if (*ptr)
+	{
+		free(*ptr);
+		*ptr = NULL;
+	}
+}
+
 // Clean up `t_scenehe` resources, including dynamically allocated arrays
 void	clean_scene(t_scenehe *scene)
 {
 	if (!scene)
 		return ;
-	if (scene->line)
-	{
-		free(scene->line);
-		scene->line = NULL;
-	}
-	if (scene->params)
-	{
-		free_array(scene->params);
-		scene->params = NULL;
-	}
-	if (scene->spheres)
-	{
-		free(scene->spheres);
-		scene->spheres = NULL;
-	}
-	if (scene->planes)
-	{
-		free(scene->planes);
-		scene->planes = NULL;
-	}
-	if (scene->cylinders)
-	{
-		free(scene->cylinders);
-		scene->cylinders = NULL;
-	}
+	free_and_nullify((void **)&scene->line);
+	free_array(scene->params);
+	scene->params = NULL;
+	free_and_nullify((void **)&scene->spheres);
+	free_and_nullify((void **)&scene->planes);
+	free_and_nullify((void **)&scene->cylinders);
 	scene->sphere_count = 0;
 	scene->plane_count = 0;
 	scene->cylinder_count = 0;
