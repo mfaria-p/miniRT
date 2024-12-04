@@ -198,7 +198,7 @@ t_shape		shape_plane_create(void);
 t_shape		*shape_scale(t_shape *shape, double scale);
 
 /* ************************************************************************** */
-// object.c
+// obj.c
 // interface:
 t_obj		*obj_translate(t_obj *obj, t_vec dir, double shift);
 t_obj		*obj_rotate(t_obj *obj, t_vec axis, double angle);
@@ -207,7 +207,7 @@ t_obj		*obj_select(t_world *world, int x, int y);
 t_vec		normal_at(t_vec p, t_obj obj);
 
 /* ************************************************************************** */
-// object_create.c
+// obj_create.c
 // interface:
 t_obj		*obj_sphere_create(t_vec xyz, t_vec rgb, double d);
 t_obj		*obj_cylinder_create(t_vec xyz, t_vec rgb, t_vec axis, double d, double h);
@@ -233,13 +233,13 @@ t_vec		shade_hit(t_world *world, t_hit hit);
 t_vec		color_at(t_world *world, t_ray ray);
 
 /* ************************************************************************** */
-// camera.c
+// cam.c
 t_ray		ray_for_pixel(t_cam *cam, int x, int y);
 t_img		*render(t_img *img, t_cam *cam, t_world *world);
 t_vec		color_blend(t_vec c1, t_vec c2);
 
 /* ************************************************************************** */
-// camera_interface.c
+// cam_interface.c
 t_cam		cam_init(t_scenehe *scene);
 t_cam		*cam_rescale(t_cam *cam, double new_scale);
 t_cam		*cam_coord_new(t_cam *cam, t_vec coord);
@@ -255,7 +255,7 @@ void		init_scene(t_scenehe *scene);
 
 t_img	img_init(t_data *data);
 void init_scene(t_scenehe *scene);
-void            handle_scaling(int keycode, t_obj *object);
-void            handle_movement(int keycode, t_world *world, t_cam camera);
+void            handle_scaling(int keycode, t_obj *obj);
+void            handle_movement(int keycode, t_world *world, t_cam cam);
 
 #endif

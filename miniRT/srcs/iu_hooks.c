@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:19:32 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/04 19:23:45 by ecorona-         ###   ########.fr       */
+/*   Updated: 2024/12/04 19:38:42 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,29 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 	return (0);
 }
 
-void	handle_movement(int keycode, t_world *world, t_camera camera)
+void	handle_movement(int keycode, t_world *world, t_cam cam)
 {
 	if (keycode == XK_W)
-		world->direction_move = camera.axis;
+		world->dir_move = cam.axis;
 	else if (keycode == XK_S)
-		world->direction_move = vector_scalar_product(-1, camera.axis);
+		world->dir_move = vec_scalar_prod(-1, cam.axis);
 	else if (keycode == XK_A)
-		world->direction_move = vector_rotate(camera.left, camera.rotation.axis,
-				camera.rotation.angle);
+		world->dir_move = vec_rotate(cam.left, cam.rotation.axis,
+				cam.rotation.angle);
 	else if (keycode == XK_D)
-		world->direction_move = vector_scalar_product(-1,
-				vector_rotate(camera.left, camera.rotation.axis,
-					camera.rotation.angle));
+		world->dir_move = vec_scalar_prod(-1,
+				vec_rotate(cam.left, cam.rotation.axis,
+					cam.rotation.angle));
 	else if (keycode == XK_SPACE)
-		world->direction_move = vector_rotate(camera.up, camera.rotation.axis,
-				camera.rotation.angle);
+		world->dir_move = vec_rotate(cam.up, cam.rotation.axis,
+				cam.rotation.angle);
 	else if (keycode == XK_SHIFT)
-		world->direction_move = vector_scalar_product(-1,
-				vector_rotate(camera.up, camera.rotation.axis,
-					camera.rotation.angle));
+		world->dir_move = vec_scalar_prod(-1,
+				vec_rotate(cam.up, cam.rotation.axis,
+					cam.rotation.angle));
 	else
 		return ;
-	mlx_loop_hook(world->img->mlx, scene_translate, world);
+	mlx_loop_hook(world->img->mlx, scene_translate, (void *)world);
 }
 
 int	key_press_hook(int keycode, void *param)
@@ -78,17 +78,17 @@ int	key_press_hook(int keycode, void *param)
 	t_obj	*obj;
 
 	world = (t_world *)param;
-	camera = world->camera;
-	object = world->selected_object;
+	cam = world->cam;
+	obj = world->selected_obj;
 	if (keycode == XK_ESCAPE)
 		quit(param);
-	handle_movement(keycode, world, camera);
-	if (object != NULL)
-		handle_scaling(keycode, object);
+	handle_movement(keycode, world, cam);
+	if (obj != NULL)
+		handle_scaling(keycode, obj);
 	if (keycode == XK_C)
 	{
 		world->selected_light = 0;
-		world->selected_object = NULL;
+		world->selected_obj = NULL;
 	}
 	if (keycode == XK_L)
 	{
@@ -96,15 +96,15 @@ int	key_press_hook(int keycode, void *param)
 		world->selected_light = 1;
 	}
 	if (keycode == XK_R)
-		world->camera.scale = 3 - (((int)world->camera.scale + 2) % 3);
+		world->cam.scale = 3 - (((int)world->cam.scale + 2) % 3);
 	return (0);
 }
 
 /* int	key_press_hook(int keycode, void *param)
 {
 	volatile t_world	*world;
-	t_camera			camera;
-	t_object			*object;
+	t_cam			cam;
+	t_obj			*obj;
 	volatile t_world	*world;
 >>>>>>> origin/mfaria-p2
 

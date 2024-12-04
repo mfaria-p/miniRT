@@ -12,18 +12,18 @@
 
 #include "minirt.h"
 
-void	handle_scaling(int keycode, t_obj *object)
+void	handle_scaling(int keycode, t_obj *obj)
 {
 	if (keycode == XK_UP)
 	{
 		printf("Scaling up\n");
-		obj_scale(object, 1.2);
+		obj_scale(obj, 1.2);
 	}
 	else if (keycode == XK_DOWN)
 	{
 		printf("Scaling down\n");
-		if (object->shape.scale > 0.1)
-			obj_scale(object, 0.833);
+		if (obj->shape.scale > 0.1)
+			obj_scale(obj, 0.833);
 	}
 }
 
