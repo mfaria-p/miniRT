@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 20:28:56 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/12 15:27:36 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:58:49 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ t_cam	*cam_translate(t_cam *cam, t_vec dir, double shift)
 
 t_cam	*cam_rotate(t_cam *cam, t_vec euler)
 {
-	cam->euler = vec_subtract(cam->euler, euler);
+	cam->rmat = mat_rotate_euler(cam->rmat, euler);
 	return (cam);
 }

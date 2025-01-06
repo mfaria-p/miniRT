@@ -6,7 +6,7 @@
 /*   By: mfaria-p <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 15:03:07 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/12 15:26:44 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:05:27 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ static t_vec	obj_select_aux(t_world *w, int x, int y)
 	double		scalar;
 	t_vec		aux;
 
-	p = vec_normalize(vec_rotate_euler(w->cam.axis, w->cam.euler));
+	p = vec_normalize(mat_vec_prod(w->cam.rmat, w->cam.axis));
 	scalar = (x - w->cam.hsize / 2) * w->cam.pixel_size / w->cam.scale;
-	aux = vec_rotate_euler(vec_scalar_prod(-1, w->cam.left), w->cam.euler);
+	aux = mat_vec_prod(w->cam.rmat, vec_scalar_prod(-1, w->cam.left));
 	p = vec_add(p, vec_scalar_prod(scalar, vec_normalize(aux)));
 	scalar = (y - w->cam.vsize / 2) * w->cam.pixel_size / w->cam.scale;
-	aux = vec_rotate_euler(vec_scalar_prod(-1, w->cam.up), w->cam.euler);
+	aux = mat_vec_prod(w->cam.rmat, vec_scalar_prod(-1, w->cam.up));
 	p = vec_add(p, vec_scalar_prod(scalar, vec_normalize(aux)));
 	return (p);
 }

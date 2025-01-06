@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 18:59:01 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/06 14:34:33 by mfaria-p         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:06:29 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@ t_obj	*obj_translate(t_obj *obj, t_vec dir, double shift)
 	return (obj);
 }
 
-t_obj	*obj_rotate(t_obj *obj, t_vec axis, double angle)
+t_obj	*obj_rotate(t_obj *obj, t_vec euler)
 {
-	obj->axis = vec_rotate_ax(obj->axis, axis, angle);
-	obj->rotation.axis = vec_cross_prod(obj->axis, (t_vec){0, 0, 1});
-	obj->rotation.angle = acos(vec_cosine(obj->axis, (t_vec){0, 0, 1}));
+	obj->axis = vec_rotate_euler(obj->axis, euler);
+	obj->rmat = mat_rotate_euler(obj->rmat, euler);
 	return (obj);
 }
 

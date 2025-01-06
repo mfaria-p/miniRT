@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:05:34 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/12 15:28:40 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:01:42 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_cam	cam_init(t_scenehe *scene)
 	cam.vsize = CANVAS_PIXEL;
 	cam.fov = scene->cam.fov * (M_PI / 180.0);
 	cam.origin = (t_vec){scene->cam.x, scene->cam.y, scene->cam.z};
-	cam.euler = (t_vec){0, 0, 0};
+	cam.rmat = (t_mat){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
 	if (cam.hsize > cam.vsize)
 	{
 		cam.half_width = tan(cam.fov / 2);

@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:42:15 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/12 15:03:02 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:59:24 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_ray	ray_for_pixel(t_cam *cam, int x, int y)
 	world_xy[0] = x_offset * cam->pixel_size;
 	world_xy[1] = -y_offset * cam->pixel_size;
 	pixel = (t_vec){world_xy[0], world_xy[1], 3 - (((int)cam->scale + 2) % 3)};
-	pixel = vec_rotate_euler(pixel, cam->euler);
+	pixel = mat_vec_prod(cam->rmat, pixel);
 	pixel = vec_add(pixel, cam->origin);
 	ray.origin = cam->origin;
 	ray.dir = vec_normalize(vec_subtract(pixel, ray.origin));

@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:57:42 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/12 15:07:15 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:08:19 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int	scene_rotate(void *param)
 	w = (t_world *)param;
 	mlx_mouse_get_pos(w->img->mlx, w->img->win, cursor, cursor + 1);
 	v = (t_vec){cursor[0], cursor[1], 0};
-	euler = (t_vec){cursor[0] - w->dir_rot.x, cursor[1] - w->dir_rot.y, 0};
+	euler = (t_vec){cursor[1] - w->dir_rot.y, cursor[0] - w->dir_rot.x, 0};
 	euler = vec_scalar_prod(w->cam.pixel_size * ROT_FACTOR, euler);
 	if (w->selected_obj == NULL)
 		cam_rotate((t_cam *)&w->cam, euler);
 	else if (w->selected_obj->shape.type != SPHERE)
-		obj_rotate(w->selected_obj, euler, -vec_distance(w->dir_rot, v) * ROT_FACTOR);
+		obj_rotate(w->selected_obj, euler);
 	render(w->img, (t_cam *)&w->cam, w);
 	mlx_clear_window(w->img->mlx, w->img->win);
 	mlx_put_image_to_window(w->img->mlx, w->img->win, w->img->img, 0, 0);

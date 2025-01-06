@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:29:50 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/12 14:59:52 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/06 13:59:07 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ t_mat	mat_cofactor(t_mat a);
 t_mat	mat_minor(t_mat a);
 t_mat	mat_adjoint(t_mat a);
 t_mat	mat_inverse(t_mat a);
+t_mat	mat_rotate_euler(t_mat m, t_vec euler);
 
 #endif

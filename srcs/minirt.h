@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/12 15:26:55 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:06:40 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ typedef struct s_obj
 	t_shape		shape;
 	t_material	material;
 	t_vec		translation;
-	t_rotation	rotation;
 	t_vec		axis;
+	t_mat		rmat;
 }	t_obj;
 
 // increment to reallocate for touches array
@@ -130,12 +130,12 @@ typedef struct s_cam
 	double	pixel_size;
 	double	half_width;
 	double	half_height;
-	t_vec	euler;
 	t_vec	origin;
 	t_vec	axis;
 	t_vec	left;
 	t_vec	up;
 	double	fov;
+	t_mat	rmat;
 }	t_cam;
 
 typedef struct s_img
@@ -203,7 +203,7 @@ t_shape		*shape_scale(t_shape *shape, double scale);
 // obj.c
 // interface:
 t_obj		*obj_translate(t_obj *obj, t_vec dir, double shift);
-t_obj		*obj_rotate(t_obj *obj, t_vec axis, double angle);
+t_obj		*obj_rotate(t_obj *obj, t_vec euler);
 t_obj		*obj_scale(t_obj *obj, double scale);
 t_obj		*obj_select(t_world *world, int x, int y);
 t_obj		*obj_new_height(t_obj *obj, double height);

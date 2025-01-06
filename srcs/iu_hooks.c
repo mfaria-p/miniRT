@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:19:32 by mfaria-p          #+#    #+#             */
-/*   Updated: 2024/12/12 15:26:09 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:08:05 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,26 @@
 
 int	mouse_press_hook(int button, int x, int y, void *param)
 {
-	t_world	*world;
+	t_world	*w;
+	int		cursor[2];
 
-	world = (t_world *)param;
+	w = (t_world *)param;
 	if (button == 1)
 	{
-		world->dir_rot = (t_vec){world->cam.hsize / 2,
-			world->cam.vsize / 2, 0};
-		mlx_loop_hook(world->img->mlx, scene_rotate, param);
+		if (w->selected_obj)
+		{
+			mlx_mouse_get_pos(w->img->mlx, w->img->win, cursor, cursor + 1);
+			w->dir_rot = (t_vec){cursor[0], cursor[1], 0};
+		}
+		else
+			w->dir_rot = (t_vec){w->cam.hsize / 2, w->cam.vsize / 2, 0};
+		mlx_loop_hook(w->img->mlx, scene_rotate, param);
 	}
 	else if (button == 3)
 	{
-		world->selected_light = 0;
-		world->selected_obj = obj_select(world, x, y);
-		mlx_loop_hook(world->img->mlx, animate, param);
+		w->selected_light = 0;
+		w->selected_obj = obj_select(w, x, y);
+		mlx_loop_hook(w->img->mlx, animate, param);
 	}
 	return (0);
 }
@@ -47,24 +53,24 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 void	handle_movement(int keycode, t_world *world, t_cam cam)
 {
 	if (keycode == XK_W)
-		world->dir_move = vec_rotate_euler(cam.axis, cam.euler);
+		world->dir_move = mat_vec_prod(cam.rmat, cam.axis);
 	else if (keycode == XK_S)
 	{
-		world->dir_move = vec_rotate_euler(cam.axis, cam.euler);
+		world->dir_move = mat_vec_prod(cam.rmat, cam.axis);
 		world->dir_move = vec_scalar_prod(-1, world->dir_move);
 	}
 	else if (keycode == XK_A)
-		world->dir_move = vec_rotate_euler(cam.left, cam.euler);
+		world->dir_move = mat_vec_prod(cam.rmat, cam.left);
 	else if (keycode == XK_D)
 	{
-		world->dir_move = vec_rotate_euler(cam.left, cam.euler);
+		world->dir_move = mat_vec_prod(cam.rmat, cam.left);
 		world->dir_move = vec_scalar_prod(-1, world->dir_move);
 	}
 	else if (keycode == XK_SPACE)
-		world->dir_move = vec_rotate_euler(cam.up, cam.euler);
+		world->dir_move = mat_vec_prod(cam.rmat, cam.up);
 	else if (keycode == XK_SHIFT)
 	{
-		world->dir_move = vec_rotate_euler(cam.up, cam.euler);
+		world->dir_move = mat_vec_prod(cam.rmat, cam.up);
 		world->dir_move = vec_scalar_prod(-1, world->dir_move);
 	}
 	else

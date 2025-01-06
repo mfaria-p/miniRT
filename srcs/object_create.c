@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 20:16:30 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/05 15:24:13 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/06 14:02:51 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ t_obj	*obj_sphere_create(t_sphere s)
 	obj->material.dif = 1;
 	obj->material.spec = 1;
 	obj->translation = (t_vec){s.x, s.y, s.z};
-	obj->rotation.axis = (t_vec){0, 0, 0};
-	obj->rotation.angle = 0;
+	obj->rmat = (t_mat){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
 	obj->axis = (t_vec){0, 0, 0};
 	return (obj);
 }
@@ -57,8 +56,7 @@ t_obj	*obj_cylinder_create(t_cylinder c)
 	obj->material.spec = 1;
 	obj->translation = (t_vec){c.x, c.y, c.z};
 	obj->axis = (t_vec){c.dx, c.dy, c.dz};
-	obj->rotation.axis = vec_cross_prod(obj->axis, (t_vec){0, 0, 1});
-	obj->rotation.angle = acos(vec_cosine(obj->axis, (t_vec){0, 0, 1}));
+	obj->rmat = (t_mat){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
 	return (obj);
 }
 
@@ -82,8 +80,7 @@ t_obj	*obj_plane_create(t_plane p)
 	obj->material.spec = 1;
 	obj->translation = (t_vec){p.x, p.y, p.z};
 	obj->axis = shape.coef;
-	obj->rotation.axis = vec_cross_prod(obj->axis, (t_vec){0, 0, 1});
-	obj->rotation.angle = acos(vec_cosine(obj->axis, (t_vec){0, 0, 1}));
+	obj->rmat = (t_mat){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
 	return (obj);
 }
 
@@ -96,12 +93,12 @@ t_vec	normal_at(t_vec p, t_obj obj)
 		return (obj.shape.coef);
 	shape = obj.shape;
 	p = vec_subtract(p, obj.translation);
-	p = vec_rotate_ax(p, obj.rotation.axis, -obj.rotation.angle);
+	p = mat_vec_prod(obj.rmat, p);
 	normal.x = 2 * shape.coef.x * p.x;
 	normal.y = 2 * shape.coef.y * p.y;
 	normal.z = 2 * shape.coef.z * p.z;
 	normal = vec_add(p, obj.translation);
-	normal = vec_rotate_ax(p, obj.rotation.axis, obj.rotation.angle);
+	normal = mat_vec_prod(obj.rmat, p);
 	normal = vec_normalize(normal);
 	return (normal);
 }
