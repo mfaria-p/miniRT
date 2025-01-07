@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/07 13:26:02 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/07 13:46:23 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ t_roots	ray_plane_intersect(t_ray ray, t_obj obj, double z)
 	double		t;
 
 	ray.origin = vec_subtract(ray.origin, obj.translation);
-	ray.origin = mat_vec_prod(obj.rmat, ray.origin);
-	ray.dir = mat_vec_prod(obj.rmat, ray.dir);
+	/*ray.origin = mat_vec_prod(obj.rmat, ray.origin);*/
+	/*ray.dir = mat_vec_prod(obj.rmat, ray.dir);*/
+	ray.origin = vec_rotate_euler(ray.origin, obj.axis);
+	ray.dir = vec_rotate_euler(ray.dir, obj.axis);
 	t = (z - ray.origin.z) / ray.dir.z;
 	return ((t_roots){1, t, t});
 }

@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/07 13:36:05 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/07 13:44:42 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_obj
 	t_vec		translation;
 	t_vec		axis;
 	t_mat		rmat;
+	t_vec		euler;
 }	t_obj;
 
 // increment to reallocate for touches array
