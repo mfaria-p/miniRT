@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:13:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/06 14:03:58 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/07 13:26:02 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ t_roots	ray_plane_intersect(t_ray ray, t_obj obj, double z)
 	double		t;
 
 	ray.origin = vec_subtract(ray.origin, obj.translation);
-	ray.origin = mat_vec_prod(mat_inverse(obj.rmat), ray.origin);
-	ray.dir = mat_vec_prod(mat_inverse(obj.rmat), ray.dir);
+	ray.origin = mat_vec_prod(obj.rmat, ray.origin);
+	ray.dir = mat_vec_prod(obj.rmat, ray.dir);
 	t = (z - ray.origin.z) / ray.dir.z;
 	return ((t_roots){1, t, t});
 }
@@ -60,8 +60,8 @@ t_roots	ray_obj_intersect(t_ray ray, t_obj obj)
 	if (shape.type == PLANE)
 		return (ray_plane_intersect(ray, obj, 0));
 	ray.origin = vec_subtract(ray.origin, obj.translation);
-	ray.origin = mat_vec_prod(mat_inverse(obj.rmat), ray.origin);
-	ray.dir = mat_vec_prod(mat_inverse(obj.rmat), ray.dir);
+	ray.origin = mat_vec_prod(obj.rmat, ray.origin);
+	ray.dir = mat_vec_prod(obj.rmat, ray.dir);
 	abc[0] = vec_dot_prod(shape.coef, vec_elem_prod(ray.dir, ray.dir));
 	abc[1] = 2 * vec_dot_prod(shape.coef, vec_elem_prod(ray.origin, ray.dir));
 	abc[2] = vec_dot_prod(shape.coef, vec_elem_prod(ray.origin, ray.origin));

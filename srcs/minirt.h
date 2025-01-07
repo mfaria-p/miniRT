@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/06 14:06:40 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/07 13:36:05 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_quadratic_root
 typedef struct s_spotlight
 {
 	t_vec	origin;
-	float	intensity;
+	double	intensity;
 	t_vec	color;
 }	t_spotlight;
 
@@ -56,10 +56,10 @@ typedef struct s_phong
 typedef struct s_material
 {
 	t_vec	color;
-	float	amb;
-	float	dif;
-	float	spec;
-	float	shine;
+	double	amb;
+	double	dif;
+	double	spec;
+	double	shine;
 }	t_material;
 
 enum e_shape_type

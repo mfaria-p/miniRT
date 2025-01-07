@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:03:16 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/07 12:07:45 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/07 13:27:17 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,13 @@ t_phong light_plane(t_material mat, t_spotlight light, t_hit hit, int shadow)
 
 	color = vec_scalar_prod(light.intensity, mat.color);
 	lightv = vec_normalize(vec_subtract(light.origin, hit.point));
-	if (vec_cosine(lightv, hit.normal) < 0)
-		hit.normal = vec_scalar_prod(-1, hit.normal);
 	phong.amb = vec_scalar_prod(mat.amb, color);
+	phong.dif = (t_vec){0, 0, 0};
+	phong.spec = (t_vec){0, 0, 0};
 	if (!shadow)
 	{
+		if (vec_cosine(lightv, hit.normal) < 0)
+			hit.normal = vec_scalar_prod(-1, hit.normal);
 		hit.normal = vec_normalize(hit.normal);
 		cos_light_normal = fabs(vec_dot_prod(lightv, hit.normal));
 		phong.dif = vec_scalar_prod(mat.dif * cos_light_normal, color);

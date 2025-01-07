@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:41 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/07 11:55:50 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/07 13:39:00 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,12 @@ t_hit	hit(t_touch touch, t_ray ray)
 	hit.point = ray_position(ray, touch.t);
 	n = normal_at(hit.point, *touch.obj);
 	e = vec_scalar_prod(-1, ray.dir);
+	hit.is_inside = 0;
 	if (vec_cosine(n, e) < 0)
 	{
 		hit.is_inside = 1;
 		n = (t_vec){-n.x, -n.y, -n.z};
 	}
-	else
-		hit.is_inside = 0;
 	hit.normal = n;
 	hit.eyev = e;
 	return (hit);
@@ -40,7 +39,7 @@ static int	is_shadowed(t_vec p, t_vec n, t_world *world)
 	t_touches		is;
 	double			dist;
 	int				shadow;
-	const double	mv = .001;
+	const double	mv = .1;
 
 	shadow = 0;
 	p = (t_vec){p.x + mv * n.x, p.y + mv * n.y, p.z + mv * n.z};
