@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 20:16:30 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/06 14:02:51 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/07 11:46:42 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_obj	*obj_plane_create(t_plane p)
 	obj->translation = (t_vec){p.x, p.y, p.z};
 	obj->axis = shape.coef;
 	obj->rmat = (t_mat){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
+	obj->rmat = mat_rotate_euler(obj->rmat, obj->axis);
 	return (obj);
 }
 

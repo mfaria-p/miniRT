@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:41 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/12 12:26:51 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/07 11:55:50 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,13 @@ t_hit	hit(t_touch touch, t_ray ray)
 	hit.point = ray_position(ray, touch.t);
 	n = normal_at(hit.point, *touch.obj);
 	e = vec_scalar_prod(-1, ray.dir);
-	if (vec_cosine(n, e) > 1)
+	if (vec_cosine(n, e) < 0)
 	{
 		hit.is_inside = 1;
 		n = (t_vec){-n.x, -n.y, -n.z};
 	}
 	else
 		hit.is_inside = 0;
-	if (touch.obj->shape.type == PLANE)
-		n = (t_vec){-n.x, -n.y, -n.z};
 	hit.normal = n;
 	hit.eyev = e;
 	return (hit);
