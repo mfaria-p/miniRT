@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:57:42 by mfaria-p          #+#    #+#             */
-/*   Updated: 2025/01/06 14:08:19 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/09 15:30:58 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,19 @@ int	animate(void *param)
 
 int	scene_translate(void *param)
 {
-	t_world	*world;
+	t_world	*w;
 	void	*img;
 
-	world = (t_world *)param;
-	img = world->img->img;
-	if (world->selected_light)
-		light_translate((t_spotlight *)&world->light, world->dir_move, MOVE_FACTOR);
-	else if (world->selected_obj == NULL)
-		cam_translate((t_cam *)&world->cam, world->dir_move, MOVE_FACTOR);
+	w = (t_world *)param;
+	img = w->img->img;
+	if (w->selected_light)
+		light_translate((t_spotlight *)&w->light, w->dir_move, MOVE_FACTOR);
+	else if (w->selected_obj == NULL)
+		cam_translate((t_cam *)&w->cam, w->dir_move, MOVE_FACTOR);
 	else
-		obj_translate(world->selected_obj, world->dir_move, MOVE_FACTOR);
-	render(world->img, (t_cam *)&world->cam, world);
-	mlx_clear_window(world->img->mlx, world->img->win);
-	mlx_put_image_to_window(world->img->mlx, world->img->win, img, 0, 0);
+		obj_translate(w->selected_obj, w->dir_move, MOVE_FACTOR);
+	render(w->img, (t_cam *)&w->cam, w);
+	mlx_clear_window(w->img->mlx, w->img->win);
+	mlx_put_image_to_window(w->img->mlx, w->img->win, img, 0, 0);
 	return (0);
 }

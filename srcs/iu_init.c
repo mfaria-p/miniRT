@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:05:34 by mfaria-p          #+#    #+#             */
-/*   Updated: 2025/01/06 14:01:42 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:10:20 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,17 @@ t_cam	cam_init(t_scenehe *scene)
 	t_cam	cam;
 
 	cam.axis = (t_vec){scene->cam.dx, scene->cam.dy, scene->cam.dz};
-	cam.left = vec_cross_prod(cam.axis, (t_vec){0, 1, 0});
-	cam.up = vec_cross_prod(cam.left, cam.axis);
+	cam.rmat = (t_mat){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
+	cam.rmat = mat_rotate_euler(cam.rmat, \
+							  vec_scalar_prod(M_PI / 2, cam.axis));
+	cam.axis = mat_vec_prod(cam.rmat, (t_vec){0, 0, 1});
+	cam.left = mat_vec_prod(cam.rmat, (t_vec){0, 1, 0});
+	cam.up = mat_vec_prod(cam.rmat, (t_vec){1, 0, 0});
 	cam.scale = 3;
 	cam.hsize = CANVAS_PIXEL;
 	cam.vsize = CANVAS_PIXEL;
 	cam.fov = scene->cam.fov * (M_PI / 180.0);
 	cam.origin = (t_vec){scene->cam.x, scene->cam.y, scene->cam.z};
-	cam.rmat = (t_mat){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
 	if (cam.hsize > cam.vsize)
 	{
 		cam.half_width = tan(cam.fov / 2);

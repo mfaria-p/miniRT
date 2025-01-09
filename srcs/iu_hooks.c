@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:19:32 by mfaria-p          #+#    #+#             */
-/*   Updated: 2025/01/06 14:08:05 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/09 14:38:48 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,7 @@ int	key_press_hook(int keycode, void *param)
 		world->selected_obj = NULL;
 	}
 	if (keycode == XK_L)
-	{
-		printf("Selecting light\n");
 		world->selected_light = 1;
-	}
 	if (keycode == XK_R)
 		world->cam.scale = 3 - (((int)world->cam.scale + 2) % 3);
 	return (0);

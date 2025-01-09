@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:41 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/07 13:39:00 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/09 17:32:59 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_hit	hit(t_touch touch, t_ray ray)
 	return (hit);
 }
 
-static int	is_shadowed(t_vec p, t_vec n, t_world *world)
+static int	is_shadowed(t_vec p, t_vec n, t_world *world, t_obj *obj)
 {
 	t_ray			ray;
 	t_touches		is;
@@ -49,7 +49,8 @@ static int	is_shadowed(t_vec p, t_vec n, t_world *world)
 	ray.dir = vec_normalize(ray.dir);
 	touches_init(&is);
 	ray_world_hits(&is, ray, world);
-	if (is.hit && is.hit->t > 0 && is.hit->t < dist)
+	if (is.hit && is.hit->t > 0 && is.hit->t < dist && \
+		!((obj->shape.type == PLANE) && (obj == is.hit->obj)))
 		shadow = 1;
 	free(is.is);
 	return (shadow);
@@ -65,7 +66,7 @@ t_vec	shade_hit(t_world *world, t_hit hit)
 
 	material = hit.i.obj->material;
 	light = world->light;
-	shadow = is_shadowed(hit.point, hit.normal, world);
+	shadow = is_shadowed(hit.point, hit.normal, world, hit.i.obj);
 	phong = lighting(material, light, hit, shadow);
 	phong.amb = world->amb;
 	phong.amb = vec_scalar_prod(material.amb, phong.amb);

@@ -2,11 +2,11 @@ NAME = miniRT
 
 SRCDIR = srcs
 
-LAAG_SRCS = laag_double_equals.c laag_vector1.c laag_vector2.c laag_vector3.c laag_quaternion.c laag_matrix1.c laag_matrix2.c laag_matrix3.c
+LAAG_SRCS = laag_double_equals.c laag_vector1.c laag_vector2.c laag_vector3.c laag_quaternion.c laag_matrix1.c laag_matrix2.c laag_matrix3.c laag_matrix4.c
 
 IU_SRCS = iu_loop_hook.c iu_main.c iu_hooks.c iu_init.c iu_error.c iu_render.c iu_scene_parser_utils.c iu_scene_parser_utils2.c iu_scene_checker.c iu_scene_checker2.c iu_scene_parser.c iu_scene_parser2.c iu_scene_parser3.c iu_window.c
 
-RT_SRCS =  ray.c light.c shape.c object.c object_create.c object_select.c intersections.c world.c hit.c camera.c camera_interface.c
+RT_SRCS =  ray.c light.c light_interface.c shape.c object.c object_create.c object_select.c intersections.c world.c hit.c camera.c camera_interface.c
 
 SRCS = $(LAAG_SRCS) $(RT_SRCS) $(IU_SRCS)
 
@@ -16,7 +16,7 @@ OBJDIR = objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 CC = cc
-RTFLAGS = -Wall -Wextra -Werror -O3 -g #-pg
+RTFLAGS = -Wall -Wextra -Werror -O3 -g -fsanitize=address #-pg
 
 LIBMLX_DIR = minilibx-linux
 LIBMLX = $(LIBMLX_DIR)/libmlx.a
