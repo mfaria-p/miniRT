@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:41 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/09 17:32:59 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/14 21:48:47 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_hit	hit(t_touch touch, t_ray ray)
 	n = normal_at(hit.point, *touch.obj);
 	e = vec_scalar_prod(-1, ray.dir);
 	hit.is_inside = 0;
-	if (vec_cosine(n, e) < 0)
+	if (vec_dot_prod(n, e) <= 0)
 	{
 		hit.is_inside = 1;
 		n = (t_vec){-n.x, -n.y, -n.z};
@@ -33,7 +33,7 @@ t_hit	hit(t_touch touch, t_ray ray)
 	return (hit);
 }
 
-static int	is_shadowed(t_vec p, t_vec n, t_world *world, t_obj *obj)
+static int	is_shadowed(t_vec p, t_vec n, t_world *world)
 {
 	t_ray			ray;
 	t_touches		is;
@@ -49,8 +49,7 @@ static int	is_shadowed(t_vec p, t_vec n, t_world *world, t_obj *obj)
 	ray.dir = vec_normalize(ray.dir);
 	touches_init(&is);
 	ray_world_hits(&is, ray, world);
-	if (is.hit && is.hit->t > 0 && is.hit->t < dist && \
-		!((obj->shape.type == PLANE) && (obj == is.hit->obj)))
+	if (is.hit && is.hit->t > 0 && is.hit->t < dist)
 		shadow = 1;
 	free(is.is);
 	return (shadow);
@@ -66,13 +65,13 @@ t_vec	shade_hit(t_world *world, t_hit hit)
 
 	material = hit.i.obj->material;
 	light = world->light;
-	shadow = is_shadowed(hit.point, hit.normal, world, hit.i.obj);
+	shadow = is_shadowed(hit.point, hit.normal, world);
 	phong = lighting(material, light, hit, shadow);
 	phong.amb = world->amb;
 	phong.amb = vec_scalar_prod(material.amb, phong.amb);
-	color.x = material.color.x * phong.amb.x + phong.dif.x + phong.spec.x;
-	color.y = material.color.y * phong.amb.y + phong.dif.y + phong.spec.y;
-	color.z = material.color.z * phong.amb.z + phong.dif.z + phong.spec.z;
+	color.x = material.color.x * (phong.amb.x + phong.dif.x + phong.spec.x);
+	color.y = material.color.y * (phong.amb.y + phong.dif.y + phong.spec.y);
+	color.z = material.color.z * (phong.amb.z + phong.dif.z + phong.spec.z);
 	color.x *= light.color.x;
 	color.y *= light.color.y;
 	color.z *= light.color.z;

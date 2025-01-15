@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 18:59:01 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/07 13:45:15 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/13 17:02:55 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ t_obj	*obj_scale(t_obj *obj, double scale)
 	if (obj->shape.type == PLANE)
 		return (obj);
 	obj->shape.scale *= scale;
-	if (obj->shape.type == CONE)
-		obj->shape.coef.z *= scale;
-	else if (obj->shape.type == SPHERE || obj->shape.type == CYLINDER)
-		obj->shape.constant *= scale;
+	obj->shape.sradius *= scale * scale;
 	return (obj);
 }
 

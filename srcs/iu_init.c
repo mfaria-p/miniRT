@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:05:34 by mfaria-p          #+#    #+#             */
-/*   Updated: 2025/01/09 18:10:20 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/13 18:09:14 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_cam	cam_init(t_scenehe *scene)
 	cam.axis = (t_vec){scene->cam.dx, scene->cam.dy, scene->cam.dz};
 	cam.rmat = (t_mat){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
 	cam.rmat = mat_rotate_euler(cam.rmat, \
-							  vec_scalar_prod(M_PI / 2, cam.axis));
+		vec_scalar_prod(M_PI / 2, cam.axis));
 	cam.axis = mat_vec_prod(cam.rmat, (t_vec){0, 0, 1});
 	cam.left = mat_vec_prod(cam.rmat, (t_vec){0, 1, 0});
 	cam.up = mat_vec_prod(cam.rmat, (t_vec){1, 0, 0});

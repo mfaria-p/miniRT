@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/09 17:29:04 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:58:53 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,27 +73,18 @@ enum e_shape_type
 typedef struct s_shape
 {
 	int		type;
-	t_vec	coef;
 	double	height;
-	double	constant;
+	double	sradius;
 	double	scale;
 }	t_shape;
 
-typedef struct s_rotation
-{
-	t_vec	axis;
-	double	angle;
-}	t_rotation;
-
-// translation is origin
 typedef struct s_obj
 {
 	t_shape		shape;
 	t_material	material;
-	t_vec		translation;
 	t_vec		axis;
+	t_vec		translation;
 	t_mat		rmat;
-	t_vec		euler;
 }	t_obj;
 
 // increment to reallocate for touches array
@@ -188,9 +179,12 @@ t_spotlight	light_init(t_light l);
 // ray.c
 t_vec		ray_position(t_ray ray, double t);
 t_roots		quadratic_roots(double a, double b, double c);
-t_roots		ray_obj_intersect(t_ray ray, t_obj obj);
-t_roots		ray_plane_intersect(t_ray ray, t_obj obj, double z);
 t_touches	*ray_world_hits(t_touches *is, t_ray ray, t_world *world);
+
+t_roots		ray_sphere_intersect(t_ray ray, t_obj *obj);
+t_roots		ray_cylinder_intersect(t_ray ray, t_obj *obj);
+t_roots		ray_plane_intersect(t_ray ray);
+t_roots		ray_obj_intersect(t_ray ray, t_obj *obj);
 
 /* ************************************************************************** */
 // shape.c

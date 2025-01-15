@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:57:42 by mfaria-p          #+#    #+#             */
-/*   Updated: 2025/01/09 15:30:58 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/10 18:03:09 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 int	scene_rotate(void *param)
 {
 	t_world	*w;
-	t_vec	v;
 	t_vec	euler;
 	int		cursor[2];
 
 	w = (t_world *)param;
 	mlx_mouse_get_pos(w->img->mlx, w->img->win, cursor, cursor + 1);
-	v = (t_vec){cursor[0], cursor[1], 0};
 	euler = (t_vec){cursor[1] - w->dir_rot.y, cursor[0] - w->dir_rot.x, 0};
 	euler = vec_scalar_prod(w->cam.pixel_size * ROT_FACTOR, euler);
 	if (w->selected_obj == NULL)
