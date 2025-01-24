@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:58:18 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/15 16:16:53 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/22 10:16:42 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,17 @@ t_touches	*ray_world_hits(t_touches *is, t_ray ray, t_world *world)
 	while (objs)
 	{
 		xs = ray_obj_intersect(ray, (t_obj *)objs->content);
+		if (xs.count > 1 && xs.x2 <= EPSILON)
+		{
+			xs.x2 = 0;
+			xs.count--;
+		}
+		if (xs.count > 0 && xs.x1 <= EPSILON)
+		{
+			xs.x1 = xs.x2;
+			xs.x2 = 0;
+			xs.count--;
+		}
 		is = touches_roots_add(is, xs, objs->content);
 		objs = objs->next;
 	}

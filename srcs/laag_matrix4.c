@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 15:29:45 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/09 15:30:00 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/22 10:08:03 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,25 @@ t_mat	mat_rotate_euler(t_mat m, t_vec euler)
 	m = mat_rotate_y(m, euler.y);
 	m = mat_rotate_z(m, euler.z);
 	return (m);
+}
+
+t_mat	mat_rot_vec2vec(t_vec u, t_vec v)
+{
+	t_vec	cp;
+	double	c;
+	t_mat	mcp;
+	t_mat	smcp;
+	t_mat	rot;
+
+	rot = (t_mat){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
+	cp = vec_cross_prod(u, v);
+	c = vec_dot_prod(u, v);
+	if (c == -1)
+		return (rot);
+	mcp = (t_mat){{{0, -cp.z, cp.y}, {cp.z, 0, -cp.x}, {-cp.y, cp.x, 0}}};
+	smcp = mat_prod(mcp, mcp);
+	smcp = mat_scalar_prod(1 / (1 + c), smcp);
+	rot = mat_add(rot, mcp);
+	rot = mat_add(rot, smcp);
+	return (rot);
 }

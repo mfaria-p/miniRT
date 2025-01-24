@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:19:32 by mfaria-p          #+#    #+#             */
-/*   Updated: 2025/01/09 14:38:48 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:25:33 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,24 +53,24 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 void	handle_movement(int keycode, t_world *world, t_cam cam)
 {
 	if (keycode == XK_W)
-		world->dir_move = mat_vec_prod(cam.rmat, cam.axis);
+		world->dir_move = cam.axis;
 	else if (keycode == XK_S)
 	{
-		world->dir_move = mat_vec_prod(cam.rmat, cam.axis);
+		world->dir_move = cam.axis;
 		world->dir_move = vec_scalar_prod(-1, world->dir_move);
 	}
-	else if (keycode == XK_A)
-		world->dir_move = mat_vec_prod(cam.rmat, cam.left);
 	else if (keycode == XK_D)
+		world->dir_move = cam.right;
+	else if (keycode == XK_A)
 	{
-		world->dir_move = mat_vec_prod(cam.rmat, cam.left);
+		world->dir_move = cam.right;
 		world->dir_move = vec_scalar_prod(-1, world->dir_move);
 	}
 	else if (keycode == XK_SPACE)
-		world->dir_move = mat_vec_prod(cam.rmat, cam.up);
+		world->dir_move = cam.up;
 	else if (keycode == XK_SHIFT)
 	{
-		world->dir_move = mat_vec_prod(cam.rmat, cam.up);
+		world->dir_move = cam.up;
 		world->dir_move = vec_scalar_prod(-1, world->dir_move);
 	}
 	else

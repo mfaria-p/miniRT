@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 20:16:30 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/15 16:02:33 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:38:59 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_obj	*obj_sphere_create(t_sphere s)
 	obj->material.spec = 1;
 	obj->translation = (t_vec){s.x, s.y, s.z};
 	obj->rmat = (t_mat){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
-	obj->axis = (t_vec){0, 0, 0};
+	obj->axis = (t_vec){0, 0, 1};
 	return (obj);
 }
 
@@ -54,9 +54,7 @@ t_obj	*obj_cylinder_create(t_cylinder c)
 	obj->material.spec = 1;
 	obj->translation = (t_vec){c.x, c.y, c.z};
 	obj->axis = (t_vec){c.dx, c.dy, c.dz};
-	obj->rmat = (t_mat){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
-	obj->rmat = mat_rotate_euler(obj->rmat, \
-		vec_scalar_prod(M_PI / 2, obj->axis));
+	obj->rmat = mat_rot_vec2vec((t_vec){0, 0, 1}, obj->axis);
 	return (obj);
 }
 
@@ -79,9 +77,7 @@ t_obj	*obj_plane_create(t_plane p)
 	obj->material.spec = 1;
 	obj->translation = (t_vec){p.x, p.y, p.z};
 	obj->axis = (t_vec){p.dx, p.dy, p.dz};
-	obj->rmat = (t_mat){{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
-	obj->rmat = mat_rotate_euler(obj->rmat, \
-		vec_scalar_prod(M_PI / 2, obj->axis));
+	obj->rmat = mat_rot_vec2vec((t_vec){0, 0, 1}, obj->axis);
 	return (obj);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:57:42 by mfaria-p          #+#    #+#             */
-/*   Updated: 2025/01/10 18:03:09 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:29:49 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	scene_rotate(void *param)
 	if (w->selected_obj == NULL)
 		cam_rotate((t_cam *)&w->cam, euler);
 	else if (w->selected_obj->shape.type != SPHERE)
-		obj_rotate(w->selected_obj, euler);
+		obj_rotate(w->selected_obj, vec_scalar_prod(-1, euler));
 	render(w->img, (t_cam *)&w->cam, w);
 	mlx_clear_window(w->img->mlx, w->img->win);
 	mlx_put_image_to_window(w->img->mlx, w->img->win, w->img->img, 0, 0);

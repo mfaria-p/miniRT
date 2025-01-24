@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix1.c                                          :+:      :+:    :+:   */
+/*   laag_matrix1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 17:16:40 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/03 20:13:11 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/22 10:19:22 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ t_mat	mat_add(t_mat a, t_mat b)
 
 	i = 0;
 	while (i < MATRIX_SIZE)
+	{
 		((double *)ret.mat)[i] = ((double *)a.mat)[i] + ((double *)b.mat)[i];
+		i++;
+	}
 	return (ret);
 }
 
@@ -41,7 +44,10 @@ t_mat	mat_subtract(t_mat a, t_mat b)
 
 	i = 0;
 	while (i < MATRIX_SIZE)
+	{
 		((double *)ret.mat)[i] = ((double *)a.mat)[i] - ((double *)b.mat)[i];
+		i++;
+	}
 	return (ret);
 }
 

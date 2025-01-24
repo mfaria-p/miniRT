@@ -6,7 +6,7 @@
 /*   By: mfaria-p <mfaria-p@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:28:23 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/14 17:58:53 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:38:25 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ typedef struct s_cam
 	double	half_height;
 	t_vec	origin;
 	t_vec	axis;
-	t_vec	left;
+	t_vec	right;
 	t_vec	up;
 	double	fov;
 	t_mat	rmat;

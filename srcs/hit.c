@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:41 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/14 21:48:47 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/22 10:11:49 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	is_shadowed(t_vec p, t_vec n, t_world *world)
 	t_touches		is;
 	double			dist;
 	int				shadow;
-	const double	mv = .1;
+	const double	mv = 2 * EPSILON;
 
 	shadow = 0;
 	p = (t_vec){p.x + mv * n.x, p.y + mv * n.y, p.z + mv * n.z};
