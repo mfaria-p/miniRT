@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 20:16:30 by ecorona-          #+#    #+#             */
-/*   Updated: 2025/01/24 14:38:59 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:37:53 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ t_vec	normal_at(t_vec p, t_obj obj)
 		normal.z = 0;
 		normal = mat_vec_prod(obj.rmat, p);
 	}
+	else
+		return ((t_vec){0, 0, 0});
 	normal = vec_normalize(normal);
 	return (normal);
 }

@@ -6,7 +6,7 @@
 /*   By: mfaria-p <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 15:03:07 by mfaria-p          #+#    #+#             */
-/*   Updated: 2025/01/24 14:26:50 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:14:44 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_vec	obj_select_aux(t_world *w, int x, int y)
 
 	p = vec_normalize(w->cam.axis);
 	scalar = (x - w->cam.hsize / 2) * w->cam.pixel_size / w->cam.scale;
-	aux = vec_scalar_prod(-1, w->cam.right);
+	aux = w->cam.right;
 	p = vec_add(p, vec_scalar_prod(scalar, vec_normalize(aux)));
 	scalar = (y - w->cam.vsize / 2) * w->cam.pixel_size / w->cam.scale;
 	aux = vec_scalar_prod(-1, w->cam.up);
