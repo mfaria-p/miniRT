@@ -6,7 +6,7 @@
 /*   By: ecorona- <ecorona-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:09:12 by ecorona-          #+#    #+#             */
-/*   Updated: 2024/12/03 19:20:57 by ecorona-         ###   ########.fr       */
+/*   Updated: 2025/04/02 21:56:20 by ecorona-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ static t_touches	*touches_realloc(t_touches *is)
 
 static t_touches	*touches_add(t_touches *is, double t, t_obj *obj)
 {
-	if (is->size % INTERSECTION_BUFFER_STEP == 0)
+	if (is->size % INTERSECTION_BUFFER_STEP == 0) {
 		touches_realloc(is);
+		is->hit = (is->is + is->size);
+	}
 	if (t >= 0 && (!is->hit || t < is->hit->t))
 		is->hit = (is->is + is->size);
 	is->is[is->size].t = t;
