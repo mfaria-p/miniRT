@@ -74,7 +74,7 @@ cy   5.0,0.0,2        0.0,0.0,1.0   14.2   21.42   10,0,255
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/miniRT.git
+git clone git@github.com:Corona040/miniRT.git
 cd miniRT
 ```
 
@@ -124,8 +124,8 @@ make
 
 ## Dependencies
 
-- [MiniLibX](https://harm-smits.github.io/42docs/libs/minilibx): Lightweight graphics library.
-- [libft](https://github.com/yourusername/libft): Custom utility functions.
+- [MiniLibX]: Lightweight graphics library.
+- [libft](): Custom utility functions.
 
 ---
 
