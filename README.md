@@ -1,55 +1,56 @@
 # MiniRT: Introduction to Raytracing
 
-MiniRT is a lightweight raytracer built as part of the 42 curriculum. It introduces the core principles of raytracing, a powerful rendering technique for generating realistic lighting and shadows in 3D scenes. This project provides hands-on experience with 3D math, geometric transformations, lighting models, and low-level graphics.
+**MiniRT** is a lightweight raytracer developed as part of the 42 curriculum. It introduces the core principles of raytracing—a powerful technique for generating realistic lighting and shadows in 3D scenes. This project offers hands-on experience with 3D math, geometric transformations, lighting models, and low-level graphics.
 
 ---
 
-## Features
+## 🔍 Features
 
-- **Scene Parsing**: Parses and validates `.rt` files to configure the 3D scene.
-- **Geometric Objects**: Supports rendering of spheres, planes, and cylinders.
-- **Lighting**: Implements ambient, diffuse, and specular lighting using the Phong reflection model.
-- **Camera**: Configurable field of view and orientation.
-- **Transformations**: Objects can be translated, rotated, and scaled.
-- **Rendering**: Outputs a 2D image using ray-object intersection calculations.
-- **MiniLibX Integration**: Uses MiniLibX to display the rendered image in a window.
+- **Scene Parsing**: Parses and validates `.rt` files to configure 3D scenes.
+- **Geometric Objects**: Supports rendering spheres, planes, and cylinders.
+- **Lighting System**: Implements ambient, diffuse, and specular lighting using the Phong reflection model.
+- **Configurable Camera**: Field of view and direction can be customized.
+- **Transformations**: Translate, rotate, and scale objects.
+- **Rendering Engine**: Casts rays and computes intersections to generate a 2D image.
+- **MiniLibX Integration**: Displays rendered images using the MiniLibX graphics library.
 
 ---
 
-## File Structure
+## 🗂️ Project Structure
 
 ```
 miniRT/
 ├── libft/                # Custom utility library
-├── scenes/               # Example scene files (.rt)
-├── srcs/                 # Source code
-│   ├── camera.c          # Camera-related functionality
+├── scenes/               # Sample scene files (.rt)
+├── srcs/                 # Core source code
+│   ├── camera.c          # Camera setup and movement
 │   ├── hit.c             # Ray-object intersection handling
-│   ├── iu_main.c         # Entry point of the program
-│   ├── iu_render.c       # Rendering logic
+│   ├── iu_main.c         # Application entry point
+│   ├── iu_render.c       # Rendering pipeline
 │   ├── iu_scene_parser.c # Scene parsing logic
 │   ├── light.c           # Lighting calculations
-│   ├── object_create.c   # Object creation and initialization
-│   ├── ray.c             # Ray-related calculations
-│   ├── world.c           # World and scene management
-│   └── ...               # Other supporting files
-├── tests/                # Test cases for validation
-├── Makefile              # Build system
-└── README.md             # Project documentation
+│   ├── object_create.c   # Object creation routines
+│   ├── ray.c             # Ray generation and operations
+│   ├── world.c           # Scene/world representation
+│   └── ...               # Additional support files
+├── tests/                # Unit tests and validation
+├── Makefile              # Build configuration
+└── README.md             # Documentation
 ```
 
 ---
 
-## How It Works
+## 📚 How It Works
 
-1. **Scene Parsing**: Reads `.rt` files to extract objects, lights, and camera data.
-2. **Ray Casting**: Rays are cast from the camera through each pixel to detect object intersections.
-3. **Lighting**: The final pixel color is computed using the Phong lighting model.
-4. **Rendering**: The computed image is displayed via MiniLibX.
+1. **Scene Parsing**: Reads `.rt` files to configure the scene.
+2. **Ray Casting**: Rays are projected from the camera through each pixel.
+3. **Intersection Detection**: Calculates intersections with objects.
+4. **Lighting Computation**: Applies the Phong model for realistic shading.
+5. **Image Rendering**: Displays the final image using MiniLibX.
 
 ---
 
-## Example Scene File (`example.rt`)
+## 📃 Example Scene (`example.rt`)
 
 ```
 A    0.2              255,255,255
@@ -69,7 +70,7 @@ cy   5.0,0.0,2        0.0,0.0,1.0   14.2   21.42   10,0,255
 
 ---
 
-## How to Build and Run
+## 🚀 Getting Started
 
 ### Clone the Repository
 
@@ -92,42 +93,43 @@ make
 
 ---
 
-## Controls: Navigating the World
+## 🌍 Controls: Navigating the World
 
-### Camera Movement
+### 📸 Camera Controls
 
 - **Select Camera**: Click on `C` in the scene
-- **Move Forward**: `W`
-- **Move Backward**: `S`
-- **Move Right**: `D`
-- **Move Left**: `A`
-- **Move Up**: `Space`
-- **Move Down**: `Shift`
+- **Move**:
+  - Forward: `W`
+  - Backward: `S`
+  - Right: `D`
+  - Left: `A`
+  - Up: `Space`
+  - Down: `Shift`
 
-### Object Manipulation
+### 🛠️ Object Controls
 
-- **Select an Object**: Right-click with the mouse on the desired object
-- **Translate Object**: Select with right-click, move using `W`, `A`, `S`, `D`, `Space`, `Shift` keys
-- **Rotate Object**: Click and drag with mouse
-- **Scale Object**:
-  - Increase Size: `Up Arrow` key
-  - Decrease Size: `Down Arrow` key
-  - Increase Height: `Right Arrow` key
-  - Decrease Height: `Left Arrow` key
+- **Select**: Right-click on the object
+- **Translate**: Use `W`, `A`, `S`, `D`, `Space`, `Shift`
+- **Rotate**: Click and drag with the mouse
+- **Scale**:
+  - Size Up: `Up Arrow`
+  - Size Down: `Down Arrow`
+  - Height Up: `Right Arrow`
+  - Height Down: `Left Arrow`
 
-### Light Manipulation
+### 🔦 Light Controls
 
-- **Select Light**: Click on `L` in the scene
-- **Move Light**: After selecting, move using `W`, `A`, `S`, `D`, `Space`, `Shift` keys
+- **Select Light**: Click on `L`
+- **Move Light**: Use movement keys `W`, `A`, `S`, `D`, `Space`, `Shift` after selection
 
 ---
 
-## Dependencies
+## 📁 Dependencies
 
 - [MiniLibX]: Lightweight graphics library.
-- [libft](): Custom utility functions.
+- [libft](https://github.com/Corona040/libft): Custom utility functions.
 
 ---
 
-Happy Raytracing! ✨
+## 🌟 Happy Raytracing!
 
