@@ -126,7 +126,7 @@ make
 
 ## 📁 Dependencies
 
-- [MiniLibX]: Lightweight graphics library.
+- MiniLibX: Lightweight graphics library.
 - [libft](https://github.com/Corona040/libft): Custom utility functions.
 
 ---
