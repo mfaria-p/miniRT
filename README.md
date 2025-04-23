@@ -75,7 +75,7 @@ cy   5.0,0.0,2        0.0,0.0,1.0   14.2   21.42   10,0,255
 ### Clone the Repository
 
 ```bash
-git clone git@github.com:Corona040/miniRT.git
+git clone https://github.com/mfaria-p/miniRT.git
 cd miniRT
 ```
 
