@@ -140,7 +140,7 @@ make
 ![Scene 2](img/minirt_hall.png)
 
 ### 💍 Scene 3: Ring and Orb with Bright Spotlight
-![Scene 3](images/minirt_ring.png)
+![Scene 3](img/minirt_ring.png)
 
 ## 🌟 Happy Raytracing!
 
