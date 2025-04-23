@@ -131,13 +131,16 @@ make
 
 ---
 
-## 🖼️ Scene Previews
+## 🖼️ Raytraced Scene Previews
 
-### 🧱 Basic Shapes & Shadows
-![Basic Scene](img/minirt_corner.png)
+### 🎨 Scene 1: Colorful Box with Sphere and Shadow
+![Scene 1](img/minirt_corner.png)
 
-### 🏛️ Lit Columns Scene
-![Lit Corridor](img/minirt_corner.png)
+### 🏛️ Scene 2: Corridor with Columns and Lighting
+![Scene 2](img/minirt_hall.png)
+
+### 💍 Scene 3: Ring and Orb with Bright Spotlight
+![Scene 3](images/minirt_ring.png)
 
 ## 🌟 Happy Raytracing!
 
