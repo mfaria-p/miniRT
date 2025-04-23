@@ -126,7 +126,7 @@ make
 
 ## 📁 Dependencies
 
-- MiniLibX: Lightweight graphics library.
+- [MiniLibX](https://github.com/42paris/minilibx-linux.git): Lightweight graphics library.
 - [libft](https://github.com/mfaria-p/Libft.git): Custom utility functions.
 
 ---
