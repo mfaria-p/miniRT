@@ -131,5 +131,13 @@ make
 
 ---
 
+## 🖼️ Scene Previews
+
+### 🧱 Basic Shapes & Shadows
+![Basic Scene](images/minirt_corner.png)
+
+### 🏛️ Lit Columns Scene
+![Lit Corridor](images/minirt_corner.png)
+
 ## 🌟 Happy Raytracing!
 
